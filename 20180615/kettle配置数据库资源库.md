@@ -1,21 +1,21 @@
-[TOC]
+ï»¿[TOC]
 
-# KETTLE ÅäÖÃÊý¾Ý¿â×ÊÔ´¿â
+# KETTLE é…ç½®æ•°æ®åº“èµ„æºåº“
 
 
 
-#### ¸ÅÄî
+#### æ¦‚å¿µ
 
-   ×ÊÔ´¿â£ºkettleÊ¹ÓÃµÄ×ÊÔ´¿âÊÇÓÃÀ´´æ´¢×ª»»,µ÷¶ÈµÄ£»ÆÕÍ¨Ê¹ÓÃÁ½ÖÖÐÎÊ½×÷Îª×ÊÔ´¿â£¬Ò»ÖÖÊÇÎÄ¼þ×ÊÔ´¿â£¬Ò»ÖÖÊÇÊý¾Ý¿â×ÊÔ´¿â£¬ÔÚÉú²ú»·¾³ÆÕ±éÊ¹ÓÃÊý¾Ý¿â×ÊÔ´¿â£¬±¾´Î¾ÍÊÇÅäÖÃÊý¾Ý¿â×ÊÔ´¿â¡£
+   èµ„æºåº“ï¼škettleä½¿ç”¨çš„èµ„æºåº“æ˜¯ç”¨æ¥å­˜å‚¨è½¬æ¢,è°ƒåº¦çš„ï¼›æ™®é€šä½¿ç”¨ä¸¤ç§å½¢å¼ä½œä¸ºèµ„æºåº“ï¼Œä¸€ç§æ˜¯æ–‡ä»¶èµ„æºåº“ï¼Œä¸€ç§æ˜¯æ•°æ®åº“èµ„æºåº“ï¼Œåœ¨ç”Ÿäº§çŽ¯å¢ƒæ™®éä½¿ç”¨æ•°æ®åº“èµ„æºåº“ï¼Œæœ¬æ¬¡å°±æ˜¯é…ç½®æ•°æ®åº“èµ„æºåº“ã€‚
 
-#### »·¾³½éÉÜ
+#### çŽ¯å¢ƒä»‹ç»
 
-  µ±Ç°ÒÔwindowsÎªÀý£¬Ê¹ÓÃµÄkettle°æ±¾ÊÇ5.4£¬Éú²ú»·¾³´ó¶àÊÇlinux·þÎñÆ÷£¬¸ÃÎÄµµÖ»ÊÇ×÷ÎªÊý¾Ý¿â×ÊÔ´¿âÅäÖÃÎÄµµ¡£
+  å½“å‰ä»¥windowsä¸ºä¾‹ï¼Œä½¿ç”¨çš„kettleç‰ˆæœ¬æ˜¯5.4ï¼Œç”Ÿäº§çŽ¯å¢ƒå¤§å¤šæ˜¯linuxæœåŠ¡å™¨ï¼Œè¯¥æ–‡æ¡£åªæ˜¯ä½œä¸ºæ•°æ®åº“èµ„æºåº“é…ç½®æ–‡æ¡£ã€‚
   
   
-#### ÅäÖÃÁ÷³Ì
+#### é…ç½®æµç¨‹
 
-- µã»÷spoon.bat³öÏÖÍ¼Ïñ»¯½çÃæ
+- ç‚¹å‡»spoon.batå‡ºçŽ°å›¾åƒåŒ–ç•Œé¢
 
 
 
@@ -34,6 +34,6 @@
 <!-- English -->
 <script src="../dist/js/languages/en.js"></script>
 
-<!-- ·±ówÖÐÎÄ -->
+<!-- ç¹é«”ä¸­æ–‡ -->
 <script src="../dist/js/languages/zh-tw.js"></script>
 ```
