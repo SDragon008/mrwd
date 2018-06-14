@@ -17,18 +17,7 @@
 
 - 点击spoon.bat出现图像化界面
 
-
-
-            lib/
-            css/
-            scss/
-            tests/
-            fonts/
-            images/
-            plugins/
-            examples/
-            languages/
-            editormd.js
+![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz1.png)
 
 ```html
 <!-- English -->
