@@ -19,10 +19,36 @@
 
 ![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz1.png)
 
-```html
-<!-- English -->
-<script src="../dist/js/languages/en.js"></script>
+linux 需要点击spoon.sh出现界面
 
-<!-- 繁體中文 -->
-<script src="../dist/js/languages/zh-tw.js"></script>
-```
+
+- 在界面的菜单栏选择 工具》资源库》连接资源库
+
+会出现一个新的页面叫“资源库连接”
+
+![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz2.png)
+
+
+- 出现界面“资源库连接”并选择“+”按钮，出现“Kettle database repository”，并点击它
+
+![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz3.png)
+
+
+- 初次设置数据库资源库，选择”新建”配置数据源
+
+选择”新建”,建议连接名称和名称，描述一致，方便后期调用
+
+![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz4.png)
+
+
+![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz5.png)
+
+
+![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz6.png)
+
+
+初始化是选择创建或更新
+
+备注：如果是之前已经设置过数据库资源库，只需要配置好上图，选择“确定”按钮就可以了
+
+备注：因为kettle有时菜单栏都是英文，可能不太好理解，建议设置语言类型，将“缺省语言”改为中文即可
