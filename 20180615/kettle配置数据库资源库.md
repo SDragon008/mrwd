@@ -17,6 +17,7 @@
 
 - 点击spoon.bat出现图像化界面
 
+![pic](./img_src/kettle_pz1.png)
 ![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz1.png)
 
 linux 需要点击spoon.sh出现界面
