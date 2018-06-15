@@ -17,7 +17,7 @@
 
 - 点击spoon.bat出现图像化界面
 
-![_](./img_src/kettle_pz1.png)  
+![_](../img_src/kettle_pz1.png)  
 
 
 界面
