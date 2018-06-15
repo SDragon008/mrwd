@@ -53,4 +53,5 @@ linux 需要点击spoon.sh出现界面
 
 备注：因为kettle有时菜单栏都是英文，可能不太好理解，建议设置语言类型，将“缺省语言”改为中文即可
 
-11
+![Image text](https://github.com/gh95533/mrwd/blob/master/img_src/kettle_pz7.png)
+
