@@ -41,6 +41,9 @@ CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_
 
 - 配置删除语句
 
+```
 delete from ${dest_obj} where ${sjc_column} > to_date('${sjc_time}','yyymmddhh24miss')
+```
 
+![_](../img_src/kettle_database_link_pz1.png)  
 
