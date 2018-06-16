@@ -26,12 +26,13 @@
 oracle
 
 ```
-CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar2(100),dest_obj varchar2(100),status varchar2(1),rksj date default sysdate,gxsj date);
+CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar2(100),dest_obj varchar2(100),sjc_column varchar2(100),sjc_time varchar2(14),status varchar2(1),rksj date default sysdate,gxsj date);
 ```
 postgresql
 
 ```
-CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_obj varchar(100),status varchar(1),rksj timestamp(0) without zone default now(),gxsj timestamp(0) without zone);
+CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_obj varchar(100),sjc_column varchar(100),sjc_time varchar(14),status varchar(1),rksj timestamp(0) default now(),gxsj timestamp(0));
+;
 ```
 
 给出两个建表语句是考虑到后期oracle数据库会尽可能多的迁移到postgresql数据库中，给出两个脚本以备后患。
@@ -39,5 +40,7 @@ CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_
 #### 配置流程
 
 - 配置删除语句
+
+delete from ${dest_obj} where ${sjc_column} > to_date('${sjc_time}','yyymmddhh24miss')
 
 
