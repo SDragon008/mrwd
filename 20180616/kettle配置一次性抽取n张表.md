@@ -45,5 +45,32 @@ CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_
 delete from ${dest_obj} where ${sjc_column} > to_date('${sjc_time}','yyymmddhh24miss')
 ```
 
-![_](../img_src/kettle_database_link_pz1.png)  
+![_](../img_src/kettle_loop_1.png)  
+
+
+- 配置获取时间戳，时间戳字段，来源表，目标表
+
+
+```
+select source_obj,dest_obj,sjc_column,sjc_time from t_etl_time_stamp where status ='1'
+
+```
+
+演示数据
+
+```
+gh_etl=# CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_obj varchar(100),sjc_column varchar(100),sjc_time varchar(14),status varchar(1),rksj timestamp(0) default now(),gxsj timestamp(0));
+CREATE TABLE
+
+
+gh_etl=# insert into t_etl_time_stamp values(1,'t_gh_cs1','t_gh_cs2','sjc','20180501000000','1',now(),now());
+INSERT 0 1
+
+
+gh_etl=# insert into t_etl_time_stamp values(2,'t_gh_cs3','t_gh_cs4','sjc','20180601000000','1',now(),now());
+INSERT 0 1
+
+```
+
+
 
