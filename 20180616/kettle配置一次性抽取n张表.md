@@ -16,7 +16,20 @@
 ### 方案配置
 
 
+- 时间戳记录脚本
 
+oracle
+
+```
+CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar2(100),dest_obj varchar2(100),status varchar2(1),rksj date default sysdate,gxsj date);
+```
+postgresql
+
+```
+CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_obj varchar(100),status varchar(1),rksj timestamp(0) without zone default now(),gxsj timestamp(0) without zone);
+```
+
+给出两个建表语句是考虑到后期oracle数据库会尽可能多的迁移到postgresql数据库中，给出两个脚本以备后患。
 
 
 
