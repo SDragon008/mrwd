@@ -70,6 +70,25 @@ INSERT 0 1
 gh_etl=# insert into t_etl_time_stamp values(2,'t_gh_cs3','t_gh_cs4','sjc','20180601000000','1',now(),now());
 INSERT 0 1
 
+gh_etl=# create table t_gh_cs1(id int primary key,info text,sjc varchar(14));
+CREATE TABLE
+gh_etl=# create table t_gh_cs2(id int primary key,info text,sjc varchar(14));
+CREATE TABLE
+gh_etl=# create table t_gh_cs3(id int primary key,info text,sjc varchar(14));
+CREATE TABLE
+gh_etl=# create table t_gh_cs4(id int primary key,info text,sjc varchar(14));
+CREATE TABLE
+
+
+gh_etl=# insert into t_gh_cs1 values(1,'guohui','20180601000000');
+INSERT 0 1
+gh_etl=# insert into t_gh_cs2 values(1,'guohui','20180101000000');
+INSERT 0 1
+gh_etl=# insert into t_gh_cs3 values(1,'guohui','20180601120000');
+INSERT 0 1
+gh_etl=# 
+
+
 ```
 
 
