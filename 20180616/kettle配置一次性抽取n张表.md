@@ -13,6 +13,11 @@
 
 第三步将新的数据入库并且记录当前最大时间戳
 
+
+- kettle版本
+
+本次测试版本是kettle5.4,建议后期都尽量使用kettle5.4及其以上。
+
 ### 方案配置
 
 
@@ -31,5 +36,8 @@ CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_
 
 给出两个建表语句是考虑到后期oracle数据库会尽可能多的迁移到postgresql数据库中，给出两个脚本以备后患。
 
+#### 配置流程
+
+- 配置删除语句
 
 
