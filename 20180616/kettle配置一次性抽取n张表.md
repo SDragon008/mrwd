@@ -21,7 +21,7 @@
 ### 方案配置
 
 
-- 时间戳记录脚本
+- 初始化时间戳记录脚本
 
 oracle
 
@@ -32,29 +32,61 @@ postgresql
 
 ```
 CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_obj varchar(100),sjc_column varchar(100),sjc_time varchar(14),status varchar(1),rksj timestamp(0) default now(),gxsj timestamp(0));
-;
+
 ```
 
 给出两个建表语句是考虑到后期oracle数据库会尽可能多的迁移到postgresql数据库中，给出两个脚本以备后患。
 
+
 #### 配置流程
+
+- 抽取关键字段
+
+
+```
+SELECT id,source_obj,dest_obj,sjc_column,sjc_time from t_etl_time_stamp
+
+```
+
+![_](../img_src/kettle_n_2.png)  
+
+
+- 配置生成变量
+
+
+![_](../img_src/kettle_n_3.png)  
 
 - 配置删除语句
 
 ```
-delete from ${dest_obj} where ${sjc_column} > to_date('${sjc_time}','yyymmddhh24miss')
-```
 
-![_](../img_src/kettle_loop_2.png)  
-
-
-- 配置获取时间戳，时间戳字段，来源表，目标表
+delete from ${DEST_OBJ} WHERE ${SJC_COLUMN} > '${SJC_TIME}'
 
 
 ```
-select source_obj,dest_obj,sjc_column,sjc_time from t_etl_time_stamp where status ='1'
+
+![_](../img_src/kettle_n_1.png)  
+
+
+- 配置插入新数据
+
 
 ```
+SELECT * FROM ${SOURCE_OBJ} WHERE ${SJC_COLUMN} > '${SJC_TIME}'
+
+```
+![_](../img_src/kettle_n_4.png)  
+
+
+- 配置更新时间戳字段，状态
+
+
+```
+update t_etl_time_stamp  set gxsj=now(),sjc_time = (select max(${SJC_COLUMN}) from ${DEST_OBJ}) where id =${ID}
+
+```
+![_](../img_src/kettle_n_5.png)  
+
 
 演示数据
 
@@ -62,12 +94,10 @@ select source_obj,dest_obj,sjc_column,sjc_time from t_etl_time_stamp where statu
 gh_etl=# CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_obj varchar(100),sjc_column varchar(100),sjc_time varchar(14),status varchar(1),rksj timestamp(0) default now(),gxsj timestamp(0));
 CREATE TABLE
 
-
-gh_etl=# insert into t_etl_time_stamp values(1,'t_gh_cs1','t_gh_cs2','sjc','20180501000000','1',now(),now());
+gh_etl=# insert into t_etl_time_stamp values(1,'t_gh_cs1','t_gh_cs2','sjc','20160101000000','1',now(),now());
 INSERT 0 1
 
-
-gh_etl=# insert into t_etl_time_stamp values(2,'t_gh_cs3','t_gh_cs4','sjc','20180601000000','1',now(),now());
+gh_etl=# insert into t_etl_time_stamp values(2,'t_gh_cs3','t_gh_cs4','sjc','20160101000000','1',now(),now());
 INSERT 0 1
 
 gh_etl=# create table t_gh_cs1(id int primary key,info text,sjc varchar(14));
@@ -86,10 +116,16 @@ gh_etl=# insert into t_gh_cs2 values(1,'guohui','20180101000000');
 INSERT 0 1
 gh_etl=# insert into t_gh_cs3 values(1,'guohui','20180601120000');
 INSERT 0 1
-gh_etl=# 
+gh_etl=# insert into t_gh_cs1 values(2,'guose','20180602000000');
+INSERT 0 1
+gh_etl=# insert into t_gh_cs1 values(3,'guoqi','20180603000000');
+INSERT 0 1
 
 
 ```
+目标：将表t_gh_cs1的数据按照时间戳字段抽取到t_gh_cs2中，将表t_gh_cs3的数据传入到t_gh_cs4中。
+
+
 
 
 
