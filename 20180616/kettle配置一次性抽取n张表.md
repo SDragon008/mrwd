@@ -154,6 +154,4 @@ update t_etl_time_stamp  set  status ='9',gxsj =now() where id =${ID}
 
 ![_](../img_src/kettle_n1_51.png)  
 
-
-
-kettle镜像文件(../mirror/mirror_kettle_n_180619.zip)
+[kettle方案镜像文件](../mirror/mirror_kettle_n_180619.zip)
