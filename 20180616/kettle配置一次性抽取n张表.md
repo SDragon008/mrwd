@@ -38,9 +38,9 @@ CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_
 给出两个建表语句是考虑到后期oracle数据库会尽可能多的迁移到postgresql数据库中，给出两个脚本以备后患。
 
 
-#### 配置流程
+#### 配置关键点
 
-- 抽取关键字段
+- 抽取关键字段(copy_result)
 
 
 ```
@@ -51,12 +51,12 @@ SELECT id,source_obj,dest_obj,sjc_column,sjc_time from t_etl_time_stamp
 ![_](../img_src/kettle_n_2.png)  
 
 
-- 配置生成变量
+- 配置生成变量(SET_VARIABLE)
 
 
 ![_](../img_src/kettle_n_3.png)  
 
-- 配置删除语句
+- 配置删除语句(DEL_DEST_OBJ_RT_TIMESTAMP)
 
 ```
 
@@ -68,7 +68,7 @@ delete from ${DEST_OBJ} WHERE ${SJC_COLUMN} > '${SJC_TIME}'
 ![_](../img_src/kettle_n_1.png)  
 
 
-- 配置插入新数据
+- 配置插入新数据(TABLE_OUTPUT)
 
 
 ```
@@ -78,7 +78,7 @@ SELECT * FROM ${SOURCE_OBJ} WHERE ${SJC_COLUMN} > '${SJC_TIME}'
 ![_](../img_src/kettle_n_4.png)  
 
 
-- 配置更新时间戳字段，状态
+- 配置更新时间戳字段，状态(UPDATE_TIMESTAMP)
 
 
 ```
@@ -112,8 +112,6 @@ CREATE TABLE
 
 gh_etl=# insert into t_gh_cs1 values(1,'guohui','20180601000000');
 INSERT 0 1
-gh_etl=# insert into t_gh_cs2 values(1,'guohui','20180101000000');
-INSERT 0 1
 gh_etl=# insert into t_gh_cs3 values(1,'guohui','20180601120000');
 INSERT 0 1
 gh_etl=# insert into t_gh_cs1 values(2,'guose','20180602000000');
@@ -126,6 +124,32 @@ INSERT 0 1
 目标：将表t_gh_cs1的数据按照时间戳字段抽取到t_gh_cs2中，将表t_gh_cs3的数据传入到t_gh_cs4中。
 
 
+## 配置流程图
 
 
+配置最里面一层调度(JOB_1_3)
 
+
+![_](../img_src/kettle_n1_1.png)  
+
+其中关于用红色连线标注的sql
+
+```
+update t_etl_time_stamp  set  status ='9',gxsj =now() where id =${ID}
+
+```
+
+![_](../img_src/kettle_n1_2.png)  
+
+
+第二个调度主要是连接SET_VARIABLE和job为JOB_1_3，并为其起名为JOB_1_2
+
+![_](../img_src/kettle_n1_3.png)  
+
+第三个调度主要是将参数赋值给变量是连接copy_result和job为JOB_1_2，并起名为JOB_1_1
+
+![_](../img_src/kettle_n1_4.png)  
+
+如果只是这样配置完成，如果时间戳记录表有多条数据的话，就会报错：只有一个输入记录期待设置变量并且至少已经收到2个变量(这是本次方案的报错内容)其实就是告诉我们，后面其实期待是一行，但是我们给了不止一行数据，这样就会报错，如何解决这个问题，只要在JOB_1_1的JOB_1_2的“编辑作业入口”中的“高级”，将“复制上一步参数到命名参数”和“对每个输入行执行一次”打上“√”就可以了。
+
+![_](../img_src/kettle_n1_51.png)  
