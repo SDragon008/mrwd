@@ -45,7 +45,7 @@ CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar(100),dest_
 delete from ${dest_obj} where ${sjc_column} > to_date('${sjc_time}','yyymmddhh24miss')
 ```
 
-![_](../img_src/kettle_loop_1.png)  
+![_](../img_src/kettle_loop_2.png)  
 
 
 - 配置获取时间戳，时间戳字段，来源表，目标表
