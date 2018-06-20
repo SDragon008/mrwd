@@ -253,13 +253,15 @@ end;
 ![_](../img_src/kettle_180620_8.png)  
 
 
-- 配置更新时间戳
+- 配置更新时间戳(UPDATE_SJC)
 
 ```
 update T_ETL_TIME_STAMP t set t.gxsj=sysdate,t.sjc_time =(select max(${SJC_COLUMN}) from ${DEST_OBJ}) where id =  ${ID}
 
 ```
 ![_](../img_src/kettle_180620_9.png)  
+
+
 
 演示数据
 
@@ -291,10 +293,19 @@ insert into t_gh_cs1 values(3,'guoqy','20180601120000');
 
 ```
 
+## 配置流程图
 
+- 配置最里面一层调度(JOB_1_3)
 
+![_](../img_src/kettle_180620_10.png)  
 
+- 第二个调度主要是连接SET_VARIABLE和job为JOB_1_3，并为其起名为JOB_1_2
 
+![_](../img_src/kettle_180620_11.png)  
+
+- 第三个调度主要是将参数赋值给变量是连接TABLE_INPUT_COPY_RESULT和job为JOB_1_2，并起名为JOB_1_1
+
+![_](../img_src/kettle_180620_12.png)  
 
 ### 问题
 
