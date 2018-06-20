@@ -252,6 +252,15 @@ end;
 ```
 ![_](../img_src/kettle_180620_8.png)  
 
+
+- 配置更新时间戳
+
+```
+update T_ETL_TIME_STAMP t set t.gxsj=sysdate,t.sjc_time =(select max(${SJC_COLUMN}) from ${DEST_OBJ}) where id =  ${ID}
+
+```
+![_](../img_src/kettle_180620_9.png)  
+
 演示数据
 
 ```
