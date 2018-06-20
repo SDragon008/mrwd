@@ -214,7 +214,43 @@ select id,source_obj,dest_obj,sjc_column,sjc_time，lsb_obj as dest_tmp,zj_colum
 
 ![_](../img_src/kettle_180620_5.png)  
 
+- 配置临时表创建
 
+
+```
+DECLARE
+
+BEGIN
+
+sp_pd_bsfcz(${ID})
+
+END;
+
+```
+![_](../img_src/kettle_180620_7.png)  
+
+
+- 配置表输入临时表输出
+
+```
+
+SELECT * FROM ${SOURCE_OBJ} WHERE ${SJC_COLUMN} > '${SJC_TIME}'
+
+```
+![_](../img_src/kettle_180620_6.png)  
+
+
+- 配置增量更新插入
+
+
+```
+declare
+begin
+sp_gx_sj(${ID});
+end;
+
+```
+![_](../img_src/kettle_180620_8.png)  
 
 演示数据
 
