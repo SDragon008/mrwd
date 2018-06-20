@@ -73,9 +73,52 @@ end  if;
 
 
 end;
+
+
+
 ```
 
-![_](../img_src/kettle_1806.png)  
+![_](../img_src/kettle_180620_1.png)  
+
+后期将其修改为使用id作为参数传入，减少配置
+
+
+```
+create or replace procedure sp_pd_bsfcz(id number)
+is
+V_ID NUMBER;
+v_count number:=0;
+v_dest_obj varchar2(100);--目标表
+v_dest_tmp varchar2(100);--临时表
+v_sql varchar2(1000);
+begin
+  
+
+v_id :=id;
+
+select t.dest_obj ,t.lsb_obj into v_dest_obj,v_dest_tmp from t_etl_time_stamp t where t.id = v_id;
+
+select count(1) into v_count from user_tables  t where   t.table_name =upper(v_dest_tmp);
+
+
+if v_count =1 then
+
+v_sql :='truncate table '||v_dest_tmp;
+
+execute immediate v_sql;
+
+else
+
+v_sql :='create table '||v_dest_tmp||' as select * from '||v_dest_obj||' WHERE 1=2';
+
+execute immediate v_sql;
+
+end  if;
+end;
+
+```
+![_](../img_src/kettle_180620_2.png)  
+
 
 - 设计存储过程来动态更新数据
 
@@ -154,14 +197,24 @@ end;
 
 
 ```
+![_](../img_src/kettle_180620_3.png)  
 
-- 配置获取时间戳，时间戳字段，来源表，目标表
+
+- 配置获取时间戳，时间戳字段，来源表，目标表(TABLE_INPUT_COPY_RESULT)
 
 
 ```
-select source_obj,dest_obj,sjc_column,sjc_time from t_etl_time_stamp where status ='1'
+select id,source_obj,dest_obj,sjc_column,sjc_time，lsb_obj as dest_tmp,zj_column from t_etl_time_stamp where status ='1'
 
 ```
+![_](../img_src/kettle_180620_4.png)  
+
+- 配置变量(FROM_RESULT_SET_VARIABLE)
+
+
+![_](../img_src/kettle_180620_5.png)  
+
+
 
 演示数据
 
@@ -192,6 +245,9 @@ insert into t_gh_cs1 values(3,'guoqy','20180601120000');
 
 
 ```
+
+
+
 
 
 
