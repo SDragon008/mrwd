@@ -315,6 +315,9 @@ insert into t_gh_cs1 values(3,'guoqy','20180601120000');
 
 [kettle方案镜像文件](../mirror/mirror_kettle_n_2_180619.zip)
 
+[kettle 配置一次性抽取n张表](../20180616/kettle配置一次性抽取n张表.md)
+
+
 ### 问题
 
 - 调度存储过程无法创建表
