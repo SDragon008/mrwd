@@ -11,9 +11,9 @@
 
 第一步配置一张记录来源表，目标表字段名，以及来源表的时间戳字段，以及时间戳值，以及临时表名称
 
-第二步使用kettle类似for循环将其一一取出并且变为变量传递
+第二步使用kettle类似for循环将其一一取出并且变为变量传递。
 
-第三步如果临时表存在则将临时表将其删除后重建，如果没有临时表也要重建; 删除后重建意味着可能此次方案没有执行成功
+第三步如果临时表存在则将临时表将其数据进行truncate，如果没有临时表就要重建。
 
 第四步就是将数据抽取到临时表，通过存储过程(merge into)动态表的方式来更新数据。
 
@@ -37,14 +37,123 @@ CREATE TABLE t_etl_time_stamp (id int primary key, source_obj varchar2(100),dest
 
 #### 配置流程
 
-- 配置删除语句
+- 设计存储过程来动态创建临时表
 
 ```
-delete from ${dest_obj} where ${sjc_column} > to_date('${sjc_time}','yyymmddhh24miss')
+create or replace procedure sp_pd_bsfcz(dest_obj varchar2,dest_tmp varchar2)
+is
+
+v_count number:=0;
+v_dest_obj varchar2(100);--目标表
+v_dest_tmp varchar2(100);--临时表
+v_sql varchar2(1000);
+begin
+
+v_dest_obj :=dest_obj;
+v_dest_tmp :=dest_tmp;
+
+select count(1) into v_count from user_tables  t where   t.table_name =upper(v_dest_tmp);
+
+DBMS_OUTPUT.PUT_LINE('GOOD');
+
+if v_count =1 then
+
+v_sql :='truncate table '||v_dest_tmp;
+
+execute immediate v_sql;
+
+else
+
+v_sql :='create table '||v_dest_tmp||' as select * from '||v_dest_obj||' WHERE 1=2';
+
+execute immediate v_sql;
+
+
+end  if;
+
+
+end;
 ```
 
-![_](../img_src/kettle_loop_2.png)  
+![_](../img_src/kettle_1806.png)  
 
+- 设计存储过程来动态更新数据
+
+
+```
+create or replace procedure sp_gx_sj(id number) as
+
+  /*1、本次方案设计默认主键是唯一字段，不是联合主键
+  2、更新完成后将临时表干掉，防止浪费空间
+  3、本次暂时不记录报错信息
+  4、不建议在本次方案记录入库时间，最好带默认default sysdate*/
+
+  V_ID number;
+
+  v_dest_tmp  varchar2(100);
+  v_dest_obj  varchar2(100);
+  v_zj_column varchar2(100);
+
+  --sql
+  V_UPDATE   VARCHAR2(4000);
+  V_INSERT_1 VARCHAR2(4000);
+  V_INSERT_2 VARCHAR2(4000);
+
+  V_MERGE VARCHAR2(4000);
+  V_DROP  VARCHAR2(4000);
+
+begin
+
+  v_id := id;
+
+  select t.dest_obj, t.lsb_obj, t.zj_column
+    into v_dest_obj, v_dest_tmp, v_zj_column
+    from t_etl_time_stamp t
+   where t.id = v_id;
+
+  --从字段表中取出更新数据字段
+
+  select wm_concat('t.' || t.column_name || '=f.' || t.column_name)
+    INTO V_UPDATE
+    from user_tab_cols t
+   where t.table_name = UPPER(v_dest_obj)
+     and t.column_name <> UPPER(V_ZJ_COLUMN);
+
+  dbms_output.put_line(V_UPDATE);
+
+  --从表中取出插入数据字段
+
+  select wm_concat('t.' || t.column_name)
+    into v_insert_1
+    from user_tab_cols t
+   where t.table_name = UPPER(v_dest_obj);
+  dbms_output.put_line(v_insert_1);
+  select wm_concat('f.' || t.column_name)
+    into v_insert_2
+    from user_tab_cols t
+   where t.table_name = UPPER(v_dest_obj);
+  dbms_output.put_line(v_insert_2);
+  --组合成merge
+
+  V_MERGE := 'MERGE INTO ' || V_DEST_OBJ || '  t using(select * from ' ||
+             V_DEST_TMP || ')f on (t.' || V_ZJ_COLUMN || '=f.' ||
+             V_ZJ_COLUMN || ')
+   WHEN MATCHED THEN UPDATE SET ' || V_UPDATE ||
+             ' WHEN NOT MATCHED THEN INSERT (' || V_INSERT_1 ||
+             ') VALUES(' || V_INSERT_2 || ')';
+
+  DBMS_OUTPUT.PUT_LINE(V_MERGE);
+
+  EXECUTE IMMEDIATE V_MERGE;
+
+  V_DROP := 'DROP TABLE ' || v_dest_tmp;
+
+  EXECUTE IMMEDIATE V_DROP;
+
+end;
+
+
+```
 
 - 配置获取时间戳，时间戳字段，来源表，目标表
 
@@ -82,6 +191,29 @@ insert into t_gh_cs1 values(2,'guose','20180601000000');
 insert into t_gh_cs1 values(3,'guoqy','20180601120000');
 
 
+```
+
+
+
+### 问题
+
+- 调度存储过程无法创建表
+
+
+```
+SQL> exec sp_pd_bsfcz('t_gh_cs1','t_gh_cs1_tmp');
+begin sp_pd_bsfcz('t_gh_cs1','t_gh_cs1_tmp'); end;
+ORA-01031: 权限不足
+ORA-06512: 在 "ETL.SP_PD_BSFCZ", line 29
+ORA-06512: 在 line 1
+
+
+grant create any table to etl;
+
+
+
+SQL> exec sp_pd_bsfcz('t_gh_cs1','t_gh_cs1_tmp');
+PL/SQL procedure successfully completed
 ```
 
 
