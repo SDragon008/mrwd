@@ -1,4 +1,18 @@
 ﻿
+
+#kettle 总结
+
+kettle是一款开源的etl软件，非常适合小型公司数据抽取，转换，整合，加工，清洗，报表的软件。
+
+
+## kettle for 循环
+
+- job
+
+- js
+
+
+
 ## kettle 配置同一个库下n张表抽取
 
 ### kettle 大量表抽取
@@ -12,6 +26,9 @@
 oracle merge update insert
 
 [kettle配置一次性抽取n张表(二)](../20180619/kettle配置一次性抽取n张表(二).md)
+
+
+其实配置n张表都是依赖于<kettle for 循环>的job设计
 
 
 ### kettle 配置数据库链接
