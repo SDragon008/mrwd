@@ -15,8 +15,6 @@ kettle是一款开源的etl软件，非常适合小型公司数据抽取，转�
 
 ## kettle 配置同一个库下n张表抽取
 
-### kettle 大量表抽取
-
 - 删除后插入
 
 [kettle配置一次性抽取n张表](../20180616/kettle配置一次性抽取n张表.md)
@@ -29,7 +27,6 @@ oracle merge update insert
 
 
 其实配置n张表都是依赖于<kettle for 循环>的job设计
-
 
 ### kettle 配置数据库链接
 
