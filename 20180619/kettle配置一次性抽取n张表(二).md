@@ -318,7 +318,13 @@ insert into t_gh_cs1 values(3,'guoqy','20180601120000');
 
 ![_](../img_src/kettle_n1_51.png)  
 
+- 文件下载
+
 [kettle方案镜像文件](../mirror/mirror_kettle_n_2_180619.zip)
+
+[kettle oracle资源库dmp文件](../mirror/etl_kettle_n_2_180619.dmp)
+
+- 链接
 
 [kettle 配置一次性抽取n张表](../20180616/kettle配置一次性抽取n张表.md)
 
