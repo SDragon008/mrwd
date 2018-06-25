@@ -199,7 +199,7 @@ select t.table_name as source_tab,
 ```
 ![_](../img_src/2018-06-25_kettle_2.png)  
 
-- 创建表(DEST_COLUMN_CREATE)
+- 创建表(DEST_OBJ_CREATE)
 ```
 declare
  v_count  number := 0;
@@ -293,10 +293,16 @@ END;
 ![_](../img_src/2018-06-25_kettle_4.png)  
 
 
-这样就完成了数据库的大致迁移，后期还可以做如下方案，表创建好后，可以将数据一次性抽取出来，
-后期在配置增量抽取，那个时候就要对表进行一些分析，如主键，时间戳类型还是全量插入类型，还是其他类型。
+执行顺序是
 
+MBB_T_DATA_TAB_GH>MBB_T_DATA_STRU_GH>DEST_OBJ_CREATE>DEST_COLUMN_CREATE
 
+这样就完成了数据库的大致迁移，后期还可以做如下方案，表创建好后，可以将数据一次性抽取出来，[全量抽取](../20180616/kettle配置一次性抽取n张表.md)后，
+就可以在后期配置增量抽取，那个时候就要对表进行一些分析，如主键，时间戳类型还是全量插入类型，还是其他类型。
+
+- 文件下载
+
+[kettle方案镜像文件](../mirror/mirror_kettle_n_180625.zip)
 
 链接：
 
