@@ -32,7 +32,7 @@
 - user_cons_columns
 - others
 
-### 原始表名，数据量，中文注释，是否分区
+- 原始表名，数据量，中文注释，是否分区
 
 ```
 
@@ -55,10 +55,31 @@ select table_name,
                
 ```
 
+- 字段名，字段类型，字段长度，字段默认初始值，字段注释
+
+```
+select t.table_name,
+               t.column_name,
+               t.data_type,
+               t.data_length,
+               REPLACE(replace(t.data_type || '(' || t.data_length || ')',
+                               'DATE(7)',
+                               'DATE'),
+                       'CLOB(4000)',
+                       'CLOB') as zdlx,
+                       t.data_default,
+               s.comments
+          from user_tab_cols t, user_col_comments s
+         where t.TABLE_NAME = s.table_name
+           and t.COLUMN_NAME = s.column_name
+         order by t.table_name, t.column_id
 
 
-
+```
  
+注：字段data_default中的字段类型是long类型，在oracle中很难直接转换为varchar类型，需要后期与kettle控件组合使用。
+
+
 
 
 
