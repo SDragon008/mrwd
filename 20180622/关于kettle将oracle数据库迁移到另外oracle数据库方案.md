@@ -1,10 +1,12 @@
 ﻿
-## 关于kettle将oracle数据库迁移到另外oracle数据库方案
+## 关于kettle将oracle数据库整体迁移到另外oracle数据库方案
 
 
 ### 背景
 
-由于目标库为汇集库，需要将各个业务单位的数据库都要事先汇总过来，现在就各个业务单位的数据库大都是oracle，而目标库也是oracle数据库，任务比较繁重，如果每张表都要事先调研，分析表的主键，时间戳，是否分区，对于现场人手不够的情况下，用户有要求数据灌入，建议使用其他方式创建表和首批全量数据灌入。
+由于目标库为汇集库，需要将各个业务单位的数据库都要事先汇总过来，现在就各个业务单位的数据库大都是oracle，
+而目标库也是oracle数据库，任务比较繁重，如果每张表都要事先调研，分析表的主键，时间戳，是否分区。
+对于现场人手不够的情况下，用户有要求数据灌入，建议使用其他方式创建表和首批全量数据灌入。
 
 ### 要求
 
@@ -16,13 +18,15 @@
 
 这些信息是设计要求，后期要尽量满足。
 
-### 实现
 
-- 原始数据库表名，目标数据库表名，表的大概数据量，表中文注释，表是否分区,但是无法取得分区表是list,hash,range分区。
+### 待实现
 
-- 字段名，字段类型，字段长度，字段默认初始值，字段注释,但是是否非空约束无法更好的定义，暂时没有想到更好的sql
 
-- 索引可以获取，主键信息可以获取，唯一索引也是可以获取，但是不建议在初次加载时使用，建议历史数据入库完成后在重新创建
+- 表是否分区
+
+- 字段是否非空约束
+
+- 索引，唯一索引，外键索引
 
 
 ### 系统表
@@ -32,6 +36,9 @@
 - user_constraints
 - user_cons_columns
 - others
+
+
+### sql语句了解
 
 - 原始表名，数据量，中文注释，是否分区
 
@@ -82,9 +89,8 @@ select t.table_name,
 创建语句如果报错，可能与字符类型有关，可以自行修改脚本方案
 
 
--索引，唯一索引，主键索引
+- 主键索引
 ```
-
 
 
 
@@ -94,10 +100,12 @@ select t.table_name,
 
 ### 初始化前需要在目标库执行的步骤
 
-- 首先在目标库创建两张临时表，并且需要source_tab和dest_tab关联数据，考虑到目标表可能与原始表不一致，可能是手动配置，故没有将dest_obj设死，而是需要评估填写。
+- 首先在目标库创建两张临时表，并且需要source_tab和dest_tab关联数据，
+考虑到目标表可能与原始表不一致，可能是手动配置，故没有将dest_obj写死，而是需要评估填写。
 
 ```
-create table t_data_tab_gh(source_tab varchar2(1000),dest_tab varchar2(1000),tab_comments varchar2(4000),tab_nums number,tab_partition varchar2(1),status varchar2(1));
+create table t_data_tab_gh(source_tab varchar2(1000),dest_tab varchar2(1000),
+tab_comments varchar2(4000),tab_nums number,tab_partition varchar2(1),status varchar2(1));
 
 
 create table t_data_stru_gh(source_tab varchar2(1000),dest_tab varchar2(1000),
@@ -152,7 +160,7 @@ select table_name source_tab,
                
 
 ```
-
+![_](../img_src/2018-06-25_kettle_1.png)  
 
 - 批量添加目标表名
 
@@ -165,7 +173,7 @@ select * from T_DATA_TAB_GH t where rownum < 10
 
 ```
 
-- 源字段，字段注释，字段类型，默认值
+- 源字段，字段注释，字段类型，默认值(MBB_T_DATA_STRU_GH)
 
 ```
 
@@ -188,131 +196,112 @@ select t.table_name as source_tab,
    and t.COLUMN_NAME = s.column_name
  order by t.table_name, t.column_id
 
-
-
 ```
+![_](../img_src/2018-06-25_kettle_2.png)  
 
-- 创建表
+- 创建表(DEST_COLUMN_CREATE)
 ```
 declare
  v_count  number := 0;
   v_sql    varchar2(4000);
   v_create varchar2(4000);
   v_tab    varchar2(1000);
-
 begin
-
   for l in (select s.dest_tab
               from t_data_tab_gh s
              where s.status = '0'
                ) loop
-
     v_tab := l.dest_tab;
-
     v_sql := 'select count(1) from  user_tables  t where t.table_name=upper(''' ||
              v_tab || ''')';
-
-  
     execute immediate v_sql
       into v_count;
-
     if v_count = 1 then
       null;
     else
-
       v_create := 'create table ' || v_tab || ' (gh_x1_rksj date)';
-
       execute immediate v_create;
-
       update t_data_tab_gh t
          set t.status = '1'
        where t.dest_tab = v_tab
          and t.status = '0';
-
       commit;
     end if;
   end loop;
 end;
 ```
+![_](../img_src/2018-06-25_kettle_3.png)  
 
-- 添加字段，字段类型，注释，删除最初时字段gh_xl_rksj
+- 添加字段，字段类型，注释，删除最初时字段gh_xl_rksj(DEST_COLUMN_CREATE)
 
 ```
 
 DECLARE
-
   V_SQL VARCHAR2(4000);
   V_TAB VARCHAR2(4000);
   V_TAB_COMMENTS VARCHAR2(4000);
   ZD_S  VARCHAR2(4000);
-
 BEGIN
-
   FOR L IN (SELECT DEST_TAB,TAB_COMMENTS FROM T_DATA_TAB_GH S WHERE S.STATUS = '1'  ) LOOP
-  
     V_TAB := L.DEST_TAB;
     V_TAB_COMMENTS :=L.TAB_COMMENTS;
-    
     IF V_TAB_COMMENTS IS NOT NULL  THEN
-    
     V_SQL :='COMMENT ON TABLE '||V_TAB||' IS '''||V_TAB_COMMENTS||'''';
-    
     EXECUTE IMMEDIATE V_SQL;
-    
     END IF;
-  
     FOR G1 IN (SELECT 'ALTER TABLE ' || T.DEST_TAB || ' ADD ' || COLUMN_NAME || ' ' ||
                       ZDLX_CD || '' AS ZD_S
                  FROM T_DATA_STRU_GH T
                 WHERE T.DEST_TAB = V_TAB
                   AND STATUS = '0') LOOP
-    
       V_SQL := G1.ZD_S;
       EXECUTE IMMEDIATE V_SQL;
     END LOOP;
-  
     FOR G2 IN (SELECT 'ALTER TABLE ' || T.DEST_TAB || ' MODIFY ' ||
                       COLUMN_NAME || '  DEFAULT  ' || DATA_DEFAULT || '' AS ZD_S
                  FROM T_DATA_STRU_GH T
                 WHERE T.DEST_TAB = V_TAB
                   AND STATUS = '0'
                   AND DATA_DEFAULT IS NOT NULL) LOOP
-    
       V_SQL := G2.ZD_S;
       EXECUTE IMMEDIATE V_SQL;
     END LOOP;
-  
     FOR G3 IN (SELECT 'COMMENT ON COLUMN ' || T.DEST_TAB || '.' ||
                       T.COLUMN_NAME || ' IS  ''' || COMMENTS || '''' AS ZD_S
                  FROM T_DATA_STRU_GH T
                 WHERE T.DEST_TAB = V_TAB
                   AND STATUS = '0'
                   AND COMMENTS IS NOT NULL) LOOP
-    
       V_SQL := G3.ZD_S;
       EXECUTE IMMEDIATE V_SQL;
     END LOOP;
-  
     V_SQL :=' ALTER TABLE '||V_TAB||' DROP COLUMN GH_X1_RKSJ';
     EXECUTE IMMEDIATE V_SQL;
-    
     UPDATE T_DATA_TAB_GH T
        SET T.STATUS = '2'
      WHERE T.STATUS = '1'
        AND T.DEST_TAB = V_TAB;
-  
     UPDATE T_DATA_STRU_GH S
        SET S.STATUS = '1'
      WHERE S.STATUS = '0'
        AND S.DEST_TAB = V_TAB;
     COMMIT;
   END LOOP;
-
 END;
-
-
-
 ```
 
-这样就完成了数据库的大致迁移，后期还可以做如下方案，表创建好后，可以将数据一次性抽取出来，后期在配置增量抽取，那个时候就要对表进行一些分析，如主键，时间戳类型还是全量插入类型，还是其他类型。
+![_](../img_src/2018-06-25_kettle_4.png)  
+
+
+这样就完成了数据库的大致迁移，后期还可以做如下方案，表创建好后，可以将数据一次性抽取出来，
+后期在配置增量抽取，那个时候就要对表进行一些分析，如主键，时间戳类型还是全量插入类型，还是其他类型。
+
+
+
+链接：
+
+[全量抽取](../20180616/kettle配置一次性抽取n张表.md)
+
+
+
 
