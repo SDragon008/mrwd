@@ -30,6 +30,30 @@
 - user_tab_columns
 - user_constraints
 - user_cons_columns
+- others
+
+### 原始表名，数据量，中文注释，是否分区
+
+```
+
+select table_name,
+       num_rows,
+       comments,
+       (case
+         when cn = '0' then
+          'f'
+         else
+          't'
+       end) as sffq
+  from (select t.table_name,
+               t.num_rows,
+               trim(c.comments) as comments,
+               (select count(1)
+                  from user_tab_partitions p
+                 where p.table_name = t.TABLE_NAME) as cn　from user_tables t,
+               user_tab_comments c where t.table_name = c.table_name) f
+               
+```
 
 
 

@@ -2,7 +2,7 @@
 ## 关于kettlefor循环方式(一)
 
 
-现在我来介绍第一种kettle循环方式，通过kettle的job
+现在我来介绍一种kettle循环方式，通过kettle的job
 
 
 
