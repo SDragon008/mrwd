@@ -5,6 +5,13 @@
 kettle是一款开源的etl软件，非常适合小型公司数据抽取，转换，整合，加工，清洗，报表的软件。
 
 
+## kettle 数据库迁移
+
+- oracle对oracle整库迁移
+
+[关于kettle将oracle数据库整体迁移到另外oracle数据库方案](../20180622/关于kettle将oracle数据库整体迁移到另外oracle数据库方案.md)
+
+
 ## kettle for 循环
 
 - job
