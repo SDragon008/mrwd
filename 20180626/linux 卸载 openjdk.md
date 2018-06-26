@@ -44,7 +44,7 @@ tzdata-java-2013g-1.el6.noarch
 [root@gh53 ~]# 
 
 ```
-有些出现javapackages-tools-3.4.1-11.el7.noarch，python-javapackages-3.4.1-11.el7.noarch并不需要删除这些，只要删除openjdk
+有些出现javapackages-tools-3.4.1-11.el7.noarch，python-javapackages-3.4.1-11.el7.noarch并不需要删除这些，只要删除openjdk的jar包
 
 - 下载jdk1.8jar包并上传到/software
 
@@ -56,12 +56,20 @@ jdk-linux-x64.tar.gz
 
 ```
 
-- tar -zxvf jdk-linux-x64.tar.gz 
-- cp -r jdk1.8.0_131 /usr/bin/java
-
-- vim .bash_profile
+- 解压安装包并将其拷贝到/usr/bin/java下
 
 ```
+# tar -zxvf jdk-linux-x64.tar.gz
+# cp -r jdk1.8.0_31 /usr/bin/java
+
+```
+
+- 修改root家目录下的.bash_profile
+
+```
+# cd ~
+# vim .bash_profile
+
 
 export JAVA_HOME=/usr/bin/java  
 export JRE_HOME=${JAVA_HOME}/jre  
@@ -70,8 +78,16 @@ export  PATH=${JAVA_HOME}/bin:$PATH
 
 
 ```
-- java -version
+- 重新检查java版本
 
+```
+[root@gh53 ~]# java -version
+java version "1.8.0_131"
+Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
+
+
+```
 
 链接地址：
 
