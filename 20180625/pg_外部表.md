@@ -55,4 +55,6 @@ OPTIONS:通常定义映射的外部数据源上的实际用户名和密码
 
 CREATE FOREIGN TABLE table_name (column_name data_type) server server_name [OPTIONS (option 'value'[,...])]);
 
+server_name:指定一个服务名称，来源于create server
+
 
