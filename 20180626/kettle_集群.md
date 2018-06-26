@@ -34,7 +34,7 @@ jdk1.8
 
 建议是jdk1.8以上,不要是openjdk这种jar包
 
-[linux 安装jdk]()
+[linux 安装jdk](linux_卸载_openjdk.md)
 
 ```
 
