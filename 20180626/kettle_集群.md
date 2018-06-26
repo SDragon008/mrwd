@@ -225,15 +225,15 @@ carte默认路径在/data-integration/下
 
 - 新建转换并在slave下新建NEW,参考carte-config-master-8080.xml配置master1，参考carte-config-xxx.xml配置相对应的节点
 
-[](../img_src/2018-06-26_kettle_1.png)
+![_](../img_src/2018-06-26_kettle_1.png)
 
-[](../img_src/2018-06-26_kettle_2.png)
+![_](../img_src/2018-06-26_kettle_2.png)
 
-[](../img_src/2018-06-26_kettle_3.png)
+![_](../img_src/2018-06-26_kettle_3.png)
 
 - 在 kettle cluster schemas 中选择新建NEW,并在出现的界面选择右下方的“SELECT slave servers”,选择保存
 
-[](../img_src/2018-06-26_kettle_4.png)
+![_](../img_src/2018-06-26_kettle_4.png)
 
-[](../img_src/2018-06-26_kettle_5.png)
+![_](../img_src/2018-06-26_kettle_5.png)
 
