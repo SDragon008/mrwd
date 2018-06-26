@@ -37,6 +37,9 @@ jdk1.8
 ```
 
 # java version
+java version "1.8.0_131"
+Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
+Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
 
 ```
 
@@ -212,9 +215,25 @@ carte默认路径在/data-integration/下
 
 - 在主机点启动spoon.sh并且选择数据库作为自己的数据库资源库存储方案调度信息
 
-```
-
-
-
+[kettle配置数据库资源库](../201806215/kettle配置数据库资源库.md)
 
 ```
+
+# ./spoon.sh
+
+```
+
+- 新建转换并在slave下新建NEW,参考carte-config-master-8080.xml配置master1，参考carte-config-xxx.xml配置相对应的节点
+
+[](../img_src/2018-06-26_kettle_1.png)
+
+[](../img_src/2018-06-26_kettle_2.png)
+
+[](../img_src/2018-06-26_kettle_3.png)
+
+- 在 kettle cluster schemas 中选择新建NEW,并在出现的界面选择右下方的“SELECT slave servers”,选择保存
+
+[](../img_src/2018-06-26_kettle_4.png)
+
+[](../img_src/2018-06-26_kettle_5.png)
+
