@@ -237,3 +237,29 @@ carte默认路径在/data-integration/下
 
 ![_](../img_src/2018-06-26_kettle_5.png)
 
+- 正式新建方案，选择SORT column控件，并在右击找到"clustering"下的选择集群组名，当前是C1
+
+![_](../img_src/2018-06-26_kettle_11.png)
+
+![_](../img_src/2018-06-26_kettle_12.png)
+
+- 保存方案并开启运行后，查看子节点的日志
+
+```
+[gh54]
+
+2018/06/26 05:49:35 - Sort rows.0 - Server socket accepted for port [40000], reading from server master1
+2018/06/26 05:49:41 - Sort rows.0 - Finished processing (I=50000, O=40444, R=0, W=9555, U=0, E=0)
+2018/06/26 05:49:47 - General - I couldn't find the repository with name 'etl_cluster'
+2018/06/26 05:49:47 - jiqun_cs_180626_1 (C1:slave1-8081) - Dispatching started for transformation [jiqun_
+
+[gh55]
+
+2018/06/26 05:49:34 - Sort rows.0 - Server socket accepted for port [40000], reading from server master1
+2018/06/26 05:49:40 - Sort rows.0 - Finished processing (I=50000, O=40300, R=0, W=9700, U=0, E=0)
+2018/06/26 05:49:46 - General - I couldn't find the repository with name 'etl_cluster'
+2018/06/26 05:49:46 - jiqun_cs_180626_1 (C1:slave2-8082) - Dispatching started for transformation [jiqun_cs_180626_1 (C1:slave2-8082)]
+
+
+
+```
