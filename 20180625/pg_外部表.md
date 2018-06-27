@@ -17,6 +17,8 @@
 
 - postgresql9.1开始支持sql/med标准
 
+- 注意使用源码安装postgreql
+
 ### FDW
 
 - foreign data wrapper:外部数据包装器，相当于定义外部数据库驱动

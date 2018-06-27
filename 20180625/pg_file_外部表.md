@@ -52,3 +52,28 @@ encoding:指定文件的字符集编码，与COPY命令中的encoding选项相�
 实际上file_fdw是通过COPY API来访问外部文本文件，所以file_fdw的选项除了filename外都与COPY命令相同。
 
 -----------
+
+
+### error
+
+- 无法创建 file_fdw
+
+```
+osdba=# create extension file_fdw;
+ERROR:  could not open extension control file "/usr/local/pgsql/share/extension/file_fdw.control": No such file or directory
+
+```
+
+需要在contrib/file_fdw下make ,make install执行
+
+
+```
+$ cd file_fdw
+$ make
+$ make install
+$ psql
+osdba=# create extension file_fdw;
+CREATE EXTENSION
+
+
+```
