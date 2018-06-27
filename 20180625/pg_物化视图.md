@@ -26,9 +26,15 @@
   
   ```
 
+  
+
   1、有存储数据并且可以选择表空间
 
+  
+
   2、可以创建索引,唯一索引也是可以创建，但是主键索引不允许创建
+
+  
 
   3、with no data表示数据结构建立，数据暂时没有，如果不同步数据，查询物化视图会报错
 
@@ -45,7 +51,11 @@
       [ WITH [ NO ] DATA ]
   ```
 
+  
+
   全量刷新模板：REFRESH MATERIALIZED VIEW ma_view WITH DATA
+
+  
 
   在线刷新模板：REFRESH MATERIALIZED VIEW CONCURRENTLY  ma_view WITH DATA
 
