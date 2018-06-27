@@ -66,3 +66,16 @@ OPTIONS：不同的数据库参数类型不一致
 上面步骤就是创建外部表的流程，而为了更好的使用数据(外部表不保存数据)，建议和物化视图联系起来，通过物化视图来更新数据，已达到最新数据，物化视图也支持索引创建。
 
 
+链接地址:
+
+file:
+[pg_file_外部表](pg_file_外部表.md)
+
+rdbms:
+[pg_mysql_外部表](pg_mysql_外部表.md)
+[pg_oracle_外部表](pg_oracle_外部表.md)
+[pg_postgres_外部表](pg_postgres_外部表.md)
+
+nosql:
+[pg_mongo_外部表](pg_mongo_外部表.md)
+[pg_redis_外部表](pg_redis_外部表.md)
