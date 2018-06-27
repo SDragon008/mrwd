@@ -71,6 +71,8 @@ OPTIONS：不同的数据库参数类型不一致
 
 链接地址:
 
+foreign_data_wrapper:https://pgxn.org/tag/foreign%20data%20wrapper/
+
 file:
 
 [pg_file_外部表](pg_file_外部表.md)
