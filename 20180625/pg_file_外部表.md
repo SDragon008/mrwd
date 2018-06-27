@@ -13,6 +13,8 @@ create extension file_fdw;
 
 ```
 
+postgreql安装部署建议使用源码安装，这样就会在安装包中有contrib/file_fdw文件信息，make make install后就可以在数据库执行file_fdw
+
 - 创建server
 
 ```
