@@ -32,14 +32,20 @@ CREATE FOREIGN TABLE passwd( username text,pass text,uid int4,gid int4,gecos tex
 ------------
 
 filename:制定外部文件名
-format:指定文件的格式，与COPY命令中的format选项相同
-header:指定文件是否有行头，与COPY命令中HEADER选项相同
-delimiter:指定分割字符，与COPY命令中的DELIMITER选项相同
-quote:指定字符串的包裹字符，与COPY命令中的QUOTE选项系统
-escape:指定的转义字符，与COPY命令中的ESCAPE选项相同
-null:指定为“空”字符串，与COPY命令中的NULL选项系统
-encoding:指定文件的字符集编码，与COPY命令中的encoding选项相同
 
+format:指定文件的格式，与COPY命令中的format选项相同
+
+header:指定文件是否有行头，与COPY命令中HEADER选项相同
+
+delimiter:指定分割字符，与COPY命令中的DELIMITER选项相同
+
+quote:指定字符串的包裹字符，与COPY命令中的QUOTE选项系统
+
+escape:指定的转义字符，与COPY命令中的ESCAPE选项相同
+
+null:指定为“空”字符串，与COPY命令中的NULL选项系统
+
+encoding:指定文件的字符集编码，与COPY命令中的encoding选项相同
 
 实际上file_fdw是通过COPY API来访问外部文本文件，所以file_fdw的选项除了filename外都与COPY命令相同。
 
