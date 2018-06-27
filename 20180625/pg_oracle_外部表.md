@@ -59,7 +59,8 @@ $ make install
 - 创建extension
 
 ```
-  create extension oracle_fdw
+create extension oracle_fdw
+
 ```
 
   
@@ -67,7 +68,8 @@ $ make install
 - 创建server
 
 ```
-  CREATE SERVER ora11 FOREIGN DATA WRAPPER oracle_fdw OPTIONS (dbserver 			'//192.168.1.11:1521/orcl');
+CREATE SERVER ora11 FOREIGN DATA WRAPPER oracle_fdw OPTIONS (dbserver 			'//192.168.1.11:1521/orcl');
+
 ```
 
   
@@ -82,9 +84,10 @@ CREATE USER MAPPING FOR postgres SERVER ora11 OPTIONS ( user 'etl' , password 'e
 - 创建外部表
 
 ```
-  CREATE FOREIGN TABLE ft_ora_userinfo(id int,info text,crt_time timestamp(0)) SERVER ora11 OPTIONS(schema 'ETL', table 'USERINFO');
+CREATE FOREIGN TABLE ft_ora_userinfo(id int,info text,crt_time timestamp(0)) SERVER ora11 OPTIONS(schema 'ETL', table 'USERINFO');
   
-  select * from ft_ora_userinfo;
+select * from ft_ora_userinfo;
+
 ```
 
   
@@ -94,8 +97,8 @@ CREATE USER MAPPING FOR postgres SERVER ora11 OPTIONS ( user 'etl' , password 'e
 - 无法创建extension
 
 ```
-    osdba=# create extension oracle_fdw;
-    ERROR:  could not load library "/usr/local/pgsql/lib/oracle_fdw.so": libclntsh.so.11.1: cannot open shared object file: No such file or directory
+osdba=# create extension oracle_fdw;
+ERROR:  could not load library "/usr/local/pgsql/lib/oracle_fdw.so": libclntsh.so.11.1: cannot open shared object file: No such file or directory
     
 ```
 
