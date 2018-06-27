@@ -30,9 +30,41 @@ CREATE EXTENSION
 
 ```
 
+osdba=# CREATE SERVER postgres_fdw_52 FOREIGN DATA WRAPPER postgres_fdw OPTIONS(host '192.168.1.52',dbname 'tutorial',port '5432');
+CREATE SERVER
+
 
 ```
 
 - 创建user
 
+```
+osdba=# CREATE USER MAPPING FOR osdba SERVER postgres_fdw_52 OPTIONS(user 'osdba' ,password 'xxxxxxxx');
+CREATE USER MAPPING
+
+```
+
 - 创建foreign table 
+
+```
+osdba=# CREATE FOREIGN TABLE pg_fdw_t_gh_cs(id int,info text,rksj timestamp(0)) SERVER postgres_fdw_52  OPTIONS( table_name 't_gh_cs');
+CREATE FOREIGN TABLE
+
+```
+
+- 查询
+
+```
+
+osdba=# select * from pg_fdw_t_gh_cs ;
+  id  | info |        rksj         
+------+------+---------------------
+    1 | good | 2018-06-27 06:24:24
+    2 | good | 2018-06-27 06:24:24
+    3 | good | 2018-06-27 06:24:24
+    4 | good | 2018-06-27 06:24:24
+
+```
+
+pg_postgres_fdw和pg_file_fdw安装部署较为简单，且无需担心版本不兼容问题
+
