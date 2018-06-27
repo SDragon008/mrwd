@@ -29,7 +29,7 @@ CREATE FOREIGN TABLE passwd( username text,pass text,uid int4,gid int4,gecos tex
 
 ```
 
-------------
+-----------
 
 filename:制定外部文件名
 
@@ -49,4 +49,4 @@ encoding:指定文件的字符集编码，与COPY命令中的encoding选项相�
 
 实际上file_fdw是通过COPY API来访问外部文本文件，所以file_fdw的选项除了filename外都与COPY命令相同。
 
-------------
+
