@@ -69,13 +69,19 @@ OPTIONS：不同的数据库参数类型不一致
 链接地址:
 
 file:
+
 [pg_file_外部表](pg_file_外部表.md)
 
 rdbms:
+
 [pg_mysql_外部表](pg_mysql_外部表.md)
+
 [pg_oracle_外部表](pg_oracle_外部表.md)
+
 [pg_postgres_外部表](pg_postgres_外部表.md)
 
 nosql:
+
 [pg_mongo_外部表](pg_mongo_外部表.md)
+
 [pg_redis_外部表](pg_redis_外部表.md)
