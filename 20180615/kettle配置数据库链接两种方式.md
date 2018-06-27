@@ -5,13 +5,13 @@
 - 文件配置
 
 在安装kettle相对路径{path}\data-integration\simple-jndi\jdbc.properties
-
+```
 SampleData/type=javax.sql.DataSource
 SampleData/driver=org.h2.Driver
 SampleData/url=jdbc:h2:file:samples/db/sampledb;IFEXISTS=TRUE
 SampleData/user=PENTAHO_USER
 SampleData/password=PASSWORD
-
+```
 - 数据库配置
 
 
