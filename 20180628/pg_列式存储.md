@@ -4,7 +4,7 @@
 
 
 
-## 列式存储行式存储
+##  列式存储行式存储
 
 
 
@@ -14,9 +14,9 @@
 
 
 
-## 搭建过程
+##  搭建过程
 
-### 环境介绍
+###  环境介绍
 
 - 操作系统版本
 
@@ -30,9 +30,9 @@
 
   cstore_fdw-1.6.0.zip
 
-### 安装部署
+###  安装部署
 
-#### 解压cstore_fdw-1.6.0.zip并放到{PG}/contrib/
+####  解压cstore_fdw-1.6.0.zip并放到{PG}/contrib/
 
 ```
 # mv cstore_fdw-1.6.0.zip  postgresql-9.4.12/contrib/
@@ -42,13 +42,13 @@
 # chown -R osdba:osdba cstore_fdw-1.6.0/
 ```
 
-#### 安装centos依赖包
+####  安装centos依赖包
 
-##### EPEL(extra packages for Enterprise Linux)
+#####  EPEL(extra packages for Enterprise Linux)
 
 文档:[EPEL_使用](EPEL_使用.md)
 
-##### yum install protobuf-c-devel
+#####  yum install protobuf-c-devel
 
 ```
 # yum install protobuf-c-devel
@@ -64,7 +64,7 @@
 
 ```
 
-#### 编译安装(make make install)
+####  编译安装(make make install)
 
 ```
 $ cd {PG}/contrib/cstore_fdw-1.6.0
@@ -72,7 +72,7 @@ $ make
 $ make install
 ```
 
-#### 修改postgresql.conf文件
+####  修改postgresql.conf文件
 
 ```
 $ vim postgresql.conf
@@ -83,7 +83,7 @@ $ pg_ctl stop -m fast
 $ pg_ctl start &
 ```
 
-#### 下载数据
+####  下载数据
 
 ```
 wget http://examples.citusdata.com/customer_reviews_1998.csv.gz
@@ -93,21 +93,21 @@ gzip -d customer_reviews_1998.csv.gz
 gzip -d customer_reviews_1999.csv.gz
 ```
 
-#### 创建 extension
+####  创建 extension
 
 ```
 osdba=# create extension cstore_fdw;
 CREATE EXTENSION
 ```
 
-#### 创建SERVER
+####  创建SERVER
 
 ```
 osdba=# CREATE SERVER cstore_server FOREIGN DATA WRAPPER cstore_fdw;
 CREATE SERVER
 ```
 
-#### 创建外部表
+####  创建外部表
 
 ```
 CREATE FOREIGN TABLE customer_reviews
@@ -129,7 +129,7 @@ SERVER cstore_server
 OPTIONS(compression 'pglz');
 ```
 
-#### 插入数据并查看空间大小
+####  插入数据并查看空间大小
 
 ```
 osdba=# COPY customer_reviews FROM '/home/osdba/customer_reviews_1998.csv' WITH CSV;
@@ -178,7 +178,7 @@ osdba=# select pg_size_pretty(pg_relation_size('customer_reviews'));
 
 
 
-## 参考链接
+##  参考链接
 
 https://github.com/citusdata/cstore_fdw
 
