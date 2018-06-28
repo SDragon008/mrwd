@@ -9,7 +9,7 @@
 
 - 下载oracle压缩包
 
-
+链接：https://pan.baidu.com/s/16A0OMot4-FSsV6MJRWxfaQ 密码：2ecr
 
 - 解压并且将路径定义到oracle原始安装目录下(本次地址为/u01下)
 
@@ -104,7 +104,7 @@ ERROR:  could not load library "/usr/local/pgsql/lib/oracle_fdw.so": libclntsh.s
 
 解决方案：重新启动数据库，再次运行即刻。
 
-    
+​    
 
 
 
