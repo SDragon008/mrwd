@@ -1,0 +1,1 @@
+﻿https://support.rackspace.com/how-to/install-epel-and-additional-repositories-on-centos-and-red-hat/

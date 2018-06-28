@@ -1,0 +1,304 @@
+Connecting to 192.168.1.52:22...
+Connection established.
+To escape to local shell, press 'Ctrl+Alt+]'.
+
+Last login: Thu Jun 28 08:13:16 2018 from 192.168.1.2
+[root@gh52 ~]# ping www.baidu.com
+PING www.a.shifen.com (220.181.112.244) 56(84) bytes of data.
+64 bytes from 220.181.112.244: icmp_seq=1 ttl=53 time=79.2 ms
+64 bytes from 220.181.112.244: icmp_seq=2 ttl=53 time=62.0 ms
+64 bytes from 220.181.112.244: icmp_seq=3 ttl=53 time=77.5 ms
+64 bytes from 220.181.112.244: icmp_seq=4 ttl=53 time=98.7 ms
+64 bytes from 220.181.112.244: icmp_seq=5 ttl=53 time=51.9 ms
+64 bytes from 220.181.112.244: icmp_seq=6 ttl=53 time=51.9 ms
+64 bytes from 220.181.112.244: icmp_seq=7 ttl=53 time=89.8 ms
+64 bytes from 220.181.112.244: icmp_seq=8 ttl=53 time=46.9 ms
+64 bytes from 220.181.112.244: icmp_seq=9 ttl=53 time=38.4 ms
+64 bytes from 220.181.112.244: icmp_seq=10 ttl=53 time=89.9 ms
+64 bytes from 220.181.112.244: icmp_seq=11 ttl=53 time=57.3 ms
+64 bytes from 220.181.112.244: icmp_seq=12 ttl=53 time=39.5 ms
+64 bytes from 220.181.112.244: icmp_seq=13 ttl=53 time=51.9 ms
+64 bytes from 220.181.112.244: icmp_seq=14 ttl=53 time=37.2 ms
+64 bytes from 220.181.112.244: icmp_seq=15 ttl=53 time=58.8 ms
+64 bytes from 220.181.112.244: icmp_seq=16 ttl=53 time=63.3 ms
+64 bytes from 220.181.112.244: icmp_seq=17 ttl=53 time=70.1 ms
+64 bytes from 220.181.112.244: icmp_seq=18 ttl=53 time=59.2 ms
+64 bytes from 220.181.112.244: icmp_seq=19 ttl=53 time=63.4 ms
+64 bytes from 220.181.112.244: icmp_seq=20 ttl=53 time=18.9 ms
+64 bytes from 220.181.112.244: icmp_seq=21 ttl=53 time=74.8 ms
+64 bytes from 220.181.112.244: icmp_seq=22 ttl=53 time=27.7 ms
+^C
+--- www.a.shifen.com ping statistics ---
+22 packets transmitted, 22 received, 0% packet loss, time 21428ms
+rtt min/avg/max/mdev = 18.980/59.521/98.720/20.007 ms
+[root@gh52 ~]# mount /dev/sr0 /media
+mount: block device /dev/sr0 is write-protected, mounting read-only
+[root@gh52 ~]# yum update
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+Setting up Update Process
+No Packages marked for Update
+[root@gh52 ~]# yum clean all
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Cleaning repos: ysys
+Cleaning up Everything
+Cleaning up list of fastest mirrors
+[root@gh52 ~]# yum update
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Determining fastest mirrors
+ysys                                                                              | 4.0 kB     00:00 ... 
+ysys/primary_db                                                                   | 4.4 MB     00:00 ... 
+Setting up Update Process
+No Packages marked for Update
+[root@gh52 ~]# yum install epel-release
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+Setting up Install Process
+No package epel-release available.
+Error: Nothing to do
+[root@gh52 ~]# rpm -q epel-release
+package epel-release is not installed
+[root@gh52 ~]# rpm -ivh http://mirrors.ustc.edu.cn/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm  
+Retrieving http://mirrors.ustc.edu.cn/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
+warning: /var/tmp/rpm-tmp.OizIze: Header V3 RSA/SHA256 Signature, key ID 0608b895: NOKEY
+Preparing...                ########################################### [100%]
+   1:epel-release           ########################################### [100%]
+[root@gh52 ~]# yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E '%{rhel}').noarch.rpm
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+epel/metalink                                                                     | 6.9 kB     00:00     
+ * epel: mirrors.sohu.com
+epel                                                                              | 3.2 kB     00:00     
+epel/primary                                                                      | 3.2 MB     00:19     
+epel                                                                                         12514/12514
+Setting up Install Process
+epel-release-latest-6.noarch.rpm                                                  |  14 kB     00:00     
+Examining /var/tmp/yum-root-0wEVHG/epel-release-latest-6.noarch.rpm: epel-release-6-8.noarch
+/var/tmp/yum-root-0wEVHG/epel-release-latest-6.noarch.rpm: does not update installed package.
+Error: Nothing to do
+[root@gh52 ~]# yum install https://$(rpm -E '%{?centos:centos}%{!?centos:rhel}%{rhel}').iuscommunity.org/ius-release.rpm
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Existing lock /var/run/yum.pid: another copy is running as pid 2638.
+Another app is currently holding the yum lock; waiting for it to exit...
+  The other application is: PackageKit
+    Memory : 173 M RSS (1.0 GB VSZ)
+    Started: Thu Jun 28 08:54:49 2018 - 00:14 ago
+    State  : Sleeping, pid: 2638
+Loading mirror speeds from cached hostfile
+ * epel: mirrors.sohu.com
+Setting up Install Process
+Cannot open: https://centos6.iuscommunity.org/ius-release.rpm. Skipping.
+Error: Nothing to do
+[root@gh52 ~]# yum install protobuf-c-devel
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+ * epel: mirrors.huaweicloud.com
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package protobuf-c-devel.x86_64 0:0.15-2.el6 will be installed
+--> Processing Dependency: protobuf-c = 0.15-2.el6 for package: protobuf-c-devel-0.15-2.el6.x86_64
+--> Processing Dependency: libprotobuf-c.so.0()(64bit) for package: protobuf-c-devel-0.15-2.el6.x86_64
+--> Running transaction check
+---> Package protobuf-c.x86_64 0:0.15-2.el6 will be installed
+--> Processing Dependency: libprotoc.so.6()(64bit) for package: protobuf-c-0.15-2.el6.x86_64
+--> Processing Dependency: libprotobuf.so.6()(64bit) for package: protobuf-c-0.15-2.el6.x86_64
+--> Running transaction check
+---> Package protobuf.x86_64 0:2.3.0-9.el6 will be installed
+---> Package protobuf-compiler.x86_64 0:2.3.0-9.el6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=========================================================================================================
+ Package                         Arch                 Version                   Repository          Size
+=========================================================================================================
+Installing:
+ protobuf-c-devel                x86_64               0.15-2.el6                epel                12 k
+Installing for dependencies:
+ protobuf                        x86_64               2.3.0-9.el6               epel               289 k
+ protobuf-c                      x86_64               0.15-2.el6                epel                93 k
+ protobuf-compiler               x86_64               2.3.0-9.el6               epel               190 k
+
+Transaction Summary
+=========================================================================================================
+Install       4 Package(s)
+
+Total download size: 584 k
+Installed size: 1.8 M
+Is this ok [y/N]: y
+Downloading Packages:
+(1/4): protobuf-2.3.0-9.el6.x86_64.rpm                                            | 289 kB     00:00     
+(2/4): protobuf-c-0.15-2.el6.x86_64.rpm                                           |  93 kB     00:00     
+(3/4): protobuf-c-devel-0.15-2.el6.x86_64.rpm                                     |  12 kB     00:00     
+(4/4): protobuf-compiler-2.3.0-9.el6.x86_64.rpm                                   | 190 kB     00:00     
+---------------------------------------------------------------------------------------------------------
+Total                                                                    342 kB/s | 584 kB     00:01     
+warning: rpmts_HdrFromFdno: Header V3 RSA/SHA256 Signature, key ID 0608b895: NOKEY
+Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+Importing GPG key 0x0608B895:
+ Userid : EPEL (6) <epel@fedoraproject.org>
+ Package: epel-release-6-8.noarch (installed)
+ From   : /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+Is this ok [y/N]: y
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+Warning: RPMDB altered outside of yum.
+  Installing : protobuf-2.3.0-9.el6.x86_64                                                           1/4 
+  Installing : protobuf-compiler-2.3.0-9.el6.x86_64                                                  2/4 
+  Installing : protobuf-c-0.15-2.el6.x86_64                                                          3/4 
+  Installing : protobuf-c-devel-0.15-2.el6.x86_64                                                    4/4 
+  Verifying  : protobuf-c-0.15-2.el6.x86_64                                                          1/4 
+  Verifying  : protobuf-compiler-2.3.0-9.el6.x86_64                                                  2/4 
+  Verifying  : protobuf-2.3.0-9.el6.x86_64                                                           3/4 
+  Verifying  : protobuf-c-devel-0.15-2.el6.x86_64                                                    4/4 
+
+Installed:
+  protobuf-c-devel.x86_64 0:0.15-2.el6                                                                   
+
+Dependency Installed:
+  protobuf.x86_64 0:2.3.0-9.el6  protobuf-c.x86_64 0:0.15-2.el6  protobuf-compiler.x86_64 0:2.3.0-9.el6 
+
+Complete!
+[root@gh52 ~]# su - osdba
+[osdba@gh52 ~]$ pg_ctl start &
+[1] 2772
+[osdba@gh52 ~]$ server starting
+LOG:  redirecting log output to logging collector process
+HINT:  Future log output will appear in directory "pg_log".
+^C
+[1]+  Done                    pg_ctl start
+[osdba@gh52 ~]$ 
+[osdba@gh52 ~]$ ls
+hiredis  hiredis_bin  hiredis-master.zip  redis_fdw  redis_fdw-REL9_4_STABLE.zip
+[osdba@gh52 ~]$ cd /software/
+[osdba@gh52 software]$ ls
+postgresql-9.4.12  protobuf-c-master  protobuf-c-master.zip
+[osdba@gh52 software]$ exit
+logout
+[root@gh52 ~]# cd /software/postgresql-9.4.12/
+[root@gh52 postgresql-9.4.12]# ls
+aclocal.m4  config  config.log  config.status  configure  configure.in  contrib  COPYRIGHT  doc  GNUmakef
+[root@gh52 postgresql-9.4.12]# cd contrib/
+[root@gh52 contrib]# ls
+adminpack     citext                dict_int        hstore    Makefile              pageinspect        pg
+auth_delay    contrib-global.mk     dict_xsyn       intagg    mysql_fdw-2.1.2       passwordcheck      pg
+auto_explain  cstore_fdw-1.6.0      dummy_seclabel  intarray  mysql_fdw-2.1.2.zip   pg_archivecleanup  pg
+btree_gin     cstore_fdw-1.6.0.zip  earthdistance   isn       oid2name              pgbench            pg
+btree_gist    cube                  file_fdw        lo        oracle_fdw-2.0.0      pg_buffercache     pg
+chkpass       dblink                fuzzystrmatch   ltree     oracle_fdw-2.0.0.zip  pgcrypto           pg
+[root@gh52 contrib]# ls -ls
+total 508
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 adminpack
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 auth_delay
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 auto_explain
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 btree_gin
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 btree_gist
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 chkpass
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 citext
+  4 -rw-r--r-- 1  1107  1107     85 May  9  2017 contrib-global.mk
+  4 drwxr-xr-x 7 osdba osdba   4096 Jul 22  2017 cstore_fdw-1.6.0
+104 -rw-r--r-- 1 root  root  105361 Jun 28 07:31 cstore_fdw-1.6.0.zip
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 cube
+  4 drwxrwxrwx 6  1107  1107   4096 May  9  2017 dblink
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 dict_int
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 dict_xsyn
+  4 drwxrwxrwx 2  1107  1107   4096 Jun 11 06:10 dummy_seclabel
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 earthdistance
+  4 drwxrwxrwx 7  1107  1107   4096 Jun 27 06:08 file_fdw
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 fuzzystrmatch
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 hstore
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 intagg
+  4 drwxrwxrwx 6  1107  1107   4096 May  9  2017 intarray
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 isn
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 lo
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 ltree
+  4 -rw-r--r-- 1  1107  1107   1295 May  9  2017 Makefile
+  4 drwxr-xr-x 4 osdba osdba   4096 Jun 27 05:39 mysql_fdw-2.1.2
+ 44 -rw-r--r-- 1 root  root   44022 Jun 27 05:37 mysql_fdw-2.1.2.zip
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 oid2name
+  4 drwxr-xr-x 4 osdba osdba   4096 Jun 27 07:15 oracle_fdw-2.0.0
+108 -rw-r--r-- 1 root  root  110162 Jun 27 07:13 oracle_fdw-2.0.0.zip
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pageinspect
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 passwordcheck
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_archivecleanup
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pgbench
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_buffercache
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 pgcrypto
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_freespacemap
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_prewarm
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pgrowlocks
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_standby
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_stat_statements
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 pgstattuple
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_test_fsync
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_test_timing
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 pg_trgm
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_upgrade
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_upgrade_support
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 pg_xlogdump
+  4 drwxrwxrwx 4  1107  1107   4096 Jun 27 06:18 postgres_fdw
+  4 -rw-r--r-- 1  1107  1107   1131 May  9  2017 README
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 seg
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 sepgsql
+  4 drwxrwxrwx 2  1107  1107   4096 Jun 11 06:10 spi
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 sslinfo
+  4 drwxrwxrwx 3  1107  1107   4096 May  9  2017 start-scripts
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 tablefunc
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 tcn
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 test_decoding
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 test_parser
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 test_shm_mq
+  4 drwxrwxrwx 5  1107  1107   4096 May  9  2017 tsearch2
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 unaccent
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 uuid-ossp
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 vacuumlo
+  4 drwxrwxrwx 2  1107  1107   4096 May  9  2017 worker_spi
+  4 drwxrwxrwx 4  1107  1107   4096 May  9  2017 xml2
+[root@gh52 contrib]# cd cstore_fdw-1.6.0
+[root@gh52 cstore_fdw-1.6.0]# ls
+cstore_compression.c      cstore_fdw--1.2--1.3.sql  cstore_fdw--1.5--1.6.sql  cstore_fdw.control         
+cstore_fdw--1.0--1.1.sql  cstore_fdw--1.3--1.4.sql  cstore_fdw--1.6.sql       cstore_fdw.h               
+cstore_fdw--1.1--1.2.sql  cstore_fdw--1.4--1.5.sql  cstore_fdw.c              cstore_metadata_serializati
+[root@gh52 cstore_fdw-1.6.0]# pwd
+/software/postgresql-9.4.12/contrib/cstore_fdw-1.6.0
+[root@gh52 cstore_fdw-1.6.0]# su - osdba
+[osdba@gh52 ~]$ cd /software/postgresql-9.4.12/contrib/cstore_fdw-1.6.0
+[osdba@gh52 cstore_fdw-1.6.0]$ ls
+cstore_compression.c      cstore_fdw--1.2--1.3.sql  cstore_fdw--1.5--1.6.sql  cstore_fdw.control         
+cstore_fdw--1.0--1.1.sql  cstore_fdw--1.3--1.4.sql  cstore_fdw--1.6.sql       cstore_fdw.h               
+cstore_fdw--1.1--1.2.sql  cstore_fdw--1.4--1.5.sql  cstore_fdw.c              cstore_metadata_serializati
+[osdba@gh52 cstore_fdw-1.6.0]$ make
+protoc-c --c_out=. cstore.proto
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-forgsql/include/server -I/usr/local/pgsql/include/internal -D_GNU_SOURCE   -c -o cstore.pb-c.o cstore.pb-c.c
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-forgsql/include/server -I/usr/local/pgsql/include/internal -D_GNU_SOURCE   -c -o cstore_fdw.o cstore_fdw.c
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-forgsql/include/server -I/usr/local/pgsql/include/internal -D_GNU_SOURCE   -c -o cstore_writer.o cstore_writ
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-forgsql/include/server -I/usr/local/pgsql/include/internal -D_GNU_SOURCE   -c -o cstore_reader.o cstore_read
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-forgsql/include/server -I/usr/local/pgsql/include/internal -D_GNU_SOURCE   -c -o cstore_metadata_serializati
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-forgsql/include/server -I/usr/local/pgsql/include/internal -D_GNU_SOURCE   -c -o cstore_compression.o cstore
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-forb-c.o cstore_fdw.o cstore_writer.o cstore_reader.o cstore_metadata_serialization.o cstore_compression.o - 
+[osdba@gh52 cstore_fdw-1.6.0]$ make install
+/bin/mkdir -p '/usr/local/pgsql/lib'
+/bin/mkdir -p '/usr/local/pgsql/share/extension'
+/bin/mkdir -p '/usr/local/pgsql/share/extension'
+/usr/bin/install -c -m 755  cstore_fdw.so '/usr/local/pgsql/lib/cstore_fdw.so'
+/usr/bin/install -c -m 644 cstore_fdw.control '/usr/local/pgsql/share/extension/'
+/usr/bin/install -c -m 644 cstore_fdw--1.6.sql cstore_fdw--1.5--1.6.sql cstore_fdw--1.4--1.5.sql cstore_fpgsql/share/extension/'
+[osdba@gh52 cstore_fdw-1.6.0]$ psql
+psql (9.4.12)
+Type "help" for help.
+
+osdba=# create extension cstore_fdw;
+CREATE EXTENSION
+osdba=# \q
+[osdba@gh52 cstore_fdw-1.6.0]$ pg_ctl stop -m fast
+waiting for server to shut down.... done
+server stopped
+[osdba@gh52 cstore_fdw-1.6.0]$ cd $PGDATA
+[osdba@gh52 data]$ ls
+base    pg_clog      pg_hba.conf    pg_log      pg_multixact  pg_replslot  pg_snapshots  pg_stat_tmp  pg_
+global  pg_dynshmem  pg_ident.conf  pg_logical  pg_notify     pg_serial    pg_stat       pg_subtrans  pg_
+[osdba@gh52 data]$ vim postgresql.conf
+[osdba@gh52 data]$ 
