@@ -5,13 +5,11 @@
 
 ##  列式存储行式存储
 
+行式存储：简单来说就是一条数据写到数据页里面
 
+列式存储：简单来说就是一列数据写到数据页里面
 
-
-
-
-
-
+具体参考文档:[列式存储行式存储](../20180629/列式存储行式存储.md)
 
 ##  搭建过程
 
@@ -190,8 +188,6 @@ https://www.cnblogs.com/qiaoyihang/p/6262806.html
 <http://code.google.com/p/protobuf/>
 
 https://yq.aliyun.com/articles/18042
-
-https://blog.csdn.net/kid_2412/article/details/52275582
 
 http://blogs.ugidotnet.org/sqlog/archive/2015/08/24/postgresql-cstore_fdw.aspx
 
