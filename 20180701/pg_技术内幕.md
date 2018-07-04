@@ -1032,9 +1032,58 @@ id1代表旧的，id2代表新的
 
 ​	行上的xmin,xmax,cmin,cmax和clog日志一起用于控制行的可见性。每个事务在clog中占用两个bit,数据库运行一段时间后，如几年，就可能产生20亿事务，clog可能占用480M的空间，文件这么大，效率可能不高，于是postgresql对查询行的可见性做了优化，把一些可见性信息记录在infomask字段上，该字段的t_infomask中有以下与可见性相关的标识位
 
+```
+	define HEAP_XMIN_COMMITTED 0x0100
+
+	define HEAP_XMIN_INVALID 0x0200
+
+	define HEAP_XMAX_COMMITTED 0x0400
+
+	define HEAP_XMAX_INVALID 0x0800
+
+	define HEAP_XMAX_IS_MULTI 0x1000
+
+```
+
+​	如果t_infomask中HEAP_XMIN_COMMITTED为真，而HEAP_XMAX_INVALID为假，则说明这行是新插入的数据,是可见的，这是就不需要到clog中查询xmin,xmax的事务状态了。
+
+​	如果没有设置HEAP_XMIN_COMMITTED,并不是代表这行数据没有提交，而是说不知道xmin是否提交，需要到clog中去判断xmin的状态，HEAP_XMAX_COMMITTED也是如此
+
+​	第一次插入数据时，t_infomask中的HEAP_XMIN_COMMITTED和HEAP_XMAX_INVALID并没有设置，当事务提交后，有人再读取这个数据块时，会通过clog判断这些行的事务已提交，从而设置了t_infomask中HEAP_XMIN_COMMITTED和HEAP_XMAX_INVALID标志位，下次查询这行时，直接使用t_infomask中HEAP_XMIN_COMMITTED和HEAP_XMIN_INVALID标志位就可以判断行的可见性，不需要再到clog中查询。
 
 
 
+	### 数据块空闲空间管理
+
+
+
+​	postgresql数据库使用一个FSM的文件来记录每个数据块的空闲空间.
+
+​	
+
+### 可见性映射表文件
+
+
+
+​	为了加快VACUUM清理的速度和降低对系统I/O性能的影响，postgresql从8.4后为每个数据文件增加了一个后缀名为"_vm"的文件，这个文件又被称为可见性映射文件。
+
+​	vacuum清理数据两种方式，一种被称为lazy vacuum，另外一种被称为full vacuum,vm文件只在lazy vacuum中使用，full vacuum操作则需要对整个数据文件进行扫描。
+
+
+
+## 技术解密
+
+
+
+### index-only scan
+
+​	
+
+​	在postgresql数据库索引并没有所谓多版本信息，因此即使是SELECT 的列都是索引列，在postgresql之前的版本中，还需要到表上在查询一遍，但是在postgresql9.2后，就不需要了，这种扫描方式被称为“index-only sacns"	
+
+
+
+​	
 
 
 
