@@ -8,4 +8,5 @@
 > plot(x,y,type='l')
 ```
 
-﻿
+![_](D:\grwlwd\github\mrwd\img_src\1-2018-07-07-r-1.png)﻿
+
