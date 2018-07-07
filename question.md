@@ -16,9 +16,9 @@
 
 ### 20180707
 
-- 使用r工具将cosx,sinx,tgx,ctgx,arcsinx,arccosx,arctgx,arcctgx滑下来。
+- 使用r工具将cosx,sinx,tgx,ctgx,arcsinx,arccosx,arctgx,arcctgx画下来。
 
-[答案](../20180707/R语言_sin(x)图像.md)：请参考
+[答案](20180707/R语言_sin(x)图像.md)：请参考
 
 
 
