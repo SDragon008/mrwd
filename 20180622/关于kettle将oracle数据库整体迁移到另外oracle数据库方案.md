@@ -1,4 +1,4 @@
-﻿
+
 ## 关于kettle将oracle数据库整体迁移到另外oracle数据库方案
 
 
@@ -90,7 +90,7 @@ select t.table_name,
 
 
 ```
- 
+
 注：字段data_default中的字段类型是long类型，在oracle中很难直接转换为varchar类型，需要后期与kettle控件组合使用。
 创建语句如果报错，可能与字符类型有关，可以自行修改脚本方案
 
