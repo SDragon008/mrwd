@@ -4,17 +4,17 @@
 
 ## 未整理
 
-1、linux  分区:[linux 分区 parted](../20180717/linux  磁盘分区 parted.md)
+
 
 
 
 ## 系列
 
+1、[linux 分区  文件系统 挂载](../20180718/linux 分区 文件系统 挂载.md)
 
 
-linux 分区 fdisk
 
-linux 分区 parted
+
 
 
 
