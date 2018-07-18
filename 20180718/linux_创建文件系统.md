@@ -4,9 +4,7 @@
 
 ​	文件系统非常重要，在linux中绝大多数的应用都是依赖于文件系统。
 
-​	介绍文件系统有那些？
 
-  	文件系统的创建命令？
 
 ## 文件系统
 
@@ -50,23 +48,36 @@
 
 ​	ext3,ext4默认带日志系统，不需要参数j
 
-​	
+
+
+### mkfs
+
+​	mkfs:是mke2fs的简化版
 
 ​	mkfs也可以用来创建文件系统，相对于mke2fs命令更加简单，但是支持命令较少
 
-​	mkfs.ext4 /dev/sdb1
+```
+mkfs.ext4 /dev/sdb1
 
-​	mkfs.ext3 /dev/sdb1
+mkfs.ext3 /dev/sdb1
 
-​	mkfs.vfat /dev/sdb1
+mkfs.vfat /dev/sdb1
+
+```
+
+### dumpe2fs
+
+​	dump2fs:查看分区的文件系统
+
+```
+dumpe2fs /dev/sdb1
+```
+
+
 
 ​	
 
-​	查看分区的文件系统
-
-​	dumpe2fs /dev/sdb1
-
-​	
+### journal 日志
 
 
 
@@ -94,25 +105,32 @@
 
 
 
-​	E2LABLE
+###	 E2LABLE
+
+
 
 ​	命令e2lable可以用来对文件系统打标签
 
-​        e2lable   /dev/sdb1 
+```
+# 查看
+e2lable   /dev/sdb1 
 
-​	e2lable  /dev/sdb1   GUOHUI
+# 设置
+e2lable  /dev/sdb1   GUOHUI
 
-​	打标签主要用于管理
+```
+
+​	打标签主要用于管理，打得标签最好是大写字母
 
 
 
-​        FSCK
+### FSCK
 
-​	命令fsck用来检查并修复损坏的文件系统
+​        FSCK:命令fsck用来检查并修复损坏的文件系统
 
-​        fsck /devsdb1
-
-​	
+```
+ fsck /dev/sdb1
+```
 
 ​	使用-y参数不提示而直接进行修复
 
@@ -124,9 +142,9 @@
 
 
 
+​	**注意：检查文件系统需要将文件系统卸载(挂载反义词)**
 
 
-​	注意：检查文件系统需要将文件系统卸载
 
 ​	
 
