@@ -28,11 +28,11 @@
 
 ​	如果空间超过2T的磁盘，需要使用gpt分区方式
 
-[gpt分区](../20180717/linux  磁盘分区 parted.md)
+[gpt分区](../20180717/linux_磁盘分区_parted.md)
 
 ​	如果空间在2T以内的磁盘，需要使用mbr分区方式
 
-[mbr分区](../20180717/linux 磁盘分区 fdisk.md)
+[mbr分区](../20180717/linux_磁盘分区_fdisk.md)
 
 ​	
 
