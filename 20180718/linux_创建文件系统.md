@@ -67,13 +67,13 @@ mkfs.vfat /dev/sdb1
 
 ### dumpe2fs
 
-​	dump2fs:查看分区的文件系统
+​	dumpe2fs:查看分区的文件系统
 
 ```
 dumpe2fs /dev/sdb1
 ```
 
-
+​	dumpe2fs：主要针对的是ext2,ext3,ext4,对于xfs无法显示，而且无法对逻辑卷中pv的/dev/sda2,无法显示结果
 
 ​	
 
