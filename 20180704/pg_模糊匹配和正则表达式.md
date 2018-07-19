@@ -198,11 +198,28 @@ tutorial=# select 'osdba' ~ '{b|a}*';
 ----------
  t
 (1 row)
+osdba=# select 'osdb' ~ '.*(b|a).*';
+ ?column? 
+----------
+ t
+(1 row)
+
+osdba=# select 'osdba' ~ '(s|d).*';
+ ?column? 
+----------
+ t
+(1 row)
 
 
 ```
 
 
+
+## substring
+
+
+
+**略过**
 
 
 
