@@ -51,7 +51,7 @@
 ​	查看编译过程
 
 ```
-\#./configure --help
+#./configure --help
 
 with-segsize=SEGSIZE  set table segment size in GB [1]
 ```
@@ -122,5 +122,33 @@ PG_9.3_201306121:postgres版本号
 ## 系统表
 
 ​	
+
+1. pg_class
+
+   
+
+   
+
+   ```
+   select relname,(select nspname from pg_namespace s where s.oid = t.relnamespace) as relnamespace,reltype::regtype ,reloftype::regtype,(select rolname from pg_authid where oid
+    = t.relowner) as relowner, (select amname from pg_am where oid = relam) as relam,relfilenode,(select spcname from pg_tablespace  where oid =t.reltablespace) as reltablespace ,relpages,reltuples,relallvisible ,reltoastrelid::regclass,relhasindex,relisshared,relpersistence,relkind,relnatts,relchecks ,relhasoids,relhaspkey,relhasrules,relhastriggers,relhassubclass,relispopulated,relreplident,relfrozenxid,relminmxid,relacl,reloptions  from pg_class t limit 10;
+   
+   
+   
+   ```
+
+   
+
+   
+
+   ​	
+
+
+
+
+
+
+
+
 
 ​	
