@@ -808,3 +808,5 @@ pg_export_snapshot() :Save the current snapshot and return its identifier
 
 ### 数据库对象管理函数 
 
+
+
