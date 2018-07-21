@@ -664,3 +664,105 @@ tutorial=# select relkind,relname from pg_class where relkind = 'v' and relnames
 
 ## 管理函数
 
+### 配置函数
+
+1. current_settings(setting_name)
+
+   ```
+   tutorial=# show enable_seqscan;
+    enable_seqscan 
+   ----------------
+    on
+   (1 row)
+   
+   tutorial=# select * from current_setting('enable_seqscan');
+    current_setting 
+   -----------------
+    on
+   (1 row)
+   
+   ```
+
+   show和函数current_setting一样。
+
+2. set_config(setting_name,new_value,is_local):设置变量，is_local，true指的是当前事务内，false指的是当前会话内。
+
+   ```
+   tutorial=# show enable_seqscan;
+    enable_seqscan 
+   ----------------
+    on
+   (1 row)
+   
+   tutorial=# begin;
+   BEGIN
+   tutorial=# select set_config('enable_seqscan','off',true);
+    set_config 
+   ------------
+    off
+   (1 row)
+   
+   tutorial=# show enable_seqscan;
+    enable_seqscan 
+   ----------------
+    off
+   (1 row)
+   
+   tutorial=# end;
+   COMMIT
+   tutorial=# show enable_seqscan;
+    enable_seqscan 
+   ----------------
+    on
+   
+   ```
+
+   当事务结束时，在会话中的参数依然保持不变，如果改为false呢？
+
+   ```
+   tutorial=# show enable_seqscan;
+    enable_seqscan 
+   ----------------
+    on
+   (1 row)
+   
+   tutorial=# begin;
+   BEGIN
+   tutorial=# select set_config('enable_seqscan','off',false);
+    set_config 
+   ------------
+    off
+   (1 row)
+   
+   tutorial=# show enable_seqscan;
+    enable_seqscan 
+   ----------------
+    off
+   (1 row)
+   
+   tutorial=# end;
+   COMMIT
+   tutorial=# show enable_seqscan;
+    enable_seqscan 
+   ----------------
+    off
+   (1 row)
+   
+   
+   ```
+
+   参数改为false后，会话内的变量被修改,打开其他会话，会话的具体参数保持不变
+
+   
+
+   
+
+   
+
+   
+
+
+
+
+
+### 服务端信号发送函数
