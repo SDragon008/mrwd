@@ -766,3 +766,10 @@ tutorial=# select relkind,relname from pg_class where relkind = 'v' and relnames
 
 
 ### 服务端信号发送函数
+
+
+
+1. pg_cancel_backend(pid)
+2. pg_terminate_backend(pid)
+3. pg_reload_conf():重读配置参数
+4. 
