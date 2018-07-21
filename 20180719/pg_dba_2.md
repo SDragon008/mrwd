@@ -183,7 +183,7 @@ osdba=# select relkind,relname from pg_class where relkind = 'r' and relnamespac
 
 ```
 
-​
+
 
 1. pg_class
 
@@ -437,4 +437,230 @@ tutorial=# select * from pg_default_acl ;
 18.pg_depend : 数据库对象之间的依赖信息. 
 
 19.pg_description  -- 数据库对象的描述信息 
+
+20. pg_enum  -- 枚举类型信息 
+21. pg_event_trigger  -- 事件触发器信息 
+22. pg_extension  -- 扩展插件信息 
+23. pg_foreign_data_wrapper  -- FDW信息 
+24.  pg_foreign_server  -- 外部服务器信息 
+25. pg_foreign_table  -- 外部表信息. 
+26. pg_index  -- 索引信息
+27. pg_inherits  -- 继承表的继承关系信息 
+28. pg_language  -- 过程语言信息 
+
+```
+tutorial=# select * from pg_language;
+ lanname  | lanowner | lanispl | lanpltrusted | lanplcallfoid | laninline | lanvalidator | lanacl 
+----------+----------+---------+--------------+---------------+-----------+--------------+--------
+ internal |       10 | f       | f            |             0 |         0 |         2246 | 
+ c        |       10 | f       | f            |             0 |         0 |         2247 | 
+ sql      |       10 | f       | t            |             0 |         0 |         2248 | 
+ plpgsql  |       10 | t       | t            |         12724 |     12725 |        12726 | 
+(4 rows)
+
+```
+
+29. pg_largeobject  -- 大对象的切片后的真实数据存储在这个表里 
+
+30. pg_largeobject_metadata  -- 大对象的元信息, 包括大对象的owner, 访问权限. 
+
+31. pg_namespace  -- 数据库中的schema信息(pg中称为namespace) 
+
+32. pg_opclass -- 索引访问方法的操作符分类信息. 
+
+33.  pg_operator  -- 操作符信息 
+
+34. pg_opfamily  -- 操作符家族信息 
+
+35. pg_pltemplate  -- 过程语言的模板信息 
+
+36.  pg_proc  -- 数据库服务端函数信息 
+
+    ```
+    tutorial=# create function f_get_int(id int4) returns int4 as $$
+    declare
+    begin
+    return id+1;
+    end;
+    $$ language plpgsql;
+    CREATE FUNCTION
+    tutorial=# create function f_get_int(id int4,id2 int4) returns int4 as $$
+    declare
+    begin
+    return id+1;
+    end;
+    $$ language plpgsql;
+    CREATE FUNCTION
+    tutorial=# select * from pg_proc where proname ='f_get_int';
+    -[ RECORD 1 ]---+-------------
+    proname         | f_get_int
+    pronamespace    | 2200
+    proowner        | 10
+    prolang         | 12727
+    procost         | 100
+    prorows         | 0
+    provariadic     | 0
+    protransform    | -
+    proisagg        | f
+    proiswindow     | f
+    prosecdef       | f
+    proleakproof    | f
+    proisstrict     | f
+    proretset       | f
+    provolatile     | v
+    pronargs        | 1
+    pronargdefaults | 0
+    prorettype      | 23
+    proargtypes     | 23
+    proallargtypes  | 
+    proargmodes     | 
+    proargnames     | {id}
+    proargdefaults  | 
+    prosrc          | 
+                    | declare
+                    | begin
+                    | return id+1;
+                    | end;
+                    | 
+    probin          | 
+    proconfig       | 
+    proacl          | 
+    -[ RECORD 2 ]---+-------------
+    proname         | f_get_int
+    pronamespace    | 2200
+    proowner        | 10
+    prolang         | 12727
+    procost         | 100
+    prorows         | 0
+    provariadic     | 0
+    protransform    | -
+    proisagg        | f
+    proiswindow     | f
+    prosecdef       | f
+    proleakproof    | f
+    proisstrict     | f
+    proretset       | f
+    provolatile     | v
+    pronargs        | 2
+    pronargdefaults | 0
+    prorettype      | 23
+    proargtypes     | 23 23
+    proallargtypes  | 
+    proargmodes     | 
+    proargnames     | {id,id2}
+    proargdefaults  | 
+    prosrc          | 
+                    | declare
+                    | begin
+                    | return id+1;
+                    | end;
+                    | 
+    probin          | 
+    proconfig       | 
+    proacl          | 
+    
+    
+    ```
+
+    
+
+37. pg_range  -- 范围类型信息 
+
+38.  pg_rewrite  -- 表和视图的重写规则信息
+
+39. pg_seclabel  -- 安全标签信息(SELinux)
+
+40. pg_shdepend  -- 数据库中的对象之间或者集群中的共享对象之间的依赖关系 
+
+41. pg_shdescription  -- 共享对象的描述信息 
+
+42. pg_shseclabel  -- 共享对象的安全标签信息(SELinux) 
+
+43. pg_statistic -- analyze生成的统计信息, 用于查询计划器计算成本.
+
+44. pg_tablespace  -- 表空间相关的信息. 
+
+45. pg_trigger  -- 表上的触发器信息 
+
+46. pg_ts_config  -- 全文检索的配置信息 
+
+47. pg_ts_config_map  -- 全文检索配置映射信息 
+
+48. pg_ts_dict  -- 全文检索字典信息
+
+49. pg_ts_parser  -- 全文检索解析器信息 
+
+50. pg_ts_template  -- 全文检索模板信息 
+
+51. pg_type  -- 数据库中的类型信息 
+
+52. pg_user_mapping  -- foreign server的用户配置信息.
+
+
+
+
+
+## 系统视图
+
+```
+tutorial=# select relkind,relname from pg_class where relkind = 'v' and relnamespace=(select oid from pg_ relkind |             relname             r by 1,2;
+---------+---------------------------------
+ v       | pg_available_extension_versions
+ v       | pg_available_extensions
+ v       | pg_cursors
+ v       | pg_group
+ v       | pg_indexes
+ v       | pg_locks
+ v       | pg_matviews
+ v       | pg_prepared_statements
+ v       | pg_prepared_xacts
+ v       | pg_replication_slots
+ v       | pg_roles
+ v       | pg_rules
+ v       | pg_seclabels
+ v       | pg_settings
+ v       | pg_shadow
+ v       | pg_stat_activity
+ v       | pg_stat_all_indexes
+ v       | pg_stat_all_tables
+ v       | pg_stat_archiver
+ v       | pg_stat_bgwriter
+ v       | pg_stat_database
+ v       | pg_stat_database_conflicts
+ v       | pg_stat_replication
+ v       | pg_stat_sys_indexes
+ v       | pg_stat_sys_tables
+ v       | pg_stat_user_functions
+ v       | pg_stat_user_indexes
+ v       | pg_stat_user_tables
+ v       | pg_stat_xact_all_tables
+ v       | pg_stat_xact_sys_tables
+ v       | pg_stat_xact_user_functions
+ v       | pg_stat_xact_user_tables
+ v       | pg_statio_all_indexes
+ v       | pg_statio_all_sequences
+ v       | pg_statio_all_tables
+ v       | pg_statio_sys_indexes
+ v       | pg_statio_sys_sequences
+ v       | pg_statio_sys_tables
+ v       | pg_statio_user_indexes
+ v       | pg_statio_user_sequences
+ v       | pg_statio_user_tables
+ v       | pg_stats
+ v       | pg_tables
+ v       | pg_timezone_abbrevs
+ v       | pg_timezone_names
+ v       | pg_user
+ v       | pg_user_mappings
+ v       | pg_views
+(48 rows)
+
+
+```
+
+
+
+
+
+## 管理函数
 
