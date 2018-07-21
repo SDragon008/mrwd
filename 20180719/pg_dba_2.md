@@ -121,7 +121,79 @@ PG_9.3_201306121:postgres版本号
 
 ## 系统表
 
+
+
+```
+osdba=# select relkind,relname from pg_class where relkind = 'r' and relnamespace=(select oid from pg_namespace where nspname ='pg_catalog') order by 1,2;
+ relkind |         relname         
+---------+-------------------------
+ r       | pg_aggregate
+ r       | pg_am
+ r       | pg_amop
+ r       | pg_amproc
+ r       | pg_attrdef
+ r       | pg_attribute
+ r       | pg_auth_members
+ r       | pg_authid
+ r       | pg_cast
+ r       | pg_class
+ r       | pg_collation
+ r       | pg_constraint
+ r       | pg_conversion
+ r       | pg_database
+ r       | pg_db_role_setting
+ r       | pg_default_acl
+ r       | pg_depend
+ r       | pg_description
+ r       | pg_enum
+ r       | pg_event_trigger
+ r       | pg_extension
+ r       | pg_foreign_data_wrapper
+ r       | pg_foreign_server
+ r       | pg_foreign_table
+ r       | pg_index
+ r       | pg_inherits
+ r       | pg_language
+ r       | pg_largeobject
+ r       | pg_largeobject_metadata
+ r       | pg_namespace
+ r       | pg_opclass
+ r       | pg_operator
+ r       | pg_opfamily
+ r       | pg_pltemplate
+ r       | pg_proc
+ r       | pg_range
+ r       | pg_rewrite
+ r       | pg_seclabel
+ r       | pg_shdepend
+ r       | pg_shdescription
+ r       | pg_shseclabel
+ r       | pg_statistic
+ r       | pg_tablespace
+ r       | pg_trigger
+ r       | pg_ts_config
+ r       | pg_ts_config_map
+ r       | pg_ts_dict
+ r       | pg_ts_parser
+ r       | pg_ts_template
+ r       | pg_type
+ r       | pg_user_mapping
+(51 rows)
+
+
+```
+
 ​	
+
+
+
+
+
+
+
+
+
+
 
 1. pg_class
 
@@ -131,24 +203,223 @@ PG_9.3_201306121:postgres版本号
 
    ```
    select relname,(select nspname from pg_namespace s where s.oid = t.relnamespace) as relnamespace,reltype::regtype ,reloftype::regtype,(select rolname from pg_authid where oid
-    = t.relowner) as relowner, (select amname from pg_am where oid = relam) as relam,relfilenode,(select spcname from pg_tablespace  where oid =t.reltablespace) as reltablespace ,relpages,reltuples,relallvisible ,reltoastrelid::regclass,relhasindex,relisshared,relpersistence,relkind,relnatts,relchecks ,relhasoids,relhaspkey,relhasrules,relhastriggers,relhassubclass,relispopulated,relreplident,relfrozenxid,relminmxid,relacl,reloptions  from pg_class t limit 10;
+    = t.relowner) as relowner, (select amname from pg_am where oid = relam) as relam,relfilenode,(select spcname from pg_tablespace  where oid =t.reltablespace) as reltablespace ,relpages,reltuples,relallvisible ,reltoastrelid::regclass,relhasindex,relisshared,relpersistence,relkind,relnatts,relchecks ,relhasoids,relhaspkey,relhasrules,relhastriggers,relhassubclass,relispopulated,relreplident,relfrozenxid,relminmxid,relacl,reloptions  from pg_class t ;
    
    
    
    ```
 
-   
+   | Name             | Type        | References          | Description                                                  |
+   | ---------------- | ----------- | ------------------- | ------------------------------------------------------------ |
+   | `oid`            | `oid`       |                     | Row identifier (hidden attribute; must be explicitly selected) |
+   | `relname`        | `name`      |                     | Name of the table, index, view, etc.                         |
+   | `relnamespace`   | `oid`       | `pg_namespace.oid`  | The OID of the namespace that contains this relation         |
+   | `reltype`        | `oid`       | `pg_type.oid`       | The OID of the data type that corresponds to this table's row type, if any (zero for indexes, which have no `pg_type` entry) |
+   | `reloftype`      | `oid`       | `pg_type.oid`       | For typed tables, the OID of the underlying composite type, zero for all other relations |
+   | `relowner`       | `oid`       | `pg_authid.oid`     | Owner of the relation                                        |
+   | `relam`          | `oid`       | `pg_am.oid`         | If this is an index, the access method used (B-tree, hash, etc.) |
+   | `relfilenode`    | `oid`       |                     | Name of the on-disk file of this relation; zero means this is a "mapped" relation whose disk file name is determined by low-level state |
+   | `reltablespace`  | `oid`       | `pg_tablespace.oid` | The tablespace in which this relation is stored. If zero, the database's default tablespace is implied. (Not meaningful if the relation has no on-disk file.) |
+   | `relpages`       | `int4`      |                     | Size of the on-disk representation of this table in pages (of size `BLCKSZ`). This is only an estimate used by the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such as `CREATE INDEX`. |
+   | `reltuples`      | `float4`    |                     | Number of rows in the table. This is only an estimate used by the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such as `CREATE INDEX`. |
+   | `relallvisible`  | `int4`      |                     | Number of pages that are marked all-visible in the table's visibility map. This is only an estimate used by the planner. It is updated by `VACUUM`, `ANALYZE`, and a few DDL commands such as `CREATE INDEX`. |
+   | `reltoastrelid`  | `oid`       | `pg_class.oid`      | OID of the TOAST table associated with this table, 0 if none. The TOAST table stores large attributes "out of line" in a secondary table. |
+   | `reltoastidxid`  | `oid`       | `pg_class.oid`      | For a TOAST table, the OID of its index. 0 if not a TOAST table. |
+   | `relhasindex`    | `bool`      |                     | True if this is a table and it has (or recently had) any indexes |
+   | `relisshared`    | `bool`      |                     | True if this table is shared across all databases in the cluster. Only certain system catalogs (such as `pg_database`) are shared. |
+   | `relpersistence` | `char`      |                     | `p` = permanent table, `u` = unlogged table, `t` = temporary table |
+   | `relkind`        | `char`      |                     | `r` = ordinary table, `i` = index, `S` = sequence, `v` = view, `m` = materialized view, `c` = composite type, `t` = TOAST table, `f` = foreign table |
+   | `relnatts`       | `int2`      |                     | Number of user columns in the relation (system columns not counted). There must be this many corresponding entries in `pg_attribute`. See also `pg_attribute.attnum`. |
+   | `relchecks`      | `int2`      |                     | Number of `CHECK` constraints on the table; see [`pg_constraint`](https://www.postgresql.org/docs/9.3/static/catalog-pg-constraint.html) catalog |
+   | `relhasoids`     | `bool`      |                     | True if we generate an OID for each row of the relation      |
+   | `relhaspkey`     | `bool`      |                     | True if the table has (or once had) a primary key            |
+   | `relhasrules`    | `bool`      |                     | True if table has (or once had) rules; see [`pg_rewrite`](https://www.postgresql.org/docs/9.3/static/catalog-pg-rewrite.html) catalog |
+   | `relhastriggers` | `bool`      |                     | True if table has (or once had) triggers; see [`pg_trigger`](https://www.postgresql.org/docs/9.3/static/catalog-pg-trigger.html) catalog |
+   | `relhassubclass` | `bool`      |                     | True if table has (or once had) any inheritance children     |
+   | `relispopulated` | `bool`      |                     | True if relation is populated (this is true for all relations other than some materialized views) |
+   | `relfrozenxid`   | `xid`       |                     | All transaction IDs before this one have been replaced with a permanent ("frozen") transaction ID in this table. This is used to track whether the table needs to be vacuumed in order to prevent transaction ID wraparound or to allow `pg_clog` to be shrunk. Zero (`InvalidTransactionId`) if the relation is not a table. |
+   | `relminmxid`     | `xid`       |                     | All multixact IDs before this one have been replaced by a transaction ID in this table. This is used to track whether the table needs to be vacuumed in order to prevent multixact ID wraparound or to allow `pg_multixact` to be shrunk. Zero (`InvalidMultiXactId`) if the relation is not a table. |
+   | `relacl`         | `aclitem[]` |                     | Access privileges; see [GRANT](https://www.postgresql.org/docs/9.3/static/sql-grant.html) and [REVOKE](https://www.postgresql.org/docs/9.3/static/sql-revoke.html) for details |
+   | `reloptions`     | `text[]`    |                     | Access-method-specific options, as "keyword=value" strings   |
 
    
 
-   ​	
+   pg_class的字段信息很多不是很清楚，后面学习时需要注意
 
+   
 
+2. pg_aggregate:聚合函数
 
+3. pg_am：索引
 
+   ```
+   osdba=# select amname from pg_am;
+    amname 
+   --------
+    btree
+    hash
+    gist
+    gin
+    spgist
+   (5 rows)
+   
+   ```
 
+4. pg_amop:存储每个索引访问方法操作符家族(pg_opfamily)中的详细操作符信息 
 
+5. pg_amproc:存储每个索引访问方法操作符家族(pg_opfamily)支持的函数信息
 
+6. pg_attrdef:存储数据表列的默认值(例如创建表时指定了列的default值). 
 
+   ```
+   osdba=# create table t_180721_1(id int4,note text default 'guohui');
+   CREATE TABLE
+   osdba=# select adrelid::regclass,adnum,adsrc from pg_attrdef where adrelid = 't_180721_1'::regclass and adnum = 2;
+     adrelid   | adnum |     adsrc      
+   ------------+-------+----------------
+    t_180721_1 |     2 | 'guohui'::text
+   
+   ```
+
+7. pg_attribute:存储数据表列的详细信息. 包括隐含的列(ctid, cmin, cmax, xmin, xmax) 
+
+   ```
+   osdba=# create table t_180721_1(id int4,note text default 'guohui');
+   CREATE TABLE
+   osdba=# select * from pg_attribute  where attrelid ='t_180721_1'::regclass ;
+    attrelid | attname  | atttypid | attstattarget | attlen | attnum | attndims | attcacheoff | atttypmod | attbyval | attstorage | attalign | attnotnull | atthasdef | attisdropped | attislocal | attinhcount | at
+   tcollation | attacl | attoptions | attfdwoptions 
+   ----------+----------+----------+---------------+--------+--------+----------+-------------+-----------+----------+------------+----------+------------+-----------+--------------+------------+-------------+---
+   -----------+--------+------------+---------------
+       73313 | tableoid |       26 |             0 |      4 |     -7 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73313 | cmax     |       29 |             0 |      4 |     -6 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73313 | xmax     |       28 |             0 |      4 |     -5 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73313 | cmin     |       29 |             0 |      4 |     -4 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73313 | xmin     |       28 |             0 |      4 |     -3 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73313 | ctid     |       27 |             0 |      6 |     -1 |        0 |          -1 |        -1 | f        | p          | s        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73313 | id       |       23 |            -1 |      4 |      1 |        0 |          -1 |        -1 | t        | p          | i        | f          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73313 | note     |       25 |            -1 |     -1 |      2 |        0 |          -1 |        -1 | f        | x          | i        | f          | t         | f            | t          |           0 |   
+          100 |        |            | 
+   (8 rows)
+   
+   ```
+
+   发现没有attnum = -2的列名，如果创建表时添加with oids就会出现
+
+   ```
+   osdba=# drop table t_180721_1 ;
+   DROP TABLE
+   osdba=# create table t_180721_1(id int4,note text default 'guohui') with oids;
+   CREATE TABLE
+   osdba=# select * from pg_attribute  where attrelid ='t_180721_1'::regclass ;
+    attrelid | attname  | atttypid | attstattarget | attlen | attnum | attndims | attcacheoff | atttypmod | attbyval | attstorage | attalign | attnotnull | atthasdef | attisdropped | attislocal | attinhcount | at
+   tcollation | attacl | attoptions | attfdwoptions 
+   ----------+----------+----------+---------------+--------+--------+----------+-------------+-----------+----------+------------+----------+------------+-----------+--------------+------------+-------------+---
+   -----------+--------+------------+---------------
+       73320 | tableoid |       26 |             0 |      4 |     -7 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73320 | cmax     |       29 |             0 |      4 |     -6 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73320 | xmax     |       28 |             0 |      4 |     -5 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73320 | cmin     |       29 |             0 |      4 |     -4 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73320 | xmin     |       28 |             0 |      4 |     -3 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73320 | oid      |       26 |             0 |      4 |     -2 |        0 |          -1 |        -1 | t        | p          | i        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73320 | ctid     |       27 |             0 |      6 |     -1 |        0 |          -1 |        -1 | f        | p          | s        | t          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73320 | id       |       23 |            -1 |      4 |      1 |        0 |          -1 |        -1 | t        | p          | i        | f          | f         | f            | t          |           0 |   
+            0 |        |            | 
+       73320 | note     |       25 |            -1 |     -1 |      2 |        0 |          -1 |        -1 | f        | x          | i        | f          | t         | f            | t          |           0 |   
+          100 |        |            | 
+   (9 rows)
+   
+   ```
+
+8. pg_auth_members: 数据库用户的成员关系信息,不太清楚到底是什么意思
+
+   ```
+   osdba=# \du
+                                List of roles
+    Role name |                   Attributes                   | Member of 
+   -----------+------------------------------------------------+-----------
+    learn1    |                                                | {}
+    learn2    |                                                | {}
+    osdba     | Superuser, Create role, Create DB, Replication | {}
+   osdba=# grant learn1 to osdba;
+   GRANT ROLE
+   osdba=# select * from pg_auth_members ;
+    roleid | member | grantor | admin_option 
+   --------+--------+---------+--------------
+     73210 |     10 |      10 | f
+   (1 row)
+   
+   osdba=# \du
+                                List of roles
+    Role name |                   Attributes                   | Member of 
+   -----------+------------------------------------------------+-----------
+    learn1    |                                                | {}
+    learn2    |                                                | {}
+    osdba     | Superuser, Create role, Create DB, Replication | {learn1}
+   
+   osdba=# 
+   
+   ```
+
+9. pg_authid:存储数据库用户的详细信息(包括是否超级用户, 是否允许登陆, 密码(加密与否和创建用户时是否指定 encrypted有关), 密码失效时间等) 
+
+   ```
+   osdba=# select * from pg_authid;
+    rolname | rolsuper | rolinherit | rolcreaterole | rolcreatedb | rolcatupdate | rolcanlogin | rolreplication | rolconnlimit |             rolpassword             | rolvaliduntil 
+   ---------+----------+------------+---------------+-------------+--------------+-------------+----------------+--------------+-------------------------------------+---------------
+    osdba   | t        | t          | t             | t           | t            | t           | t              |           -1 | md53b95a76d6aa5d605770a53120673337b | 
+    learn1  | f        | t          | f             | f           | f            | t           | f              |           -1 | md500cbcccb14805c88c81c8eab3ac09663 | 
+    learn2  | f        | t          | f             | f           | f            | t           | f              |           -1 | md5ff65316c35b635d4aeeabcff8cac62dc | 
+   (3 rows)
+   
+   osdba=# 
+   
+   ```
+
+10.  pg_cast  -- 数据库的显性类型转换路径信息, 包括内建的和自定义的. (不支持具体意思)
+
+11.  pg_class  -- 几乎包括了数据库的所有对象信息(r = ordinary table, i = index, S = sequence, v = view, m = materialized view, c = composite type, t = TOAST table, f = foreign table) 
+
+12. pg_collation  -- 集信息, 包括encoding, collate, ctype等（不太清楚具体意思)
+
+13. pg_constraint  -- 存储列上定义的约束信息(例如PK, FK, UK, 排他约束, check约束, 但是不包括非空约束) 
+
+14. pg_conversion  -- 字符集之间的转换的相关信息 (不太清楚具体意思)
+
+15. pg_database:集群中数据库信息
+
+16. pg_db_role_setting:基于角色和数据库组合的定制参数。alter role set
+
+```
+osdba=# select * from pg_db_role_setting ;
+ setdatabase | setrole | setconfig 
+-------------+---------+-----------
+(0 rows)
+osdba=# alter role learn1 set enable_seqscan = off;
+ALTER ROLE
+osdba=# select * from pg_db_role_setting ;
+ setdatabase | setrole |      setconfig       
+-------------+---------+----------------------
+           0 |   73210 | {enable_seqscan=off}
+(1 row)
+
+osdba=# 
+```
+
+17.pg_default_acl:存储新建对象的初始权限信息 （不太清楚具体意思）
 
 ​	
