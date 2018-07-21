@@ -558,11 +558,13 @@ tutorial=# select * from pg_language;
     probin          | 
     proconfig       | 
     proacl          | 
-    
-    
+
+
+​    
     ```
 
-    
+
+​    
 
 37. pg_range  -- 范围类型信息 
 
@@ -802,11 +804,212 @@ tutorial=# select relkind,relname from pg_class where relkind = 'v' and relnames
 
 
 
-pg_export_snapshot() :Save the current snapshot and return its identifier
+pg_export_snapshot() :Save the current snapshot and return its identifier(不是很懂)
 
 
 
 ### 数据库对象管理函数 
+
+
+
+```
+osdba=# \df *pg_*_size*;
+                                   List of functions
+   Schema   |          Name          | Result data type | Argument data types |  Type  
+------------+------------------------+------------------+---------------------+--------
+ pg_catalog | pg_column_size         | integer          | "any"               | normal
+ pg_catalog | pg_database_size       | bigint           | name                | normal
+ pg_catalog | pg_database_size       | bigint           | oid                 | normal
+ pg_catalog | pg_indexes_size        | bigint           | regclass            | normal
+ pg_catalog | pg_relation_size       | bigint           | regclass            | normal
+ pg_catalog | pg_relation_size       | bigint           | regclass, text      | normal
+ pg_catalog | pg_table_size          | bigint           | regclass            | normal
+ pg_catalog | pg_tablespace_size     | bigint           | name                | normal
+ pg_catalog | pg_tablespace_size     | bigint           | oid                 | normal
+ pg_catalog | pg_total_relation_size | bigint           | regclass            | normal
+(10 rows)
+
+
+
+
+osdba=# select fsm_page_contents(get_raw_page('test_1','fsm',0));
+ fsm_page_contents 
+-------------------
+ 0: 21            +
+ 1: 21            +
+ 3: 21            +
+ 7: 21            +
+ 15: 21           +
+ 31: 21           +
+ 63: 21           +
+ 127: 21          +
+ 255: 21          +
+ 511: 21          +
+ 1023: 21         +
+ 2047: 21         +
+ 4095: 21         +
+ fp_next_slot: 0  +
+ 
+(1 row)
+
+osdba=# select fsm_page_contents(get_raw_page('test_1','vm',0));
+ fsm_page_contents 
+-------------------
+ 0: 255           +
+ 1: 255           +
+ 2: 255           +
+ 3: 255           +
+ 4: 255           +
+ 5: 255           +
+ 6: 255           +
+ 7: 255           +
+ 8: 255           +
+ 9: 255           +
+ 10: 255          +
+ 11: 255          +
+ 12: 255          +
+ 13: 255          +
+ 14: 255          +
+ 15: 255          +
+ 16: 255          +
+ 17: 255          +
+ 18: 255          +
+ 19: 255          +
+ 20: 255          +
+ 21: 255          +
+ 22: 255          +
+ 23: 255          +
+ 24: 255          +
+ 25: 255          +
+ 26: 255          +
+ 27: 255          +
+ 28: 255          +
+ 29: 255          +
+ 30: 255          +
+ 31: 255          +
+ 32: 255          +
+ 33: 255          +
+ 34: 255          +
+ 35: 255          +
+ 36: 255          +
+ 37: 255          +
+ 38: 255          +
+
+```
+
+
+
+
+
+### 数据库对象存储位置管理函数
+
+pg_relation_filenode(relation regclass) oid Filenode number of the specified relation 
+
+pg_relation_filepath(relation regclass) text File path name of the specified relation
+
+```
+osdba=# select pg_relation_filenode('test_1'::regclass);
+ pg_relation_filenode 
+----------------------
+                73341
+(1 row)
+
+osdba=# select pg_relation_filepath('test_1');
+ pg_relation_filepath 
+----------------------
+ base/16384/73341
+```
+
+
+
+### 文件访问函数
+
+
+
+1. pg_ls_dir(dirname text):只能使用相对路径
+
+```
+osdba=# select pg_ls_dir('.');
+      pg_ls_dir       
+----------------------
+ global
+ postgresql.auto.conf
+ base
+ pg_log
+ pg_hba.conf
+ pg_tblspc
+ pg_logical
+ pg_dynshmem
+ pg_serial
+ pg_snapshots
+ postmaster.opts
+ pg_clog
+ pg_stat
+ pg_twophase
+ pg_subtrans
+ pg_multixact
+ PG_VERSION
+ postmaster.pid
+ a.sql
+ pg_replslot
+ pg_xlog
+ pg_ident.conf
+ pg_notify
+ pg_stat_tmp
+ postgresql.conf
+(25 rows)
+
+```
+
+​	2.pg_read_file(filename text)
+
+```
+osdba=# select * from pg_read_file('pg_hba.conf');
+                              pg_read_file                              
+------------------------------------------------------------------------
+ # PostgreSQL Client Authentication Configuration File                 +
+ # ===================================================                 +
+ #                                                                     +
+ # Refer to the "Client Authentication" section in the PostgreSQL      +
+ # documentation for a complete description of this file.  A short     +
+ # synopsis follows.                                                   +
+ #                                                                     +
+ # This file controls: which hosts are allowed to connect, how clients +
+ # are authenticated, which PostgreSQL user names they can use, which  +
+ # databases they can access.  Records take one of these forms:        +
+ #                                                                     +
+ # local      DATABASE  USER  METHOD  [OPTIONS]                        +
+ # host       DATABASE  USER  ADDRESS  METHOD  [OPTIONS]               +
+ # hostssl    DATABASE  USER  ADDRESS  METHOD  [OPTIONS]               +
+ # hostnossl  DATABASE  USER  ADDRESS  METHOD  [OPTIONS]               +
+ #                                                                     +
+
+```
+
+​	3.pg_read_binary_file(filename text)
+
+```
+osdba=# select * from pg_read_binary_file('pg_hba.conf');
+
+```
+
+​	4.pg_stat_file(filename text)
+
+```
+osdba=# select pg_stat_file('pg_hba.conf');
+                                     pg_stat_file                                     
+--------------------------------------------------------------------------------------
+ (4599,"2018-07-21 08:04:50+08","2018-05-08 06:34:11+08","2018-05-08 06:34:11+08",,f)
+(1 row)
+
+
+```
+
+### 应用锁
+
+
+
+略过
 
 
 
