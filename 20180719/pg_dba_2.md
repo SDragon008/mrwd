@@ -772,4 +772,39 @@ tutorial=# select relkind,relname from pg_class where relkind = 'v' and relnames
 1. pg_cancel_backend(pid)
 2. pg_terminate_backend(pid)
 3. pg_reload_conf():重读配置参数
-4. 
+4. pg_rotate_logfile():重新生成一个文件
+
+
+
+### 备份控制函数
+
+
+
+![_](../img_src/0-20180721-1-postgres.png)
+
+
+
+后续在流复制环节会重点讲述
+
+
+
+### 恢复控制函数
+
+![_](../img_src/0-20180721-2-postgres.png)
+
+![_](../img_src/0-20180721-3-postgres.png)
+
+后续在流复制环节会重点讲述
+
+
+
+### 事务镜像导出函数
+
+
+
+pg_export_snapshot() :Save the current snapshot and return its identifier
+
+
+
+### 数据库对象管理函数 
+
