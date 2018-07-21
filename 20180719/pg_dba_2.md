@@ -183,17 +183,7 @@ osdba=# select relkind,relname from pg_class where relkind = 'r' and relnamespac
 
 ```
 
-​	
-
-
-
-
-
-
-
-
-
-
+​
 
 1. pg_class
 
@@ -420,6 +410,31 @@ osdba=# select * from pg_db_role_setting ;
 osdba=# 
 ```
 
-17.pg_default_acl:存储新建对象的初始权限信息 （不太清楚具体意思）
+17. pg_default_acl:存储新建对象的初始权限信息 （不太清楚具体意思）
 
-​	
+```
+tutorial=# \dp+ sa.gh_1;
+                            Access privileges
+ Schema | Name | Type  |   Access privileges   | Column access privileges 
+--------+------+-------+-----------------------+--------------------------
+ sa     | gh_1 | table | learn1=arwdDxt/learn1+| 
+        |      |       | learn2=r/learn1       | 
+(1 row)
+
+tutorial=# select * from pg_default_acl ;
+ defaclrole | defaclnamespace | defaclobjtype |     defaclacl     
+------------+-----------------+---------------+-------------------
+      73210 |           73212 | r             | {learn2=r/learn1}
+(1 row)
+
+
+```
+
+[链接资料](../20180118/pg_一次性授权.md)
+
+
+
+18.pg_depend : 数据库对象之间的依赖信息. 
+
+19.pg_description  -- 数据库对象的描述信息 
+
