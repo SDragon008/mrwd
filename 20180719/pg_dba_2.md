@@ -1013,3 +1013,9 @@ osdba=# select pg_stat_file('pg_hba.conf');
 
 
 
+## 数据库的可靠性
+
+
+
+略过
+
