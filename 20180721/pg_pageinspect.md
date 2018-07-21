@@ -66,8 +66,6 @@ ersion smallint, OUT prune_xid xid
 
 
 
-​	
-
 ​	2、首先编译数据库时尽量使用源码安装并且安装地址保持不变
 
 ```
@@ -75,8 +73,6 @@ cd pageinspcet
 make
 make install
 ```
-
-
 
 ​	3、创建extension
 
