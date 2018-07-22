@@ -574,9 +574,17 @@ osdba=# select * from heap_page_items(get_raw_page('test_1',0));
 
 ```
 
-​	发现lp_off，lp_flags,lp_len都变为了0，其他剩余字段除了lp外，都置为"NULL"，而且紧随其后的lp_off都网上迁移了，说明数据确实被删除了，空间得到了释放。
+​	
+
+发现lp_off，lp_flags,lp_len都变为了0，其他剩余字段除了lp外，都置为"NULL"，而且紧随其后的lp_off都往上迁移了，说明数据确实被删除了，空间得到了释放。
+
+
 
 ​	那么vacuum full table又是怎样，对于lp_off,lp_flags,lp_len,t_xmin,t_xmax,t_ctid，又有什么变化
+
+
+
+
 
 ```
 osdba=# vacuum full test_1;
