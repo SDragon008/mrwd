@@ -12,9 +12,9 @@
 
 
 
-[pg pageinspect](../20180721/pg_pageinspect.md)
+[pg pageinspect_2](../20180722/pg_pageinspect_2.md)
 
-
+[pg 培训 3](../20180723/pg_dba_3.md)
 
 
 
@@ -33,6 +33,8 @@
 - [pg_pid_子进程关系](../20180720/PG_TERMINATE_BACKEND_子进程关系.md)
 
 - [pg pageinspect](../20180721/pg_pageinspect.md)
+
+- [pg pageinspect_2](../20180722/pg_pageinspect_2.md)
 
   
 
@@ -57,6 +59,8 @@
 #### 体系结构系统表
 
 [pg 培训 2](../20180719/pg_dba_2.md)
+
+[pg 培训 3](../20180723/pg_dba_3.md)
 
  
 
