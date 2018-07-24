@@ -8,13 +8,21 @@
 
 ## 未解决
 
-#### 
 
 
+### 20180724
+
+#### man psql:No manual entry for psql
+
+请参考文档：[man_pages](20180724/man_psql_no_manual_entry_for_psql.md)
 
 
 
 ## 已解决
+
+
+
+
 
 ### 20180720
 
