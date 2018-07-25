@@ -36,7 +36,7 @@
 
 #### 使用r工具将cosx,sinx,tgx,ctgx,arcsinx,arccosx,arctgx,arcctgx画下来。
 
-[答案](20180707/R语言_sin(x)图像.md)：请参考文档
+请参考文档:[R语言画图](20180707/R语言_sin(x)图像.md)
 
 
 
