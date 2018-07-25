@@ -789,3 +789,60 @@ tutorial=# select * from pg_ts_dict;
 
 ```
 
+
+
+​	查看pg_type下是否存在两种类型
+
+```
+tutorial=# select oid,typname from pg_type where typname in ('tsvector','tsquery');
+ oid  | typname  
+------+----------
+ 3614 | tsvector
+ 3615 | tsquery
+(2 rows)
+
+```
+
+​	插入数据
+
+```
+tutorial=# create table test1(id int,info_v tsvector,info_q tsquery);
+CREATE TABLE
+tutorial=# insert into test1 values(1,$$df dfd ; dfd ada dfda good fdd$$,'fat & cat'::tsquery);
+INSERT 0 1
+tutorial=# select * from test1;
+ id |                  info_v                  |    info_q     
+----+------------------------------------------+---------------
+  1 | ';' 'ada' 'df' 'dfd' 'dfda' 'fdd' 'good' | 'fat' & 'cat'
+(1 row)
+
+```
+
+
+
+​	具体情况好意思不太了解，后续会跟进这个问题。
+
+
+
+
+
+### UUID
+
+
+
+​	略过
+
+
+
+### XML
+
+
+
+​	略过
+
+
+
+### array
+
+
+
