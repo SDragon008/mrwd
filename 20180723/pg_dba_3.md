@@ -753,3 +753,39 @@ tutorial=# select id,generate_series(0,end_ip-start_ip)+start_ip from test_1 whe
 
 ### 全文检索
 
+​	
+
+#### tsvector
+
+​	去除重复分词后按分词顺序存储
+
+​	可以存储位置信息和权重信息
+
+#### tsquery
+
+​	存储查询的分词，可存储权重信息
+
+```
+tutorial=# select * from pg_ts_dict;
+    dictname     | dictnamespace | dictowner | dicttemplate |                  dictinitoption                   
+-----------------+---------------+-----------+--------------+---------------------------------------------------
+ simple          |            11 |        10 |         3727 | 
+ danish_stem     |            11 |        10 |        12422 | language = 'danish', stopwords = 'danish'
+ dutch_stem      |            11 |        10 |        12422 | language = 'dutch', stopwords = 'dutch'
+ english_stem    |            11 |        10 |        12422 | language = 'english', stopwords = 'english'
+ finnish_stem    |            11 |        10 |        12422 | language = 'finnish', stopwords = 'finnish'
+ french_stem     |            11 |        10 |        12422 | language = 'french', stopwords = 'french'
+ german_stem     |            11 |        10 |        12422 | language = 'german', stopwords = 'german'
+ hungarian_stem  |            11 |        10 |        12422 | language = 'hungarian', stopwords = 'hungarian'
+ italian_stem    |            11 |        10 |        12422 | language = 'italian', stopwords = 'italian'
+ norwegian_stem  |            11 |        10 |        12422 | language = 'norwegian', stopwords = 'norwegian'
+ portuguese_stem |            11 |        10 |        12422 | language = 'portuguese', stopwords = 'portuguese'
+ romanian_stem   |            11 |        10 |        12422 | language = 'romanian'
+ russian_stem    |            11 |        10 |        12422 | language = 'russian', stopwords = 'russian'
+ spanish_stem    |            11 |        10 |        12422 | language = 'spanish', stopwords = 'spanish'
+ swedish_stem    |            11 |        10 |        12422 | language = 'swedish', stopwords = 'swedish'
+ turkish_stem    |            11 |        10 |        12422 | language = 'turkish', stopwords = 'turkish'
+(16 rows)
+
+```
+
