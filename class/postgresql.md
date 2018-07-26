@@ -12,11 +12,12 @@
 
 
 
-[pg pageinspect_2](../20180722/pg_pageinspect_2.md)
-
-[pg 培训 3](../20180723/pg_dba_3.md)
+- [pg pageinspect_2](../20180722/pg_pageinspect_2.md)
 
 
+- [pg 培训 3](../20180723/pg_dba_3.md)
+- [pg 误删 clog 如何启动](../20180726/pg_瞎搞_删除clog日志.md)
+- 
 
 
 
