@@ -9,7 +9,8 @@
 - [重定向](../20170601/linux_重定向.md)
 - [网络设置](../20170601/linux_network.md)
 - [rpm](../20170601/linux_rpm.md)
-- [startup](../20170601/linux_startup.md)
+
+  
 - [svn_install](../20170601/linux_svn_install.md)
 
   
@@ -31,7 +32,8 @@
 - [重定向](../20170601/linux_重定向.md)
 - [网络设置](../20170601/linux_network.md)
 - [rpm](../20170601/linux_rpm.md)
-- [startup](../20170601/linux_startup.md)
+
+  
 - [svn_install](../20170601/linux_svn_install.md)
 
   
