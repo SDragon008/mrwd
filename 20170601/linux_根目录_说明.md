@@ -12,7 +12,7 @@ sbin:可执行的二进制文件，只有超级用户root才能执行
 
 boot:引导目录（包含内核文件）
 
-dev:device的缩写，每个设备都被抽象成一个文件，含硬盘声卡网卡
+dev:device的缩写，每个设备都被抽象成一个文件，含硬盘声卡网卡镜像
 
 etc:配置文件(很多文件以conf结尾)
 
@@ -22,7 +22,7 @@ root:root用户的家目录
 
 lib:库文件都保存在lib下
 
-lost_found:每一个硬盘都会有一个lost_found
+lost_found:每一个硬盘格式化都会有一个lost_found
 
 media:
 
