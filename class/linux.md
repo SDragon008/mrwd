@@ -50,6 +50,10 @@
 
 [linux 安装部署](../20170601/LINUX_INSTALL.md)
 
+[rpm  source  yum](../20180727/rpm_source_yum_diff.md)
+
+
+
 
 
 

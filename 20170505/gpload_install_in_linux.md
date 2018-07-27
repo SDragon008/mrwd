@@ -22,6 +22,16 @@ yum -y xterm*
 
 cat /etc/redhat-release or cat /etc/issue
 
+```
+[root@etl ~]# cat /etc/redhat-release 
+CentOS release 6.5 (Final)
+[root@etl ~]# cat /etc/issue
+CentOS release 6.5 (Final)
+Kernel \r on an \m
+```
+
+
+
 查看python版本
 
 python
