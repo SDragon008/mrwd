@@ -353,7 +353,7 @@ exterval:表示数据不压缩，行外存储
 
 extended:表示数据压缩，行外存储
 
-这些存储方式和pg_toast有关系，后面章节介绍。
+这些存储方式和pg_toast有关系，后面章节介绍[pg_toast](../20180725/pg_toast.md)。
 
 
 
