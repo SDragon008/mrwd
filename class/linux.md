@@ -16,7 +16,10 @@
 - [用户 组](../20170601/linux_user_group.md)
 - [linux 常用命令](../20170502/linux_常用命令.md)
 - [linux yum 命令](../20170502/linux_yum_config.md)
-- 
+- [源代码rpm](../20170601/LINUX_源代码_RPM_区别联系.md)
+- [virtualbox虚拟机复制linux](../20170601/linux_virtualbox_copy.md)
+- [yum 配置](../20170601/linux_yum_配置.md)
+- [vnc 安装](../20170601/linux_vnc_install.md)
 
 
 
@@ -34,10 +37,21 @@
 - [用户 组](../20170601/linux_user_group.md)
 - [linux 常用命令](../20170502/linux_常用命令.md)
 - [linux yum 命令](../20170502/linux_yum_config.md)
+- [源代码rpm](../20170601/LINUX_源代码_RPM_区别联系.md)
+- 
+- [yum 配置](../20170601/linux_yum_配置.md)
+- [vnc 安装](../20170601/linux_vnc_install.md)
+- 
+- 
+- 
 
 ## 系列
 
 [linux 分区  文件系统 挂载](../20180718/linux_分区_文件系统_挂载.md)
+
+[linux 安装部署](../20170601/LINUX_INSTALL.md)
+
+
 
 
 
