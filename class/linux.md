@@ -38,7 +38,6 @@
 - [linux 常用命令](../20170502/linux_常用命令.md)
 - [linux yum 命令](../20170502/linux_yum_config.md)
 - [源代码rpm](../20170601/LINUX_源代码_RPM_区别联系.md)
-- 
 - [yum 配置](../20170601/linux_yum_配置.md)
 - [vnc 安装](../20170601/linux_vnc_install.md)
 - 
