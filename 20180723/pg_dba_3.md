@@ -852,13 +852,105 @@ tutorial=# select * from test1;
 
 ​	
 
-创建
+#### 创建
+
+create type typname as (command)
+
+```
+tutorial=# create type rysx as (name text,age int4,price numeric);
+CREATE TYPE
+tutorial=# create table person(person_rysx rysx,salary int);
+CREATE TABLE
+
+```
+
+#### 插入 
+
+insert into table values(row(),...)
+
+```
+tutorial=# insert into person VALUES(row('guohui',12,132.3),111);
+INSERT 0 1
+tutorial=# select * from person;
+    person_rysx    | salary 
+-------------------+--------
+ (guohui,12,132.3) |    111
+(1 row)
+
+```
+
+insert into table(type.a,type.b) values(a,b,...)复合类型中没有传入值就默认存入NULL
+
+```
+tutorial=# insert into person(person_rysx.name,person_rysx.age,salary) values('guokai',122,111);
+INSERT 0 1
+tutorial=# select * from person;
+    person_rysx    | salary 
+-------------------+--------
+ (guohui,12,132.3) |    111
+ (guokai,122,)     |    111
+(2 rows)
+
+```
+
+#### 查询
+
+select * from table where (column).typea=value;
+
+```
+tutorial=# select * from person where (person_rysx).name = 'guokai';
+  person_rysx  | salary 
+---------------+--------
+ (guokai,122,) |    111
+(1 row)
+
+tutorial=# select * from person where (person.person_rysx).name = 'guohui';
+    person_rysx    | salary 
+-------------------+--------
+ (guohui,12,132.3) |    111
+(1 row)
+
+```
+
+#### 更新
+
+update table set column=row()
+
+```
+tutorial=# update person set person_rysx=row('guose',12,12) where (person_rysx).name = 'guohui';
+UPDATE 1
+tutorial=# select * from person;
+  person_rysx  | salary 
+---------------+--------
+ (guokai,122,) |    111
+ (guose,12,12) |    111
+(2 rows)
+
+```
+
+update table set column.typea = value 
+
+```
+tutorial=# update person set person_rysx.name = 'gousheng' where (person_rysx).name = 'guokai';
+UPDATE 1
+tutorial=# select * from person;
+   person_rysx   | salary 
+-----------------+--------
+ (guose,12,12)   |    111
+ (gousheng,122,) |    111
+(2 rows)
+
+```
 
 
 
-插入 查询 更新 删除
+#### 删除
 
-​	
+delete from table where (column).typea= '';
+
+
+
+
 
 ### 其他数据类型
 
@@ -869,4 +961,28 @@ tutorial=# select * from test1;
 
 
 ## DML
+
+​	
+
+​	略过
+
+
+
+
+
+## 事务操作
+
+
+
+ ```
+begin
+
+rollback
+
+commit
+
+savepoint
+
+
+ ```
 

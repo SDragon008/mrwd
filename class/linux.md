@@ -10,10 +10,8 @@
 - [网络设置](../20170601/linux_network.md)
 - [rpm](../20170601/linux_rpm.md)
 
-  
 - [svn_install](../20170601/linux_svn_install.md)
 
-  
 - [文件权限](../20170601/linux_authorization.md)
 - [用户 组](../20170601/linux_user_group.md)
 - [linux 常用命令](../20170502/linux_常用命令.md)
@@ -33,10 +31,8 @@
 - [网络设置](../20170601/linux_network.md)
 - [rpm](../20170601/linux_rpm.md)
 
-  
 - [svn_install](../20170601/linux_svn_install.md)
 
-  
 - [文件权限](../20170601/linux_authorization.md)
 - [用户 组](../20170601/linux_user_group.md)
 - [linux 常用命令](../20170502/linux_常用命令.md)

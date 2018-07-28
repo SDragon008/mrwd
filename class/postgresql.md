@@ -16,7 +16,12 @@
 
 
 - [pg 培训 3](../20180723/pg_dba_3.md)
+
 - [pg 误删 clog 如何启动](../20180726/pg_瞎搞_删除clog日志.md)
+
+- [pg btree 索引结构](../20180728/pg_btree_结构.md)
+
+- 
 
   
 
@@ -25,21 +30,15 @@
 ## 未整理
 
 - [pg_列式存储](../20180628/pg_列式存储.md)
-
 - [pg_dblink_fdw_比较](../20180701/pg_dblink_fdw_比较.md)
-
 - [pg_一次性授权](../20180118/pg_一次性授权.md)
-
 - [pg_truncate_原理分析](../20180204/pg_truncate_原理分析.md)
-
 - [pg_pid_子进程关系](../20180720/PG_TERMINATE_BACKEND_子进程关系.md)
-
 - [pg pageinspect](../20180721/pg_pageinspect.md)
-
 - [pg pageinspect_2](../20180722/pg_pageinspect_2.md)
-
 - [pg_toast](../20180725/pg_toast.md)
-
+- [pg btree 索引结构](../20180728/pg_btree_结构.md)
+- 
   
 
   
