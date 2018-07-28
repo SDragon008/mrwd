@@ -238,6 +238,3 @@ N 5
 
 
 
-
-
-https://github.com/gh95533/mrwd/blob/master/img_src/B207068AA143475D972A9BBD3CDCF8CE/clipboard.png

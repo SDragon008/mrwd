@@ -14,7 +14,8 @@
 
 下一步：
 
-![img](../img_src/b207068aa143475d972a9bbd3cdcf8ce/clipboard.png)
+
+![img](../img_src/B207068AA143475D972A9BBD3CDCF8CE/clipboard.png)
 
 下一步
 
