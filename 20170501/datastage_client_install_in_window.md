@@ -22,7 +22,7 @@
 
 下一步
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/f78ab0921d7f4836ad6ae30c927635c9/clipboard.png)
+![img](../img_src/f78ab0921d7f4836ad6ae30c927635c9/clipboard.png)
 
 下一步
 
