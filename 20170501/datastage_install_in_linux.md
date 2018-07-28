@@ -4,6 +4,8 @@
 
 ## 环境准备
 
+​	
+
 ​	在生产环境下，普遍采用的是centos系列，目前常用的是centos6.5_x64,不过现在centos7.3以及开始在普及中。该文档现在以centos6.5为例来安装部署datastage,后续会在centos7.3上测试是否安装成功。
 
 
@@ -26,13 +28,17 @@ oracle安装
 
 
 
-1、切换到oracle环境并在oracle数据库上创建dswas
+### 切换到oracle环境并在oracle数据库上创建dswas
+
+
 
 sqlplus / as sysdba
 
 create user dswas identified by 123456;
 
 grant dba to dswas;
+
+
 
 ```
 [oracle@ds91 ~]$ sqlplus / as sysdba
@@ -59,7 +65,9 @@ SQL>
 
 
 
-2、切换到root用户并且上传安装包 
+### 切换到root用户并且上传安装包 
+
+
 
 cd /opt/tool
 
@@ -70,6 +78,8 @@ chmod 777 /opt/tool/is-suite/DatabaseSupport/UNIX_Linux/MetadataRepository/Oracl
 cd /opt/tool/is-suite/DatabaseSupport/UNIX_Linux/MetadataRepository/Oracle11g
 
 chmod 775 create_xmeta_db.sh
+
+
 
 ```
 [root@ds91 tool]# chmod 777 /opt/tool/is-suite/DatabaseSupport/UNIX_Linux/MetadataRepository/Oracle11g
@@ -87,13 +97,17 @@ total 24
 
 
 
-3、切换到oracle用户并执行脚本
+### 切换到oracle用户并执行脚本
+
+
 
 su - oracle
 
 cd /opt/tool/is-suite/DatabaseSupport/UNIX_Linux/MetadataRepository/Oracle11g
 
 ./create_xmeta_db.sh system dragon orcl ds91meta 123456 xmetats /u01/app/oracle/product/11.2.0/db_1
+
+
 
 ```
 [oracle@ds91 Oracle11g]$ ./create_xmeta_db.sh system dragon orcl ds91meta 123456 xmetats /u01/app/oracle/product/11.2.0/db_1
@@ -121,17 +135,25 @@ User created successfully
 
 
 
-4、登录到sys用户并给ds91meta授权
+### 登录到sys用户并给ds91meta授权
+
+
 
 grant dba to ds91meta
 
-5、解压zip文件并将授权文件并在指定路径
+
+
+### 解压zip文件并将授权文件并在指定路径
+
+
 
 unzip Bundle.suite.workgroup.zip 
 
 mv license/ is-suite/
 
 mv image.properties is-suite/
+
+
 
 ```
 [root@ds91 tool]# mv license/ is-suite/
@@ -140,11 +162,15 @@ mv image.properties is-suite/
 
 
 
-6、使用root用户并且开始安装图形化界面
+### 使用root用户并且开始安装图形化界面
+
+
 
 cd /opt/tool/is-suite/
 
 ./setup
+
+
 
 ```
 [root@ds91 is-suite]# ./setup 
@@ -161,11 +187,11 @@ https://ds91:8445/ISInstall
 
 
 
-7、在firefox上输入http://ds91:8084/ISInstall，可能会报错，将ds91直接换成ip地址，输入后，选择语言是中文
+### 在firefox上输入`http://ds91:8084/ISInstall`
+
+可能会报错，将ds91直接换成ip地址，输入后，选择语言是中文
 
 ![img](../img_src/BDB4EC0FE5984CA7B834C3C38CBE6F81/clipboard.png)
-
-1-1
 
 下一步》下一步
 
@@ -297,7 +323,7 @@ sysctl -p
 
 <http://ds91:9080/ibm/imam/console>
 
-[下一步输入：](http://ds91:9080/ibm/imam/console)<http://ds91:9080/ibm/iis/console>，在浏览器打开Information server管理页面，使用wasadmin用户登录
+`下一步输入(http://ds91:9080/ibm/imam/console)`，在浏览器打开Information server管理页面，使用wasadmin用户登录
 
 ![img](../img_src/C34472CF83674394B644C58F78583D79/clipboard.png)
 
@@ -345,7 +371,7 @@ sysctl -p
 
 至此，Information Server的client用户创建结束，可以关闭web窗口
 
-关闭流程
+## 关闭流程
 
 [root@ds91 share]# cd /opt/IBM/InformationServer/Server/DSEngine/bin
 

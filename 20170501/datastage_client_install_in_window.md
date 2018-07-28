@@ -2,11 +2,19 @@
 
 # windows 安装 datastage 客户端
 
+## 环境介绍
+
 操作系统：win7_64
 
 软件：ds_client9.1
 
 安装客户端软件前需要安装Net FrameWork 4，否则会报错
+
+
+
+## 操作步骤
+
+
 
 解压Client安装包，并将Bundle spec file复制到安装程序所在目录，执行setup.exe
 
