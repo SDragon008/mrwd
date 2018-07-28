@@ -233,3 +233,11 @@ runlevel:查看当前执行的运行级别
 [root@centos65 init]# runlevel
 
 N 5
+
+
+
+
+
+
+
+https://github.com/gh95533/mrwd/blob/master/img_src/B207068AA143475D972A9BBD3CDCF8CE/clipboard.png
