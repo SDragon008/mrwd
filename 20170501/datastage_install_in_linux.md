@@ -2,7 +2,11 @@
 
 # datastage install in linux
 
-环境准备
+## 环境准备
+
+​	在生产环境下，普遍采用的是centos系列，目前常用的是centos6.5_x64,不过现在centos7.3以及开始在普及中。该文档现在以centos6.5为例来安装部署datastage,后续会在centos7.3上测试是否安装成功。
+
+
 
 linux版本：centos6.5X64
 
@@ -10,19 +14,17 @@ oracle版本：oracle11gr2
 
 datastage版本：datagstage9.1
 
-操作系统安装
-
-操作系统安装参考文档：centos linux 6.5 install.note
-
-操作系统虚拟机复制参考文档：linux  virtualbox copy.note
+[操作系统安装](../20170601/centos_6.5_install.md)
 
 oracle安装
 
-oracle单机安装： install oracle 11g single in linux.note
+## 操作步骤
 
-oracle复制：oracle amend hostname ip.note
+​	
 
-操作步骤
+​	假设当前操作系统和oracle都已经部署完成
+
+
 
 1、切换到oracle环境并在oracle数据库上创建dswas
 
