@@ -19,50 +19,50 @@
 
 下一步
 
-![img](../img_src/b7704f6233874228a79af2051c465703/clipboard.png)
+![img](../img_src/B7704F6233874228A79AF2051C465703/clipboard.png)
 
 下一步
 
-![img](../img_src/f78ab0921d7f4836ad6ae30c927635c9/clipboard.png)
+![img](../img_src/F78AB0921D7F4836AD6AE30C927635C9/clipboard.png)
 
 下一步
 
-![img](../img_src/e7cd9141eeb7409f87078824b61e8882/clipboard.png)
+![img](../img_src/E7CD9141EEB7409F87078824B61E8882/clipboard.png)
 
 下一步：
 
-![img](../img_src/14f7c6ef5c6545d5b6349e53d5f7b728/clipboard.png)
+![img](../img_src/14F7C6EF5C6545D5B6349E53D5F7B728/clipboard.png)
 
 下一步：选择产品，如只用DataStage，则只选择DataStage即可
 
-![img](../img_src/3ffff636178c4f0898e248b1528aa607/clipboard.png)
+![img](../img_src/3FFFF636178C4F0898E248B1528AA607/clipboard.png)
 
 下一步接受
 
-![img](../img_src/2a9e15aabf6743eeacd2ca6e61e0a7b5/clipboard.png)
+![img](../img_src/2A9E15AABF6743EEACD2CA6E61E0A7B5/clipboard.png)
 
 下一步
 
-![img](../img_src/4c5d53346c9c47d4804fcd51967e3e0b/clipboard.png)
+![img](../img_src/4C5D53346C9C47D4804FCD51967E3E0B/clipboard.png)
 
 下一步检查如果没有问题就执行下一步
 
-![img](../img_src/be3ae69057864831a55bc1ccffc1cd47/clipboard.png)
+![img](../img_src/BE3AE69057864831A55BC1CCFFC1CD47/clipboard.png)
 
 下一步：
 
-![img](../img_src/4a31c4dfc322400f95dcaf6169753ac6/clipboard.png)
+![img](../img_src/4A31C4DFC322400F95DCAF6169753AC6/clipboard.png)
 
 下一步：
 
-![img](../img_src/2fe2e947acca40b68e8f5245b6278452/clipboard.png)
+![img](../img_src/2FE2E947ACCA40B68E8F5245B6278452/clipboard.png)
 
 下一步：安装等待时间可能久一点
 
-![img](../img_src/9bcf28fc09cb44e79655dcbd28d725f2/clipboard.png)
+![img](../img_src/9BCF28FC09CB44E79655DCBD28D725F2/clipboard.png)
 
 下一步完成
 
-![img](../img_src/a01c84c6e5874d4bbe8113e3889fb670/clipboard.png)
+![img](../img_src/A01C84C6E5874D4BBE8113E3889FB670/clipboard.png)
 
 完成后就可以进行相关客户端操作
