@@ -4,13 +4,9 @@
 
 # linux  vnc install
 
-vnc-install
 
-前言
 
- 
-
-之前在新疆出差时，同事使用vnc远程连接linux桌面操作系统，非常好用，但是当时没有时间好好研究，就暂时放弃了，这两天学习linux基础时，想到vnc的安装使用还没有了解，就开启vnc的学习之旅
+​	之前在新疆出差时，同事使用vnc远程连接linux桌面操作系统，非常好用，但是当时没有时间好好研究，就暂时放弃了，这两天学习linux基础时，想到vnc的安装使用还没有了解，就开启vnc的学习之旅
 
  
 
@@ -34,11 +30,11 @@ vnc-install
 
  
 
-centos6.5_install
+## centos6.5_install
 
  
 
-1>配置yum源
+### 配置yum源
 
  
 
@@ -46,7 +42,7 @@ centos6.5_install
 
  
 
-2>查询并安装tigervnc-server
+### 查询并安装tigervnc-server
 
  
 
@@ -56,7 +52,7 @@ centos6.5_install
 
  
 
-3>修改配置参数并且新建用户
+### 修改配置参数并且新建用户
 
  
 
@@ -74,13 +70,13 @@ VNCSERVERS="1:postgres"
 
  
 
-解释一下”1:postgres”,1可以认为是访问端口，postgres这是一个用户，可以使用其他用户替换（没有测试root用户是否可以使用)
+解释一下”1:postgres”,1可以认为是访问端口，postgres这是一个用户，可以使用其他用户替换（没有测试root用户是否可以使用,不过不建议使用root用户，原因是root权限太高了)
 
  
 
  
 
-4>设置密码
+### 设置密码
 
  
 
@@ -90,7 +86,7 @@ $ vncpasswd
 
  
 
-5>关闭防火墙启动vnc服务
+### 关闭防火墙启动vnc服务
 
  
 
@@ -108,13 +104,13 @@ $ vncpasswd
 
  
 
-centos7.2_install
+## centos7.2_install
 
  
 
  
 
-1>配置yum源
+### 配置yum源
 
  
 
@@ -122,7 +118,7 @@ centos7.2_install
 
  
 
-2>查询并安装tigervnc-server
+### 查询并安装tigervnc-server
 
  
 
@@ -130,7 +126,7 @@ centos7.2_install
 
  
 
-3>修改配置参数并且新建用户
+### 修改配置参数并且新建用户
 
  
 
@@ -162,7 +158,7 @@ PIDFile=/home/postgres/.vnc/%H%i.pid
 
  
 
-4>设置密码
+### 设置密码
 
  
 
@@ -170,7 +166,7 @@ PIDFile=/home/postgres/.vnc/%H%i.pid
 
  
 
-5>关闭防火墙启动vnc服务   
+### 关闭防火墙启动vnc服务   
 
  
 
@@ -188,7 +184,7 @@ PIDFile=/home/postgres/.vnc/%H%i.pid
 
  
 
-vnc-viewer使用
+## vnc-viewer使用
 
  
 
