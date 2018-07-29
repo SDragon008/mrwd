@@ -1,10 +1,14 @@
 [TOC]
 
-# LINUX YUM CONFIG
+# LINUX YUM
 
-linux yum
 
-yum解决rpm的不足，解决rpm的依赖关系
+
+## yum 来源
+
+​	rpm是全新的封装形式，取代了很多通过源代码发布软件，但是rpm无法解决依赖关系，而yum解决rpm的不足，解决rpm的依赖关系
+
+## yum 优势/劣势
 
 优势：自动解决依赖关系
 
@@ -14,25 +18,21 @@ yum解决rpm的不足，解决rpm的依赖关系
 
 ​            配置简单
 
-​    
+劣势：如果仓库中没有对应rpm,那么安装也是会失败
 
-仓库：用来存放当前现有的rpm软件包
 
-yum的配置文件存放在/etc/yum.repos.d/
 
-[dvd]  --------------->必须写的，中括号的内容可以随便写，但一定要有中括号
+## yum 配置
 
-name = yum server  ----------->可写可不写，内容随便，主要是个提示作用
+[yum 配置](../20170601/linux_yum_配置.md)
 
-baseurl=file:///mnt/cdrom  --------------->一定要写的，定义yum源的仓库所在
 
-enabled=1 --------------------->数字1为启用当前yum源，0为禁用，默认为1。
 
-gpgcheck=0  ----------------------->是否检查rpm包的数字签名，数字1为检查，0为不检查，可以不写。
 
-yum配置文件必须以.repo结尾
 
-yum常用命令
+## yum常用命令
+
+
 
 1>yum install software
 
@@ -48,6 +48,83 @@ yum常用命令
 
 ​        yum search software:查询rpm软件
 
+​	yum whatprovides filename 查询rpm中
+
+```
+[root@mysql45 Packages]# yum search vnc
+Loaded plugins: downloadonly, fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+=========================================== N/S Matched: vnc ============================================
+gtk-vnc.i686 : A GTK widget for VNC clients
+gtk-vnc.x86_64 : A GTK widget for VNC clients
+gtk-vnc-devel.i686 : Libraries, includes, etc. to compile with the gtk-vnc library
+gtk-vnc-devel.x86_64 : Libraries, includes, etc. to compile with the gtk-vnc library
+gtk-vnc-python.x86_64 : Python bindings for the gtk-vnc library
+libvncserver.i686 : Library to make writing a vnc server easy
+libvncserver.x86_64 : Library to make writing a vnc server easy
+libvncserver-devel.i686 : Development files for libvncserver
+libvncserver-devel.x86_64 : Development files for libvncserver
+tigervnc.x86_64 : A TigerVNC remote display system
+tigervnc-server.x86_64 : A TigerVNC server
+tigervnc-server-applet.noarch : Java TigerVNC viewer applet for TigerVNC server
+tigervnc-server-module.x86_64 : TigerVNC module to Xorg
+tsclient.x86_64 : Client for VNC and Windows Terminal Server
+vinagre.x86_64 : VNC client for GNOME
+xorg-x11-server-source.noarch : Xserver source code required to build VNC server (Xvnc)
+
+  Name and summary matches only, use "search all" for everything.
+#yum list all/installed
+
+[root@mysql45 Packages]# yum whatprovides /etc/yum
+Loaded plugins: downloadonly, fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+yum-3.2.29-40.el6.centos.noarch : RPM package installer/updater/manager
+Repo        : ysys
+Matched from:
+Filename    : /etc/yum
+
+
+
+yum-3.2.29-40.el6.centos.noarch : RPM package installer/updater/manager
+Repo        : installed
+Matched from:
+Other       : Provides-match: /etc/yum
+
+
+
+[root@mysql45 Packages]# 
+
+```
+
+
+
 4-2>yum clean all:清空缓存（配置yum后，清空缓存）
 
 ​    
+
+## 创建REPO
+
+
+
+1、首先将rpm拷贝到某个目录下
+
+2、安装createrepo软件包
+
+3、执行命令 createrepo -v 路径
+
+4、配置yum仓库
+
+```
+#rpm -ivh python-deltarpm-3.5-0.5.20090913git.el6.x86_64.rpm  createrepo-0.9.9-18.el6.noarch.rpm deltarpm-3.50.5.20090913git.el6.x86_64.rpm 
+# createrepo -v .
+# ls -ls repodata
+# vim /etc/yum.res
+
+```
+
+5、yum分组信息
+
+如果想要添加分组信息时，需要在创建repo时
+
+createrepo -g /tmp/*.xml /repo
+
