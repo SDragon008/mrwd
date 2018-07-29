@@ -6,7 +6,7 @@
 
 ​	Studio 3T for Mongodb是mongodb的客户端软件，官网上好像只有x64，所以尽量使用64的操作系统(后期发现有32位安装包，只是没有测试是否可以使用)。
 
-## 安装软件下载地址
+## 下载地址
 
 官网地址：
 
@@ -242,5 +242,6 @@ mongodb数据库对于关键字时，如果是查询时，可能需要添加""�
 ## 链接地址
 
 https://studio3t.com/whats-new/how-to-query-mongodb-with-sql/
+
 https://www.cnblogs.com/yuechaotian/archive/2013/02/02/2889824.html
 
