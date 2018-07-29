@@ -20,7 +20,11 @@
 
 ## 已解决
 
+### 20180729
 
+#### noarch.rpm，src.rpm，rpm
+
+请查看文档:[rpm 命名](20180729/rpm_noarch.rpm_src.rpm)
 
 
 
