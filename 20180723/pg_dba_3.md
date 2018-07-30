@@ -960,12 +960,6 @@ delete from table where (column).typea= '';
 
 
 
-## DML
-
-​	
-
-​	略过
-
 
 
 
@@ -976,13 +970,87 @@ delete from table where (column).typea= '';
 
  ```
 begin
-
-rollback
-
 commit
-
-savepoint
-
-
+rollback
+savepoint a
+rollback to a
  ```
+
+savepoint作用是什么？
+
+```
+tutorial=# truncate table test1;
+TRUNCATE TABLE
+tutorial=# begin;
+BEGIN
+tutorial=# insert into test1(id,info) values(1,'11');
+INSERT 0 1
+tutorial=# select * from test1;
+ id | info 
+----+------
+  1 | 11
+(1 row)
+
+tutorial=# savepoint a;
+SAVEPOINT
+tutorial=# update test1 set id = 2 where id = 1;
+UPDATE 1
+tutorial=# savepoint b;
+SAVEPOINT
+tutorial=# select * from test1;
+ id | info 
+----+------
+  2 | 11
+(1 row)
+
+tutorial=# select ctid,cmin,cmax,xmin,xmax ,* from test1;
+ ctid  | cmin | cmax | xmin | xmax | id | info 
+-------+------+------+------+------+----+------
+ (0,2) |    1 |    1 | 7271 |    0 |  2 | 11
+(1 row)
+
+tutorial=# delete from test1 where id = 2;
+DELETE 1
+tutorial=# savepoint c;
+SAVEPOINT
+tutorial=# select * from test1;
+ id | info 
+----+------
+(0 rows)
+
+tutorial=# rollback to a;
+ROLLBACK
+tutorial=# select * from test1;
+ id | info 
+----+------
+  1 | 11
+(1 row)
+
+tutorial=# 
+
+```
+
+
+
+二阶事务
+
+ prepare transaction 
+
+ rollback prepared 
+
+commit prepared
+
+
+
+psql相关的事务模式变量
+
+ON_ERROR_ROLLBACK,ON_ERROR_STOP
+
+如何开启ON_ERROR_ROLLBACK,会在每一条sql前设置隐形的savepoint,可以继续下面的sql而不用全部回滚
+
+
+
+单条SQL插入多行的性能最高
+
+INSERT INTO tb1(c1,...,cn) values(...),(...),(...)
 

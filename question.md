@@ -10,6 +10,26 @@
 
 
 
+### 20180729
+
+#### postgresql savepoint 作用
+
+#### postgresql arrary使用
+
+#### postgresql 二阶事务 
+
+#### postgresql prepare ？
+
+
+
+
+
+
+
+
+
+
+
 ### 20180724
 
 #### man psql:No manual entry for psql
