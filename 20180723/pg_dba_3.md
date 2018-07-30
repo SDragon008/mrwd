@@ -962,6 +962,16 @@ delete from table where (column).typea= '';
 
 
 
+## 表操作
+
+
+
+关键字 大写
+
+表名,字段名小写
+
+
+
 
 
 ## 事务操作
