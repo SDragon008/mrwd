@@ -13,3 +13,6 @@
 [文件权限](../20170601/linux_authorization.md)：UGO
 
 [用户 组](../20170601/linux_user_group.md): USER GROUP
+
+[重定向 管道 基础了解](../20170601/linux_重定向.md):了解基础的管道和重定向，知道什么是标准输入，标准输出，标准错误
+

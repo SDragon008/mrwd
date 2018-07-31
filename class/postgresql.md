@@ -17,6 +17,8 @@
 
 - [pg 培训 3](../20180723/pg_dba_3.md)
 
+- [pg 培训 4](../20180731/postgresql_dba_4.md)
+
 - [pg 误删 clog 如何启动](../20180726/pg_瞎搞_删除clog日志.md)
 
 - [pg btree 索引结构](../20180728/pg_btree_结构.md)
