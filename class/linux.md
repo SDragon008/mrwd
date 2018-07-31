@@ -7,13 +7,12 @@
 ## 未完待续
 
 - [网络设置](../20170601/linux_network.md)
-- [svn_install](../20170601/linux_svn_install.md)
-
 - [文件权限](../20170601/linux_authorization.md)
 - [用户 组](../20170601/linux_user_group.md)
 - [linux 常用命令](../20170502/linux_常用命令.md)
 - [virtualbox虚拟机复制linux](../20170601/linux_virtualbox_copy.md)
-- [vnc 安装](../20170601/linux_vnc_install.md)
+
+  
 
 
 
@@ -23,12 +22,11 @@
 - [crontab使用](../20170601/linux_crontab.md)
 
 - [网络设置](../20170601/linux_network.md)
-- [svn_install](../20170601/linux_svn_install.md)
-
 - [文件权限](../20170601/linux_authorization.md)
 - [用户 组](../20170601/linux_user_group.md)
 - [linux 常用命令](../20170502/linux_常用命令.md)
-- [vnc 安装](../20170601/linux_vnc_install.md)
+
+  
 
   
 
@@ -40,7 +38,7 @@
 
 [linux 分区  文件系统 挂载](../20180718/linux_分区_文件系统_挂载.md)：当前主要记录的是磁盘分区，逻辑卷创建和使用，分区格式化，分区挂载
 
-[linux 常用软件 安装使用]():当前主要记录的是VNC部署安装，SVN部署安装，FTP部署安装
+[linux 常用软件 安装使用](../20180731/linux_software_install.md):当前主要记录的是VNC部署安装，SVN部署安装，FTP部署安装
 
 [linux source rpm yum 区别联系](../20170601/LINUX_源代码_RPM_区别联系.md):当前主要记录了rpm,yum,yum 命令，以及通过网络下载互联网rpm后迁移到内网使用
 

@@ -194,10 +194,12 @@ PIDFile=/home/postgres/.vnc/%H%i.pid
 
  
 
-![img](../img_src/9ccbeab1cd5c40d48dd5fc494fdd5749/wps4eda.tmp.jpeg)
+![img](../img_src/9CCBEAB1CD5C40D48DD5FC494FDD5749/wps4eda.tmp.jpeg)
 
  
 
- 
+ ## 链接地址
+
+
 
 http://blog.51cto.com/svenman/1359021

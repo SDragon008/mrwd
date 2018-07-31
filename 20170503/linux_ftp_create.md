@@ -4,17 +4,36 @@
 
 
 
-linux ftp create 
 
-前提：最近“想哭”病毒导致window2008 server的文件感染，ftp文件数据无法使用，所以想在linux上建立ftp服务器。
 
-要求如下：多个用户访问不同的文件，用户无法访问其他用户的文件
+## 前提
 
-经过在虚拟机的实践，初步达成预期效果
 
-清空yum缓存
 
-[[root@centos65](mailto:root@centos65) home]# yum clean all
+​	最近“想哭”病毒导致window2008 server的文件感染，ftp文件数据无法使用，所以想在linux上建立ftp服务器。
+
+
+
+## 要求
+
+
+
+​	多个用户访问不同的文件，用户无法访问其他用户的文件
+
+​	经过在虚拟机的实践，初步达成预期效果
+
+
+
+## 部署
+
+​	本次安装部署是通过yum来部署rpm，所以首先要配置yum
+
+### 清空yum缓存
+
+​	
+
+```
+[root@centos65 home]# yum clean all
 
 Loaded plugins: fastestmirror, refresh-packagekit, security
 
@@ -22,8 +41,15 @@ Cleaning repos: newdvd
 
 Cleaning up Everything
 
-安装vsftp软件
+```
 
+
+
+
+
+### 安装vsftp软件
+
+```
 [root@centos65 home]# yum install vsftpd*
 
 Loaded plugins: fastestmirror, refresh-packagekit, security
@@ -130,7 +156,7 @@ Dependencies Resolved
 
  Package               Arch      Version              Repository
 
-​                                                                 Size
+                                                                 Size
 
 ======================================================================
 
@@ -234,21 +260,44 @@ Error Downloading Packages:
 
   db4-devel-static-4.7.25-18.el6_4.x86_64: failure: Packages/db4-devel-static-4.7.25-18.el6_4.x86_64.rpm from newdvd: [Errno 256] No more mirrors to try.
 
-建立Vsftpd服务的宿主用户
+```
 
+​	部分报错信息不会影响本次的安装部署
+
+
+
+
+
+### 建立Vsftpd服务的宿主用户
+
+```
 [root@centos65 home]# useradd vsftpd -s /sbin/nologin
+```
 
-建立Vsftpd虚拟宿主用户
 
+
+### 建立Vsftpd虚拟宿主用户
+
+```
 [root@centos65 home]# useradd overlord -s /sbin/nolog
+```
 
-Vsftp的虚拟用户，虚拟用户并不是系统用户，也就是说这些FTP的用户在系统中是不存在的。他们的总体权限其实是集中寄托在一个在系统中的某一个用户身上的，所谓Vsftpd的虚拟宿主用户，就是这样一个支持着所有虚拟用户的宿主用户。由于他支撑了FTP的所有虚拟的用户，那么他本身的权限将会影响着这些虚拟的用户，因此，处于安全性的考虑，也要非分注意对该用户的权限的控制，该用户也绝对没有登陆系统的必要，这里也设定他为不能登陆系统的用户
 
-编辑配置文件前先备份
 
+​	Vsftp的虚拟用户，虚拟用户并不是系统用户，也就是说这些FTP的用户在系统中是不存在的。他们的总体权限其实是集中寄托在一个在系统中的某一个用户身上的，所谓Vsftpd的虚拟宿主用户，就是这样一个支持着所有虚拟用户的宿主用户。由于他支撑了FTP的所有虚拟的用户，那么他本身的权限将会影响着这些虚拟的用户，因此，处于安全性的考虑，也要非分注意对该用户的权限的控制，该用户也绝对没有登陆系统的必要，这里也设定他为不能登陆系统的用户
+
+### 编辑配置文件前先备份
+
+```
 [root@centos65 home]# cp /etc/vsftpd/vsftpd.conf /etc/vsftpd/vsftpd.conf.backup
 
 [root@centos65 home]# vi /etc/vsftpd/vsftpd.conf
+
+```
+
+
+
+
 
 具体内容如下：
 
@@ -502,23 +551,31 @@ virtual_use_local_privs=YES
 
 user_config_dir=/etc/vsftpd/vconf
 
-\#红色：代表键值对存在
 
-\#其他颜色为后面添加
 
-建立Vsftpd的日志文件，并更该属主为Vsftpd的服务宿主用户
+### 建立Vsftpd的日志文件，并更该属主为Vsftpd的服务宿主用户
 
+```
 [root@centos65 home]# touch /var/log/vsftpd.log
 
 [root@centos65 home]# chown vsftpd.vsftpd /var/log/vsftpd.log
 
 [root@centos65 home]# mkdir /etc/vsftpd/vconf/
 
-建立虚拟用户名单文件
+```
 
+
+
+### 建立虚拟用户名单文件
+
+```
 [root@centos65 home]# touch /etc/vsftpd/virtusers
 
 [root@centos65 home]# vi /etc/vsftpd/virtusers
+
+```
+
+
 
 具体内容如下：
 
@@ -540,23 +597,41 @@ mello
 
 一行用户名，一行口令
 
-生成虚拟用户数据文件
+### 生成虚拟用户数据文件
 
+```
 [root@centos65 home]# db_load -T -t hash -f /etc/vsftpd/virtusers /etc/vsftpd/virtusers.db
+```
 
-查看生成的虚拟用户数据文件
 
+
+### 查看生成的虚拟用户数据文件
+
+```
 [root@centos65 vsftpd]# ll /etc/vsftpd/virtusers.db 
 
 -rw-r--r-- 1 root root 12288 May 16 03:40 /etc/vsftpd/virtusers.db
 
+```
+
+
+
 注：文件权限要一致
 
-设定PAM验证文件，并指定虚拟用户数据库文件进行读取
 
+
+### 设定PAM验证文件，并指定虚拟用户数据库文件进行读取
+
+
+
+```
 [root@centos65 vsftpd]# cp /etc/pam.d/vsftpd /etc/pam.d/vsftpd.backup
 
 [root@centos65 vsftpd]# vi /etc/pam.d/vsftpd
+
+```
+
+
 
 具体内容如下：
 
@@ -588,19 +663,34 @@ account sufficient      /lib64/security/pam_userdb.so    db=/etc/vsftpd/virtuser
 
 ​       前面的信息最好都注释掉，不然可能输入密码无效
 
-规划好虚拟用户的主路径
+### 规划好虚拟用户的主路径
 
+```
 [root@centos65 vsftpd]# mkdir /opt/vsftp/
+```
 
-建立测试用户的FTP用户目录
 
+
+### 建立测试用户的FTP用户目录
+
+```
 [root@centos65 vsftpd]#  mkdir /opt/vsftp/kanecruise/ /opt/vsftp/mello/ /opt/vsftp/near/
+```
 
-建立虚拟用户配置文件模版
 
+
+
+
+### 建立虚拟用户配置文件模版
+
+```
 [root@centos65 vsftpd]# cp /etc/vsftpd/vsftpd.conf.backup /etc/vsftpd/vconf/vconf.tmp
 
 [root@centos65 vsftpd]# vi /etc/vsftpd/vconf/vconf.tmp 
+
+```
+
+
 
 具体内容如下：
 
@@ -846,7 +936,11 @@ local_root=/opt/vsftp/virtuser
 
 注：其实可以参考下面的各个用户的脚本就可以，这步可以忽略
 
-更改虚拟用户的主目录的属主为虚拟宿主用户[root@centos65 vsftpd]# chown -R overlord.overlord /opt/vsftp/
+### 更改虚拟用户的主目录的属主为虚拟宿主用户
+
+```
+[root@centos65 vsftpd]# chown -R overlord.overlord /opt/vsftp/
+```
 
 [[root@centos65](mailto:root@centos65) vsftpd]# ll /opt/vsftp/
 
@@ -858,9 +952,13 @@ drwxr-xr-x 2 overlord overlord 4096 May 16 03:42 mello
 
 drwxr-xr-x 2 overlord overlord 4096 May 16 03:42 near
 
-针对具体用户进行定制
+### 针对具体用户进行定制
 
+```
 [root@KcentOS5 ~]# cp /etc/vsftpd/vconf/vconf.tmp /etc/vsftpd/vconf/mello
+```
+
+
 
 具体内容如下：
 
@@ -890,23 +988,32 @@ local_max_rate=25000
 
 注：这个内容需要修改local_root可以直接复制上面使用
 
-启动vsftpd应用
+### 启动vsftpd应用
 
+```
 [root@centos65 log]# service vsftpd restart
 
 Shutting down vsftpd:                                      [  OK  ]
 
 Starting vsftpd for vsftpd:                                [  OK  ]
 
-在虚拟用户目录中预先放入文件
+```
 
+
+
+### 在虚拟用户目录中预先放入文件
+
+```
 [root@KcentOS5 ~]# touch /opt/vsftp/mello/kc.test
+```
 
-通过ie登陆查看信息并上传文件
 
-![img](../img_src/5770b692e89b4554b7615e18177e34dd/clipboard.png)
 
-添加新的用户
+### 通过ie登陆查看信息并上传文件
+
+![img](../img_src/5770B692E89B4554B7615E18177E34DD/clipboard.png)
+
+### 添加新的用户
 
 [root@centos65 home]# vi /etc/vsftpd/virtusers
 
@@ -1000,11 +1107,11 @@ Shutting down vsftpd:                                      [FAILED]
 
 Starting vsftpd for vsftpd:                                [  OK  ]
 
-![img](../img_src/08f206a1b5e845dfb226ec37303315bf/clipboard.png)
+![img](../img_src/08F206A1B5E845DFB226EC37303315BF/clipboard.png)
 
 ================================================================
 
-本次遇到报错信息如下：
+## 问题记录
 
 1-1.大意写错关键字
 
@@ -1240,7 +1347,7 @@ No Packages marked for Update
 
 5.1、在360浏览器中登陆，界面是这样的,或者在其他浏览器中，路径地址暴漏
 
-![img](../img_src/f2e19a15f60140c3a414591ea3afa3f5/clipboard.png)
+![img](../img_src/F2E19A15F60140C3A414591EA3AFA3F5/clipboard.png)
 
 网上一种解决方案，请查看
 
@@ -1280,9 +1387,9 @@ user2
 
 6.2直接使用window的资源管理器登陆ftp地址，乱码问题正在解决中
 
-参考文章链接地址：<http://www.linuxidc.com/Linux/2013-09/90562.htm>
+## 链接地址
 
-信息参考地址：
+<http://www.linuxidc.com/Linux/2013-09/90562.htm>
 
 <http://www.361way.com/ftp-error/1832.html>                                      
 

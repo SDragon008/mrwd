@@ -81,7 +81,7 @@ make install 将生成的可执行文件安装到当前计算机中
 
 -h 显示进度条
 
-rpm -ivh <http://www.baidu.com/software.com>
+rpm -ivh <http://www.baidu.com/software.rpm>
 
 ```
 [root@mysql45 Packages]# rpm -ivh tigervnc-1.1.0-5.el6_4.1.x86_64.rpm 
