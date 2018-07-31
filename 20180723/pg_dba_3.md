@@ -966,11 +966,61 @@ delete from table where (column).typea= '';
 
 
 
-关键字 大写
+查询语句操作语句 
 
-表名,字段名小写
+关键字大写(SELECT FROM WHERE LIMIT)
+
+pg_class, relname,表名,对象名,列名
 
 
+
+隐式转换
+
+E'digoal\\' 
+
+$$digoal\$$ 
+
+$tag$digoal\$tag$ 
+
+ B'1010101' 
+
+ 10 or +10
+
+-23.4 
+
++100.1 or 100.1
+
+10e-1 
+
+98e+10 or 98e10
+
+
+
+显示转换
+
+type ‘string’   
+
+time '12:00:00' 
+
+'string'::type  
+
+'1 hour'::interval 
+
+CAST ( 'string' AS type ) 
+
+CAST('127.0.0.1' AS inet
+
+
+
+操作符
+
++-*/
+
+
+
+特殊符号
+
+$,:,.,...
 
 
 
@@ -1060,7 +1110,66 @@ ON_ERROR_ROLLBACK,ON_ERROR_STOP
 
 
 
-单条SQL插入多行的性能最高
+postgresql 一个事务中可以包含DML,DDL,DCL
+
+除了一下
+
+CREATE TABLESPACE
+
+CREATE DATABASE
+
+使用concurrently并行创建索引
+
+其他未尽情况略
+
+
+
+## 单条SQL插入多行的性能最高
+
+
 
 INSERT INTO tb1(c1,...,cn) values(...),(...),(...)
 
+## 查询
+
+### join
+
+
+
+内连接 inner join on 
+
+左连接 left join on 
+
+右连接 right join on
+
+全连接 full join on 
+
+自然连接 natural join on --针对两个相同字段，帮助自动取消掉一个
+
+
+
+### alias
+
+table alias
+
+column alias
+
+subquery alias
+
+
+
+### table as function's return data type
+
+
+
+group by 
+
+distinct
+
+combining query
+
+sort
+
+limit 
+
+with
