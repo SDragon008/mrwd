@@ -33,3 +33,24 @@ CentOS release 6.5 (Final)
 [root@centos65 ~]# cat /etc/redhat-release
 
 CentOS release 6.5 (Final)
+
+
+
+## 文本处理
+
+文件浏览
+
+cat
+
+more
+
+less
+
+head
+
+tail 
+
+基于关键字进行搜索
+
+grep 
+
