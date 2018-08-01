@@ -1160,6 +1160,8 @@ subquery alias
 
 ### table as function's return data type
 
+#### return table's row type
+
 
 
 group by 
