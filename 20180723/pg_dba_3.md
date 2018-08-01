@@ -1162,16 +1162,295 @@ subquery alias
 
 #### return table's row type
 
+```
+tutorial=# create table test1(id int,name text,crt_time timestamp(0));
+CREATE TABLE
+tutorial=# create or replace function f_test1(i_id int) returns 
+tutorial-# setof test1 as $$
+tutorial$# declare
+tutorial$# begin
+tutorial$# return query select * from test1 where id = i_id;
+tutorial$# return;
+tutorial$# end;
+tutorial$# $$
+tutorial-# language plpgsql;
+CREATE FUNCTION
+tutorial=# insert into test1 values(1,'guohiu',now());
+INSERT 0 1
+tutorial=# insert into test1 values(1,'guoh==iu',now());
+INSERT 0 1
+tutorial=# select * from f_test1(1);
+ id |   name   |      crt_time       
+----+----------+---------------------
+  1 | guohiu   | 2018-08-01 05:08:04
+  1 | guoh==iu | 2018-08-01 05:08:10
+(2 rows)
+
+tutorial=# select * from f_test1(2);
+ id | name | crt_time 
+----+------+----------
+(0 rows)
+
+```
+
+setof：这个是指的是什么？
+
+#### return composite type
+
+```
+tutorial=# create type tp_test1 as (id int,name text,crt_time timestamp(0));
+CREATE TYPE
+tutorial=# create or replace function f_tp_test1(i_id int) returns 
+setof tp_test1 as $$
+declare
+begin
+return query select * from test1 where id = i_id;
+return;
+end;
+$$
+language plpgsql;
+CREATE FUNCTION
+tutorial=# select * from f_tp_test1(1);
+ id |   name   |      crt_time       
+----+----------+---------------------
+  1 | guohiu   | 2018-08-01 05:08:04
+  1 | guoh==iu | 2018-08-01 05:08:10
+(2 rows)
+
+tutorial=# select * from f_tp_test1(2);
+ id | name | crt_time 
+----+------+----------
+(0 rows)
 
 
-group by 
+```
 
-distinct
+#### return record
 
-combining query
+```
+tutorial=# create or replace function f_re_test1(i_id int) returns 
+setof record as $$
+declare
+begin
+return query select * from test1 where id = i_id;
+return;
+end;
+$$
+language plpgsql;
+CREATE FUNCTION
+tutorial=# select * from f_re_test1(1) as(id int,name text,crt_time timestamp(0));
+ id |   name   |      crt_time       
+----+----------+---------------------
+  1 | guohiu   | 2018-08-01 05:08:04
+  1 | guoh==iu | 2018-08-01 05:08:10
+(2 rows)
 
-sort
 
-limit 
+```
 
-with
+record:弹性结构
+
+
+
+###  group by 
+
+### distinct
+
+distinct column(column value is null then enqul)
+
+```
+tutorial=# SELECT * FROM test1;
+ id |   name   |      crt_time       
+----+----------+---------------------
+  1 | guohiu   | 2018-08-01 05:08:04
+  1 | guoh==iu | 2018-08-01 05:08:10
+    | guoh==iu | 2018-08-01 05:26:12
+    | guohiu   | 2018-08-01 05:26:21
+(4 rows)
+
+tutorial=# select distinct id from test1;
+ id 
+----
+   
+  1
+(2 rows)
+
+```
+
+distinct on (column,...) 
+
+ SELECT DISTINCT ON (expression [, expression ...]) select_list ...  -- ON()里面必须出现在 order by中作为前导列 
+
+**Here expression is an arbitrary value expression that is evaluated for all rows. A set of rows for which all the expressions are equal are considered duplicates, and only the first row of the set is kept in the output. Note that the "first row" of a set is unpredictable unless the query is sorted on enough columns to guarantee a unique ordering of the rows arriving at the DISTINCT filter. (DISTINCT ON processing occurs after ORDER BY sorting.)**
+
+distinct on (column,..)只取一行
+
+```
+tutorial=# select distinct on (id) id ,name ,crt_time from test1;
+ id |   name   |      crt_time       
+----+----------+---------------------
+  1 | guohiu   | 2018-08-01 05:08:04
+    | guoh==iu | 2018-08-01 05:26:12
+(2 rows)
+
+tutorial=# select distinct on (id) id ,name ,crt_time from test1 order by name;
+ERROR:  SELECT DISTINCT ON expressions must match initial ORDER BY expressions
+LINE 1: select distinct on (id) id ,name ,crt_time from test1 order ...
+                            ^
+tutorial=# select distinct on (id) id ,name ,crt_time from test1 order by id;
+ id |   name   |      crt_time       
+----+----------+---------------------
+  1 | guohiu   | 2018-08-01 05:08:04
+    | guoh==iu | 2018-08-01 05:26:12
+(2 rows)
+
+tutorial=# select distinct on (id) id ,name ,crt_time from test1 order by id desc;
+ id |   name   |      crt_time       
+----+----------+---------------------
+    | guoh==iu | 2018-08-01 05:26:12
+  1 | guohiu   | 2018-08-01 05:08:04
+(2 rows)
+
+tutorial=# select distinct on (id,name) id ,name ,crt_time from test1 order by id ,name,crt_time;
+ id |   name   |      crt_time       
+----+----------+---------------------
+  1 | guohiu   | 2018-08-01 05:08:04
+  1 | guoh==iu | 2018-08-01 05:08:10
+    | guohiu   | 2018-08-01 05:26:21
+    | guoh==iu | 2018-08-01 05:26:12
+(4 rows)
+
+tutorial=# select distinct on (id,name) id ,name ,crt_time from test1 order by id ,name,crt_time desc;
+ id |   name   |      crt_time       
+----+----------+---------------------
+  1 | guohiu   | 2018-08-01 05:08:04
+  1 | guoh==iu | 2018-08-01 05:08:10
+    | guohiu   | 2018-08-01 05:26:21
+    | guoh==iu | 2018-08-01 05:26:12
+(4 rows)
+
+```
+
+
+
+
+
+```
+tutorial=# create table window_test(id int,name text,subject text,score numeric);
+CREATE TABLE
+tutorial=#  INSERT INTO window_test VALUES (1,'digoal','数学',99.5), (2,'digoal','语文',89.5),(3,'digoal','英语',79.5), (4,'digoal','物理',99.5), (5,'digoal','化学',98.5), (6,'刘德华','数学',89.5), (7,'刘德华','语文',99.5), (8,'刘德华','英语',79.5),  (9,'刘德华','物理',89.5), (10,'刘德华','化学',69.5), (11,'张学友','数学',89.5), (12,'张学友','语文',91.5), (13,'张学友','英语',92.5), (14,'张学友','物理',93.5), (15,' 张学友','化学',94.5);
+INSERT 0 15
+tutorial=# select distinct on (subject) id,name,subject,score from window_test order by subject,score desc;
+ id |  name  | subject | score 
+----+--------+---------+-------
+  5 | digoal | 化学    |  98.5
+  1 | digoal | 数学    |  99.5
+  4 | digoal | 物理    |  99.5
+ 13 | 张学友 | 英语    |  92.5
+  7 | 刘德华 | 语文    |  99.5
+(5 rows)
+
+tutorial=#  select * from (select id,name,subject,score, row_number() over(partition by subject order by score desc) as mm from window_test) as f where f.mm = 1;
+ id |  name  | subject | score | mm 
+----+--------+---------+-------+----
+  5 | digoal | 化学    |  98.5 |  1
+  1 | digoal | 数学    |  99.5 |  1
+  4 | digoal | 物理    |  99.5 |  1
+ 13 | 张学友 | 英语    |  92.5 |  1
+  7 | 刘德华 | 语文    |  99.5 |  1
+
+
+
+```
+
+
+
+### combining query
+
+union /union all
+
+INTERSECT /INTERSECT ALL
+
+EXCEPT /EXCEPT ALL
+
+
+
+
+
+
+
+### sort
+
+### limit 
+
+limit 10 offset 12
+
+从第十二行开始取出10条
+
+
+
+### with
+
+#### 语法
+
+```
+tutorial=# \h with
+Command:     WITH
+Description: retrieve rows from a table or view
+Syntax:
+[ WITH [ RECURSIVE ] with_query [, ...] ]
+SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
+    [ * | expression [ [ AS ] output_name ] [, ...] ]
+    [ FROM from_item [, ...] ]
+    [ WHERE condition ]
+    [ GROUP BY expression [, ...] ]
+    [ HAVING condition [, ...] ]
+    [ WINDOW window_name AS ( window_definition ) [, ...] ]
+    [ { UNION | INTERSECT | EXCEPT } [ ALL | DISTINCT ] select ]
+    [ ORDER BY expression [ ASC | DESC | USING operator ] [ NULLS { FIRST | LAST } ] [, ...] ]
+    [ LIMIT { count | ALL } ]
+    [ OFFSET start [ ROW | ROWS ] ]
+    [ FETCH { FIRST | NEXT } [ count ] { ROW | ROWS } ONLY ]
+    [ FOR { UPDATE | NO KEY UPDATE | SHARE | KEY SHARE } [ OF table_name [, ...] ] [ NOWAIT ] [...] ]
+
+where from_item can be one of:
+
+    [ ONLY ] table_name [ * ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
+    [ LATERAL ] ( select ) [ AS ] alias [ ( column_alias [, ...] ) ]
+    with_query_name [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
+    [ LATERAL ] function_name ( [ argument [, ...] ] )
+                [ WITH ORDINALITY ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
+    [ LATERAL ] function_name ( [ argument [, ...] ] ) [ AS ] alias ( column_definition [, ...] )
+    [ LATERAL ] function_name ( [ argument [, ...] ] ) AS ( column_definition [, ...] )
+    [ LATERAL ] ROWS FROM( function_name ( [ argument [, ...] ] ) [ AS ( column_definition [, ...] ) ] [, ...] )
+                [ WITH ORDINALITY ] [ [ AS ] alias [ ( column_alias [, ...] ) ] ]
+    from_item [ NATURAL ] join_type from_item [ ON join_condition | USING ( join_column [, ...] ) ]
+
+and with_query is:
+
+    with_query_name [ ( column_name [, ...] ) ] AS ( select | values | insert | update | delete )
+
+TABLE [ ONLY ] table_name [ * ]
+
+
+```
+
+
+
+## 函数三态
+
+非常重要的函数三态 
+
+Immutable
+
+Stable
+
+Volatile
+
+稳定性
+
+immutable > stable > volatitle
+
+
+
+这个后面会详细讲解
