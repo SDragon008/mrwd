@@ -32,14 +32,22 @@ kettle remote file ftp download  step
 
 附件为远程ftp下载
 
-![ftp_set_variable.ktr](E:/grwlwd/ysys/gh_ysys@126.com/0dfefb224ec248689afea81f727bfcf3/attachment.png)
+![ftp_set_variable.ktr](../img_src/0dfefb224ec248689afea81f727bfcf3/attachment.png)
 
-![hhht_ftp_copy_rows_to_result.ktr](E:/grwlwd/ysys/gh_ysys@126.com/c04b2aeedf9c450d9107586a47a5844b/attachment.png)
+[ftp_set_variable.ktr](../img_src/FD8295EB28C84A528080D01B7BBD49E4/ftp_set_variable.ktr)
 
-![hhht_ftp_result_variable_system_download.kjb](E:/grwlwd/ysys/gh_ysys@126.com/4471f7a808fa405c829ca6b14f217b1a/attachment.png)
+![hhht_ftp_copy_rows_to_result.ktr](../img_src/C04B2AEEDF9C450D9107586A47A5844B/attachment.png)
 
-![hhht_ftp_system_download.kjb](E:/grwlwd/ysys/gh_ysys@126.com/c0af2099c1024a239a2dfdae1973434f/attachment.png)
+[hhht_ftp_copy_rows_to_result.ktr](../img_src/E61846925C6348859FECA9589B1EBDF7/hhht_ftp_copy_rows_to_result.ktf)
 
-![hhht_ftp_variable_system_download.kjb](E:/grwlwd/ysys/gh_ysys@126.com/b9c77523b339486ab4e515818d99bfec/attachment.png)
+![hhht_ftp_result_variable_system_download.kjb](../img_src/4471F7A808FA405C829CA6B14F217B1A/attachment.png)
+[hhht_ftp_result_variable_system_download.kjb](../img_src/5991B955EFF64D14B20DF5832E4DE6BF/hhht_ftp_result_variable_system_download.kjb)
 
-![SYSTEM_INFO.ktr](E:/grwlwd/ysys/gh_ysys@126.com/3b5c8e6ece3c4dd2ac0b4d7140897ab3/attachment.png)
+![hhht_ftp_system_download.kjb](../img_src/C0AF2099C1024A239A2DFDAE1973434F/attachment.png)
+[hhht_ftp_system_download.kjb](../img_src/15B220077B1B406A9091A17D3EB31CB7/hhht_ftp_system_download.kjb)
+
+![hhht_ftp_variable_system_download.kjb](../img_src/B9C77523B339486AB4E515818D99BFEC/attachment.png)
+[hhht_ftp_variable_system_download.kjb](../img_src/B8E5CDF4C1044258B3CB768FF85F1880/hhht_ftp_variable_system_download.kjb)
+
+![SYSTEM_INFO.ktr](../img_src/3B5C8E6ECE3C4DD2AC0B4D7140897AB3/attachment.png)
+[SYSTEM_INFO.ktr](../img_src/FC1BF674349F424E87F60286E8D6FFC7/SYSTEM_INFO.ktr)

@@ -22,7 +22,7 @@ kettle greenplum loader
 
 如下图
 
-![img](../img_src/5a8f1c3a3bd4424f9ddf03c68aeb3f4b/clipboard.png)
+![img](../img_src/5A8F1C3A3BD4424F9DDF03C68AEB3F4B/clipboard.png)
 
 greenplum bulk loader 与 greenplum loader 区别还有联系，暂时还是不懂，所以现在使用greenplum load
 
@@ -30,11 +30,11 @@ greenplum bulk loader 与 greenplum loader 区别还有联系，暂时还是不�
 
 大致图形如下
 
-![img](../img_src/e741f78cbe28460980a0a141de4102b1/clipboard.png)
+![img](../img_src/E741F78CBE28460980A0A141DE4102B1/clipboard.png)
 
 查看greenplum load配置
 
-![img](../img_src/428796e266174b9186fcacfa22786b28/clipboard.png)
+![img](../img_src/428796E266174B9186FCACFA22786B28/clipboard.png)
 
 分为
 
@@ -44,7 +44,7 @@ greenplum bulk loader 与 greenplum loader 区别还有联系，暂时还是不�
 
 本地主机名
 
-![img](../img_src/5abf94f00132440ba026cd85c661b8b8/clipboard.png)
+![img](../img_src/5ABF94F00132440BA026CD85C661B8B8/clipboard.png)
 
 端口号最好填写3333不是关键端口
 
@@ -52,7 +52,7 @@ greenplum bulk loader 与 greenplum loader 区别还有联系，暂时还是不�
 
 gp参数配置
 
-![img](../img_src/0dfd4f8604944d7fbab73cb0980baceb/clipboard.png)
+![img](../img_src/0DFD4F8604944D7FBAB73CB0980BACEB/clipboard.png)
 
 path to the gpload:本地部署gpload的路径
 
@@ -72,17 +72,17 @@ Encoding：选择UTF8
 
 使用mysql到gp直接使用表输出模式
 
-![img](../img_src/c93e2f1d44dd48429bc2d3f015122b10/clipboard.png)
+![img](../img_src/C93E2F1D44DD48429BC2D3F015122B10/clipboard.png)
 
 时间比较长，3min跑完20万，其实在生产库中，由于字段较多，每秒钟的速度只是到100条左右；
 
 20min后截图
 
-![img](../img_src/21382f4a9484410a86e9f5270d1dbfac/clipboard.png)
+![img](../img_src/21382F4A9484410A86E9F5270D1DBFAC/clipboard.png)
 
 40min后截图
 
-![img](../img_src/3f84f6f57a2a4227a8e20a25661a5ec7/clipboard.png)
+![img](../img_src/3F84F6F57A2A4227A8E20A25661A5EC7/clipboard.png)
 
 放弃了最终时间，不过时间确实是超长的
 
@@ -108,7 +108,7 @@ kettle自带的插入更新
 
 org.gjt.mm.mysql.Driver
 
-![img](../img_src/34845b59273c4d5fa81a90c28a8ef150/clipboard.png)
+![img](../img_src/34845B59273C4D5FA81A90C28A8EF150/clipboard.png)
 
 kettle没有自带mysql驱动，需要下载后安装就可以了
 

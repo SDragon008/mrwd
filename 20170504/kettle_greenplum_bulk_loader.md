@@ -10,7 +10,7 @@ kettle greenplum bulk loader
 
 界面与greenplum load有所区别
 
-![img](../img_src/6afb60ef07684714b9d251c7b1178e7c/clipboard.png)
+![img](../img_src/6AFB60EF07684714B9D251C7B1178E7C/clipboard.png)
 
 =============================================================================错误：
 

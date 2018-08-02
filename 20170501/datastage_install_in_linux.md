@@ -215,7 +215,7 @@ https://ds91:8445/ISInstall
 
 下一步选择DataStage版本，勾选第一项（parallel job及server job）：
 
-![img](../img_src/6264ca4988414413b83455541b855020/clipboard.png)
+![img](../img_src/6264CA4988414413B83455541B855020/clipboard.png)
 
 下一步Information Server自带的主/备模式HA配置，本例中不选用，直接点击下一步
 
