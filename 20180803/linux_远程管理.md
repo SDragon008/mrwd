@@ -96,3 +96,7 @@ vnc 分为服务端和客户端
 ## 链接地址
 
 [xmanager vnc 区别](LINUX_XMANAGER_VNC.md)
+
+[linux 免密码登陆](linux_免密码登陆.md)
+
+[LINUX关闭一批服务器](LINUX_关闭_一批服务器.md)
