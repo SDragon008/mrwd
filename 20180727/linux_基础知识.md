@@ -10,6 +10,10 @@
 
 [系统启动说明](../20170601/linux_startup.md):主要讲述的是系统启动过程中执行的先后顺序，以及在哪里修改参数可以免密码登陆
 
+[linux 常用命令](../20170502/linux_常用命令.md)：介绍当前遇到一系列常用的命令
+
+[网络设置](../20170601/linux_network.md)
+
 [文件权限](../20170601/linux_authorization.md)：UGO
 
 [用户 组](../20170601/linux_user_group.md): USER GROUP

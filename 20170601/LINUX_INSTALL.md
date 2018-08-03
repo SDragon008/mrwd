@@ -2,6 +2,8 @@
 
 # LINUX INSTALL
 
+​	其实对于系统安装，最主要的是硬盘划分
+
 ## CENTOS
 
 [CENTOS 6.5](../20170601/centos_6.5_install.md)
