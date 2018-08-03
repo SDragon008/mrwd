@@ -14,6 +14,16 @@ lsmod:加载的驱动
 
 
 
+## 查看内存
+
+free -m
+
+top
+
+
+
+
+
 ## 关机重启
 
 shutdown -h now:马上挂机
