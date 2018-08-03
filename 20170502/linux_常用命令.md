@@ -22,6 +22,22 @@ top
 
 
 
+## 查看cpu
+
+```
+# 查看物理CPU个数
+cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
+
+# 查看每个物理CPU中core的个数(即核数)
+cat /proc/cpuinfo| grep "cpu cores"| uniq
+
+# 查看逻辑CPU的个数
+cat /proc/cpuinfo| grep "processor"| wc -l
+
+# 查看CPU信息（型号）
+cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq 
+```
+
 
 
 ## 关机重启
@@ -185,26 +201,4 @@ mkdir -p filedir/filedir2/filedir3
 rm -rf
 
 
-
-
-
-
-
-
-
-文件浏览
-
-cat
-
-more
-
-less
-
-head
-
-tail 
-
-基于关键字进行搜索
-
-grep 
 
