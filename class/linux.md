@@ -46,7 +46,7 @@
 
 1、[操作系统安装](../20170601/centos_6.5_install.md)
 
-2、GNOME图形化界面基础操作:较为简单，几乎也是不使用的
+2、GNOME操作:较为简单，几乎也是不使用的
 
 3、[命令行BASH的基本操作](../20170601/linux_命令行BASH的基本操作.md)
 
@@ -72,15 +72,17 @@
 
 14、[linux 用户基础](../20170601/linux_user_group.md)
 
-15、
+15、[linux 权限管理](../20170601/linux_authorization.md)
 
-16、
+16、[linux 扩展权限](../20170601/linux_authorization.md)
 
-17、
+17、[linux 网络基础](../20170601/linux_network.md)
 
-19、
+18、[linux 网络基础配置](../20170601/linux_network.md)
 
-20、
+19、[linux 管道及重定向](../20170601/linux_重定向.md)
+
+20、[linux 命令行文本处理工具]
 
 21、
 
