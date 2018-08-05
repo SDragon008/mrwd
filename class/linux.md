@@ -8,8 +8,7 @@
 
 
 
-- [文件权限](../20170601/linux_authorization.md)
-- [用户 组](../20170601/linux_user_group.md)
+
 
 - [virtualbox虚拟机复制linux](../20170601/linux_virtualbox_copy.md)
 
@@ -23,12 +22,6 @@
 
 - [crontab使用](../20170601/linux_crontab.md)
 
-- 
-
-- [文件权限](../20170601/linux_authorization.md)
-
-- [用户 组](../20170601/linux_user_group.md)
-
   
 
   
@@ -36,6 +29,7 @@
   
 
   
+
 
 
 ## 系列
@@ -44,11 +38,11 @@
 
 ### linux 入门基础 linuxcast
 
-1、[操作系统安装](../20170601/centos_6.5_install.md)
+1、[linux 操作系统安装](../20170601/centos_6.5_install.md)
 
-2、GNOME操作:较为简单，几乎也是不使用的
+2、[GNOME操作](..)
 
-3、[命令行BASH的基本操作](../20170601/linux_命令行BASH的基本操作.md)
+3、[linux 命令行BASH的基本操作](../20170601/linux_命令行BASH的基本操作.md)
 
 4、[linux 文件系统结构](../20170601/linux_文件系统结构.md)
 
@@ -62,11 +56,11 @@
 
 9、[linux 磁盘基本概念](../20170601/linux_磁盘基本概念.md)
 
-10、[fdisk 分区](../20180717/linux_磁盘分区_fdisk.md)
+10、[linux fdisk 分区](../20180717/linux_磁盘分区_fdisk.md)
 
 11、[linux文件系统](../20180718/linux_创建文件系统.md)
 
-12、[文件系统挂载](../20180718/LINUX_挂载_卸载.md)
+12、[linux 文件系统挂载](../20180718/LINUX_挂载_卸载.md)
 
 13、[linux 帮助](../20180804/linux_帮助.md)
 
@@ -82,13 +76,15 @@
 
 19、[linux 管道及重定向](../20170601/linux_重定向.md)
 
-20、[linux 命令行文本处理工具]
+20、[linux 命令行文本处理工具](..)
 
-21、
+21、[linux 系统启动详解](../20170601/linux_startup.md)
 
-22、
+22、[linux rpm 软件包管理](../20170601/linux_rpm.md)
 
-23、
+23、[linux yum 软件管理](../20170502/linux_yum_command.md)
+
+
 
 ### linux 高级管理 linuxcast
 
