@@ -6,6 +6,12 @@
 
 ​	在2017年就遇到一个情况，LC给了一个虚拟机，划了200g到了根路径，还剩余300g没有划出来，当时这个系统是作为数据库使用的，随着时间增加，空间不够用时，发现根路径是磁盘分区后格式化挂载的，没有做逻辑卷这种方式，就要重新安装系统，重新导出数据，重新安装数据库，这个工作量其实还是不小的。所以在给服务器尤其是存储数据之类的数据库服务器，尤其是要查看当前环境是支持动态添加硬盘。 
 
+![_](../img_src/000/2018-08-05_175448.png)
+
+
+
+![_](../img_src/000/2018-08-05_175640.png)
+
 
 
 ## CREATE
@@ -26,6 +32,32 @@ mkfs.ext4 /dev/vgname/mylv
 将逻辑卷挂载到某一路径下
 mount /dev/vgname/mylv /mnt
 ```
+
+## DISPLAY
+
+```
+pvs
+
+vgs
+
+lvs
+
+```
+
+
+
+## DEL
+
+```
+lvremove
+
+vgremove
+
+pvremove
+
+```
+
+
 
 
 
@@ -55,6 +87,38 @@ mount /dev/vgname/mylv /mnt
    # resize2fs /dev/vg_qbname/lv_root
    
    ```
+
+
+
+## 缩小逻辑卷
+
+​	逻辑卷缩小慎之又慎
+
+卸载逻辑卷
+
+umount
+
+缩小文件系统
+
+resize2fs /dev/linuxcast/mylv 1G
+
+缩小LV
+
+lvreduce -L -1G /dev/linuxcast/mylv 
+
+lvdisplay
+
+缩小卷组
+
+vgreduce vgname /dev/sdb1
+
+移除物理卷
+
+pvremove /dev/sdb1
+
+
+
+
 
 
 

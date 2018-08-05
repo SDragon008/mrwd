@@ -8,7 +8,7 @@
 
 当前一段时间经常需要将linux安装好几遍，特别浪费时间，通过VIRTUALbox复制将虚拟机复制多个，避免多次安装。可以有效的解决这个问题；只是这个样子需要重新设置ip以及主机名
 
-centos 6 系列
+## centos 6 系列
 
 修改ip
 
@@ -30,7 +30,7 @@ centos 6 系列
 
 上面是cnetos6系列
 
-centos 7
+## centos 7
 
 修改ip地址
 
