@@ -40,21 +40,21 @@ source .bash_profile
 
 7、图形化安装
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/06a505462ba34c3ab60ba43988dbff5b/clipboard.png)
+![_](../img_src/06a505462ba34c3ab60ba43988dbff5b/clipboard.png)
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/48486dbafcd5428bb03185da8d815a68/clipboard.png)
+![_](../img_src/48486dbafcd5428bb03185da8d815a68/clipboard.png)
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/86d05b91243b4d0fba9c6a3690b048f3/clipboard.png)
+![_](../img_src/86d05b91243b4d0fba9c6a3690b048f3/clipboard.png)
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/c0c7fd552b1d4f99b7e435c8c0d243bd/clipboard.png)
+![_](../img_src/c0c7fd552b1d4f99b7e435c8c0d243bd/clipboard.png)
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/4d0e633b6f614716be5e87a5d8f6eddc/clipboard.png)
+![_](../img_src/4d0e633b6f614716be5e87a5d8f6eddc/clipboard.png)
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/1ed0978168214e759ea9e75ac980d550/clipboard.png)
+![_](../img_src/1ed0978168214e759ea9e75ac980d550/clipboard.png)
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/158caefabb8e43a1ba5c01065e4c0d0e/clipboard.png)
+![_](../img_src/158caefabb8e43a1ba5c01065e4c0d0e/clipboard.png)
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/358c3f6adde947ff8faeac8f8f22587e/clipboard.png)
+![_](../img_src/358c3f6adde947ff8faeac8f8f22587e/clipboard.png)
 
 参考文档：
 
