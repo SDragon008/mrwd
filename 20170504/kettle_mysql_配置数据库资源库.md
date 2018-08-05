@@ -20,25 +20,25 @@ kettle 资源库 配置成oracle的比较常见而且在生产环境中大多是
 
 2.1、选择下图中红色按钮，点击"+"按钮
 
-![img](../img_src/CD1F7399B51B44EEAE431FD655BD6607/clipboard.png)
+![img](../img_src/cd1f7399b51b44eeae431fd655bd6607/clipboard.png)
 
 图片2.1
 
 2.2 点击“+”后，出现下图，并选择 kettle database repository(数据库资源库)
 
-![img](../img_src/61473F4A384742D18A06817B93A135F4/clipboard.png)
+![img](../img_src/61473f4a384742d18a06817b93a135f4/clipboard.png)
 
 图片2.2
 
 2,3选择完“kettle database repository”后，出现下图，并选择新建
 
-![img](../img_src/6ABB95B7995548768F71E7F3ECB3A753/clipboard.png)
+![img](../img_src/6abb95b7995548768f71e7f3ecb3a753/clipboard.png)
 
 图片2.3
 
 2.4选择完新建后，出现下图，请按照实情来配置数据库链接
 
-![img](../img_src/94D47251CC0C412AB82CA8E18E63AB4B/clipboard.png)
+![img](../img_src/94d47251cc0c412ab82ca8e18e63ab4b/clipboard.png)
 
 图片2.4
 

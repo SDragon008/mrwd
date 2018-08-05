@@ -18,7 +18,7 @@ centos 6 系列
 
 3】重启网络配置 service network restart
 
-![img](E:/grwlwd/ysys/gh_ysys@126.com/56edbc6f85b242f3ae7d37dc5f95084b/clipboard.png)
+![_](../img_src/56edbc6f85b242f3ae7d37dc5f95084b/clipboard.png)
 
 修改hostname
 

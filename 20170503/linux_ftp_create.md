@@ -1011,7 +1011,7 @@ Starting vsftpd for vsftpd:                                [  OK  ]
 
 ### 通过ie登陆查看信息并上传文件
 
-![img](../img_src/5770B692E89B4554B7615E18177E34DD/clipboard.png)
+![img](../img_src/5770b692e89b4554b7615e18177e34dd/clipboard.png)
 
 ### 添加新的用户
 
@@ -1107,7 +1107,7 @@ Shutting down vsftpd:                                      [FAILED]
 
 Starting vsftpd for vsftpd:                                [  OK  ]
 
-![img](../img_src/08F206A1B5E845DFB226EC37303315BF/clipboard.png)
+![img](../img_src/08f206a1b5e845dfb226ec37303315bf/clipboard.png)
 
 ================================================================
 
@@ -1347,7 +1347,7 @@ No Packages marked for Update
 
 5.1、在360浏览器中登陆，界面是这样的,或者在其他浏览器中，路径地址暴漏
 
-![img](../img_src/F2E19A15F60140C3A414591EA3AFA3F5/clipboard.png)
+![img](../img_src/f2e19a15f60140c3a414591ea3afa3f5/clipboard.png)
 
 网上一种解决方案，请查看
 
