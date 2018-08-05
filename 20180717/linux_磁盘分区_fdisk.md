@@ -73,7 +73,7 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disk identifier: 0x00000000
 ```
 
-在/dev/sdb下没有任何信息，说明没有分区 
+在/dev/sdb下没有任何信息，说明没有分区 (一般)
 
 
 

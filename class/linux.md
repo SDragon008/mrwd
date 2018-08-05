@@ -11,7 +11,6 @@
 - [文件权限](../20170601/linux_authorization.md)
 - [用户 组](../20170601/linux_user_group.md)
 
-  
 - [virtualbox虚拟机复制linux](../20170601/linux_virtualbox_copy.md)
 
   
@@ -40,6 +39,58 @@
 
 
 ## 系列
+
+
+
+### linux 入门基础 linuxcast
+
+1、[操作系统安装](../20170601/centos_6.5_install.md)
+
+2、GNOME图形化界面基础操作:较为简单，几乎也是不使用的
+
+3、[命令行BASH的基本操作](../20170601/linux_命令行BASH的基本操作.md)
+
+4、[linux 文件系统结构](../20170601/linux_文件系统结构.md)
+
+5、[linux 文件基础操作管理](../20170601/linux_文件基础操作管理.md)
+
+6、[linux 树状目录架构](../20170601/linux_根目录_说明.md)
+
+7、[linux 常用命令](../20170502/linux_常用命令.md)
+
+8、[linux Vi文本编辑器](../20170601/linux_vi文本编辑器.md)
+
+9、[linux 磁盘基本概念](../20170601/linux_磁盘基本概念.md)
+
+10、[fdisk 分区](../20180717/linux_磁盘分区_fdisk.md)
+
+11、[linux文件系统](../20180718/linux_创建文件系统.md)
+
+12、[文件系统挂载](../20180718/LINUX_挂载_卸载.md)
+
+13、[linux 帮助](../20180804/linux_帮助.md)
+
+14、[linux 用户基础](../20170601/linux_user_group.md)
+
+15、
+
+16、
+
+17、
+
+19、
+
+20、
+
+21、
+
+22、
+
+23、
+
+### linux 高级管理 linuxcast
+
+
 
 [linux 安装部署](../20170601/LINUX_INSTALL.md):当前主要记录的是redhat6.5,centos6.5,centos7.2安装部署。
 

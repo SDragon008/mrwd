@@ -6,9 +6,9 @@
 
 linux user group
 
-linux都需要有一个用户的身份去运行，用户限制使用者获进程可以使用，不可以使用那些资源
+**linux都需要有一个用户的身份去运行，用户限制使用者获进程可以使用，不可以使用那些资源**
 
-组用来方便组织管理用户
+## 组用来方便组织管理用户
 
 每个用户都拥有一个UserID,操作系统实际使用的用户ID，而非用户名
 
@@ -20,7 +20,7 @@ linux都需要有一个用户的身份去运行，用户限制使用者获进程
 
 每个可登录用户拥有一个指定的shell
 
-users
+## users
 
 root用户（id为0的用户为root用户），系统用户（1~499），普通用户（500以上）
 
@@ -38,15 +38,24 @@ root用户（id为0的用户为root用户），系统用户（1~499），普通�
 
 /etc/group :保存组信息
 
-查看用户登陆
+### 查看用户登陆
 
-[[root@centos65](mailto:root@centos65) ~]# whoami
+```
+[root@mysql45 ~]# whoami
+root
+[root@mysql45 ~]# who
+root     pts/0        2018-08-05 02:50 (192.168.1.1)
+[root@mysql45 ~]# w
+ 02:55:42 up 6 min,  1 user,  load average: 0.00, 0.04, 0.02
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+root     pts/0    192.168.1.1      02:50    0.00s  0.02s  0.00s w
+```
 
-[[root@centos65](mailto:root@centos65) ~]# who
+约定俗成的习惯，命令越长显示的信息越短，命令越短显示的信息越长
 
-[[root@centos65](mailto:root@centos65) ~]# w
 
-创建用户
+
+### 创建用户
 
 [root@centos65 ~]# useradd gh_study_acc
 
@@ -76,7 +85,7 @@ root用户（id为0的用户为root用户），系统用户（1~499），普通�
 
 也可以修改/etc/passwd的方式实现，但是不建议使用
 
-修改用户
+### 修改用户
 
 命令usermod用来修改用户
 
@@ -102,13 +111,13 @@ usermod -u 777 gh_study_a1;
 
 usermod -l gh_study_a2 gh_study_a1;
 
-删除用户
+### 删除用户
 
 userdel  username(家目录不删除)
 
 userdel -r username（删除家目录）
 
-group
+## group
 
 创建，修改，删除组
 

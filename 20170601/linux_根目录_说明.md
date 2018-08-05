@@ -6,7 +6,7 @@
 
 ![img](../img_src/0-20180726-8-linux.png)
 
-bin:可执行二进制文件
+bin:可执行二进制文件,常常敲击的命令很多都在bin目录下
 
 sbin:可执行的二进制文件，只有超级用户root才能执行
 
@@ -30,7 +30,7 @@ mnt:正常的挂载目录
 
 proc:不存在硬盘上，存储系统实时的信息
 
-selinux:
+selinux:secure linux
 
 sys: 系统底层信息
 
