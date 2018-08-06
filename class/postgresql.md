@@ -19,6 +19,12 @@
 
 - [pg btree 索引结构](../20180728/pg_btree_结构.md)
 
+- [pg with](../20180806/postgresql_with.md)
+
+- [pg arrary](../20180806/postgresql_array.md)
+
+- 
+
   
 
   
@@ -67,7 +73,7 @@
 
 [pg 培训 3](../20180723/pg_dba_3.md)
 
-[pg 培训 4]()
+[pg 培训 4](../20180731/postgresql_dba_4.md)
 
 [pg 培训 5]()
 

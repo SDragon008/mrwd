@@ -1475,4 +1475,5 @@ immutable > stable > volatitle
 
 
 
-这个后面会详细讲解
+详情参考:[pg 函数三态](..)
+

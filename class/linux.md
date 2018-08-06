@@ -18,6 +18,10 @@
 
 - [virtualbox虚拟机复制linux](../20170601/linux_virtualbox_copy.md)
 
+- [服务器是否为硬件riad]()
+
+- 
+
   
 
   
