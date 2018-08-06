@@ -619,6 +619,7 @@ Working Devices : 2
 ​	测试环境中只装了3块硬盘，导致将卸载的/dev/sdc需要重新安装上去，不过要先做处理
 
 ```
+# mdadm --zero-superblock /dev/sdc
 # mdadm /dev/md0 -a /dev/sdc
 mdadm: added /dev/sdc
 # mdadm -D /dev/md0
