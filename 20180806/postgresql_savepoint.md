@@ -34,37 +34,83 @@ savepoint savepoint_name
 
 ### 例子
 
+1、建立一个保存点，稍后撤销到这个保存点建立后执行的所有命令的结果
+
+```
+BEGIN;
+    INSERT INTO test1 VALUES (1);
+    SAVEPOINT my_savepoint;
+    INSERT INTO test1 VALUES (2);
+    ROLLBACK TO SAVEPOINT my_savepoint;
+    INSERT INTO test1 VALUES (3);
+COMMIT;
+```
+
+```
+tutorial=# select * from test1;
+ id 
+----
+  1
+  3
+(2 rows)
+
+```
+
+上面的事务回滚到my_savepoint后，再次执行insert into test1 values(3)，就不会插入2
 
 
 
+2、建立两个同名的保存点，稍后撤销到这个保存点建立后执行的所有命令的结果
+
+```
+BEGIN;
+    INSERT INTO test1 VALUES (1);
+    SAVEPOINT my_savepoint;
+    INSERT INTO test1 VALUES (2);
+    SAVEPOINT my_savepoint;
+    INSERT INTO test1 VALUES (3);
+    ROLLBACK TO SAVEPOINT my_savepoint;
+    INSERT INTO test1 VALUES (4);
+COMMIT;
+```
+
+```
+tutorial=# select * from test1;
+ id 
+----
+  1
+  2
+  4
+(3 rows)
+
+```
+
+在postgresql里，出现多个同名保存点，但是在回滚或者释放的时候，只使用最近的一个
 
 
 
+3、建立并稍后删除一个保存点
 
+```
+BEGIN;
+    INSERT INTO test1 VALUES (3);
+    SAVEPOINT my_savepoint;
+    INSERT INTO test1 VALUES (4);
+    RELEASE SAVEPOINT my_savepoint;
+COMMIT;
+```
 
+```
+tutorial=# select * from test1;
+ id 
+----
+  3
+  4
+(2 rows)
 
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+删除一个保存点，但是保留该保存点建立后执行的命令的效果 ,就等于没有出现过
 
 
 

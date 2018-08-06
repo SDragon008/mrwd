@@ -844,7 +844,9 @@ tutorial=# select * from test1;
 
 ### array
 
-​	略过
+​	
+
+​	后续会单独开一个小结来介绍array数组
 
 
 
@@ -1434,6 +1436,26 @@ TABLE [ ONLY ] table_name [ * ]
 
 
 ```
+
+
+
+#### 递归语句
+
+![_](../img_src/000/2018-08-06_141023.png)
+
+
+
+
+
+![_](../img_src/000/2018-08-06_141157.png)
+
+
+
+temp working table 没有隐藏字段(ctid,xmin,xmax..)
+
+
+
+详情参考:[pg with](../20180806/postgresql_with.md)
 
 
 
