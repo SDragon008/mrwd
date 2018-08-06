@@ -88,6 +88,10 @@
 
 请查看文档:[rpm 命名](20180729/rpm_noarch.rpm_src.rpm)
 
+#### postgresql savepoint 作用
+
+请查看文档:
+
 
 
 ### 20180722
