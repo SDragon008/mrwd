@@ -10,21 +10,13 @@
 
 
 
-- [virtualbox虚拟机复制linux](../20170601/linux_virtualbox_copy.md)
-
-  
-
-
-
 ## 未整理
 
 
 
 - [crontab使用](../20170601/linux_crontab.md)
 
-  
-
-  
+- [virtualbox虚拟机复制linux](../20170601/linux_virtualbox_copy.md)
 
   
 
