@@ -18,7 +18,7 @@
 
 ## 未整理
 
-- [raid使用](../20170627/linux_raid.md)
+
 
 - [crontab使用](../20170601/linux_crontab.md)
 
