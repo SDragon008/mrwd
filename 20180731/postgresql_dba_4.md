@@ -875,3 +875,4 @@ select amname from pg_am
 
 ## 全文检索
 
+​	
