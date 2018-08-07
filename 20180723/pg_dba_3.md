@@ -745,9 +745,9 @@ tutorial=# select id,generate_series(0,end_ip-start_ip)+start_ip from test_1 whe
 
 ### BIT
 
-​	
+​	变长
 
-​	略过
+​	定长
 
 
 
@@ -820,7 +820,11 @@ tutorial=# select * from test1;
 
 
 
-​	具体情况好意思不太了解，后续会跟进这个问题。
+​	'column value'::tsvector,to_tsvector('column value') 返回不一样
+
+​	
+
+[pg 全文检索](../20180807/postgresql全文搜索.md)
 
 
 
@@ -830,7 +834,7 @@ tutorial=# select * from test1;
 
 
 
-​	略过
+![_](../img_src/000/2018-08-07_205601.png)
 
 
 
@@ -838,7 +842,7 @@ tutorial=# select * from test1;
 
 
 
-​	略过
+![_](../img_src/000/2018-08-07_205652.png)
 
 
 
@@ -958,9 +962,17 @@ delete from table where (column).typea= '';
 
 ​	
 
-​	略过
+![_](../img_src/000/2018-08-07_205910.png)
 
 
+
+![_](../img_src/000/2018-08-07_210000.png)
+
+![_](../img_src/000/2018-08-07_210112.png)
+
+
+
+![_](../img_src/000/2018-08-07_210142.png)
 
 
 
