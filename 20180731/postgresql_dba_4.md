@@ -223,28 +223,39 @@ tutorial=#  explain analyze select t1.*,t2.* from test1 t1 join test2 t2 on (t1.
 
 
 
-没有索引（与案例不符）
+没有索引
 
 ```
 tutorial=#  explain analyze select t1.*,t2.* from test1 t1 join test2 t2 on (t1.id=t2.id ); 
-                                                                QUERY PLAN                                                                 
--------------------------------------------------------------------------------------------------------------------------------------------
- Hash Join  (cost=20000000319.00..20000000763.00 rows=10000 width=90) (actual time=2.728..12.057 rows=10000 loops=1)
-   Hash Cond: (t1.id = t2.id)
-   ->  Seq Scan on test1 t1  (cost=10000000000.00..10000000194.00 rows=10000 width=45) (actual time=0.004..0.805 rows=10000 loops=1)
-   ->  Hash  (cost=10000000194.00..10000000194.00 rows=10000 width=45) (actual time=2.712..2.712 rows=10000 loops=1)
-         Buckets: 1024  Batches: 1  Memory Usage: 782kB
-         ->  Seq Scan on test2 t2  (cost=10000000000.00..10000000194.00 rows=10000 width=45) (actual time=0.001..1.013 rows=10000 loops=1)
- Planning time: 0.244 ms
- Execution time: 12.746 ms
-(8 rows)
+                                                       QUERY PLAN             
+                                           
+------------------------------------------------------------------------------
+-------------------------------------------
+ Merge Join  (cost=1716.77..1916.77 rows=10000 width=90) (actual time=7.761..1
+3.800 rows=10000 loops=1)
+   Merge Cond: (t1.id = t2.id)
+   ->  Sort  (cost=858.39..883.39 rows=10000 width=45) (actual time=2.751..3.3
+70 rows=10000 loops=1)
+         Sort Key: t1.id
+         Sort Method: quicksort  Memory: 1166kB
+         ->  Seq Scan on test1 t1  (cost=0.00..194.00 rows=10000 width=45) (ac
+tual time=0.006..1.382 rows=10000 loops=1)
+   ->  Sort  (cost=858.39..883.39 rows=10000 width=45) (actual time=5.000..5.5
+78 rows=10000 loops=1)
+         Sort Key: t2.id
+         Sort Method: quicksort  Memory: 1166kB
+         ->  Seq Scan on test2 t2  (cost=0.00..194.00 rows=10000 width=45) (ac
+tual time=0.003..1.320 rows=10000 loops=1)
+ Planning time: 0.085 ms
+ Execution time: 14.439 ms
+(12 rows)
 
 
 ```
 
 ![_](../img_src/000/2018-08-06_195353.png)
 
-为什么是这个样子？
+hash join ,merge join ,Nested Loop三者真正的区别是什么?
 
 
 
@@ -334,7 +345,7 @@ tutorial=#
 
 ​	
 
-### 是否使用索引和什么有关
+#### 是否使用索引和什么有关
 
 
 
@@ -366,9 +377,7 @@ tutorial=#
  #enable_tidscan = on
 ```
 
-
-
-### 多列索引使用
+#### 多列索引使用
 
 ​	多列索引，使用任何列作为条件，只要条件中的操作符或者函数满足opclass的匹配都可以使用索引，索引被扫描的部分还是全部基本取决于条件是否有索引的第一列作为条件之一
 
@@ -425,7 +434,364 @@ tutorial=# explain analyze select * from test1 where c2 = 100;
 
 **创建多列索引时，选择第一个字段尤为重要**
 
+#### 索引合并查询
 
+Combining Multiple Indexes
+
+src/backend/executor
+
+例如
+
+![_](../img_src/000/2018-08-07_103309.png)
+
+
+
+```
+tutorial=# create table test1(id int primary key,info text unique);
+CREATE TABLE
+tutorial=# insert into test1 select generate_series(1,100000),'guohui'||generate_series(1,100000);
+INSERT 0 100000
+tutorial=# explain analyze select * from test1 where id = 1 or id = 100;
+                                                       QUERY PLAN             
+                                           
+------------------------------------------------------------------------------
+-------------------------------------------
+ Bitmap Heap Scan on test1  (cost=8.52..12.53 rows=1 width=36) (actual time=0.
+010..0.010 rows=2 loops=1)
+   Recheck Cond: ((id = 1) OR (id = 100))
+   Heap Blocks: exact=1
+   ->  BitmapOr  (cost=8.52..8.52 rows=1 width=0) (actual time=0.007..0.007 ro
+ws=0 loops=1)
+         ->  Bitmap Index Scan on test1_pkey  (cost=0.00..4.26 rows=1 width=0)
+ (actual time=0.006..0.006 rows=1 loops=1)
+               Index Cond: (id = 1)
+         ->  Bitmap Index Scan on test1_pkey  (cost=0.00..4.26 rows=1 width=0)
+ (actual time=0.001..0.001 rows=1 loops=1)
+               Index Cond: (id = 100)
+ Planning time: 0.121 ms
+ Execution time: 0.029 ms
+(10 rows)
+
+
+```
+
+
+
+#### 索引和collate的匹配
+
+
+
+​	collate是什么？
+
+
+
+#### 部分值索引
+
+​	
+
+​	例子：
+
+​	--部分约束
+
+​	--去除common的值id=1,这个值有10W条，走索引根本不合适，partical索引很好的避免了此类情况
+
+
+
+```
+tutorial=# create table test1(id int ,info text);
+CREATE TABLE
+tutorial=# insert into test1 select 1,'guohui'||generate_series(1,100000);
+INSERT 0 100000
+tutorial=# insert into test1 select generate_series(1,1000),'guohui'||generate_series(1,1000);
+INSERT 0 1000
+tutorial=# create index idx_test1_1 on test1(id) where id <> 1;
+CREATE INDEX
+tutorial=# explain select * from test1 where id  = 1;
+                         QUERY PLAN                          
+-------------------------------------------------------------
+ Seq Scan on test1  (cost=0.00..1808.50 rows=99990 width=15)
+   Filter: (id = 1)
+(2 rows)
+
+tutorial=# explain analyze select * from test1 where id <> 1;
+                                                        QUERY PLAN            
+                                            
+------------------------------------------------------------------------------
+--------------------------------------------
+ Index Scan using idx_test1_1 on test1  (cost=0.28..46.90 rows=1010 width=15) 
+(actual time=0.026..0.199 rows=999 loops=1)
+ Planning time: 0.091 ms
+ Execution time: 0.265 ms
+(3 rows)
+
+tutorial=# explain select * from test1 where id = 100;
+                                QUERY PLAN                                
+--------------------------------------------------------------------------
+ Index Scan using idx_test1_1 on test1  (cost=0.28..8.33 rows=3 width=15)
+   Index Cond: (id = 100)
+(2 rows)
+
+tutorial=# explain analyze select * from test1 where id = 100;
+                                                     QUERY PLAN               
+                                      
+------------------------------------------------------------------------------
+--------------------------------------
+ Index Scan using idx_test1_1 on test1  (cost=0.28..8.33 rows=3 width=15) (act
+ual time=0.010..0.011 rows=1 loops=1)
+   Index Cond: (id = 100)
+ Planning time: 0.098 ms
+ Execution time: 0.024 ms
+(4 rows)
+
+```
+
+
+
+#### 函数索引和表达式索引
+
+```
+tutorial=# explain select * from test1 where id + 1 = 100;
+                        QUERY PLAN                         
+-----------------------------------------------------------
+ Seq Scan on test1  (cost=0.00..2061.00 rows=505 width=15)
+   Filter: ((id + 1) = 100)
+(2 rows)
+tutorial=# create index idx_test1_3 on test1((id+1));
+CREATE INDEX
+tutorial=# explain select * from test1 where id + 1 = 100;
+                                 QUERY PLAN                                  
+-----------------------------------------------------------------------------
+ Bitmap Heap Scan on test1  (cost=12.21..577.48 rows=505 width=15)
+   Recheck Cond: ((id + 1) = 100)
+   ->  Bitmap Index Scan on idx_test1_3  (cost=0.00..12.08 rows=505 width=0)
+         Index Cond: ((id + 1) = 100)
+(4 rows)
+
+tutorial=# 
+
+
+```
+
+
+
+### HOT Update
+
+
+
+​	截取两张图来理解一下
+
+![_](../img_src/000/2018-08-07_142340.png)
+
+
+
+![_](../img_src/000/2018-08-07_142444.png)
+
+
+
+[pageinspect](../20180721/pg_pageinspect.md)
+
+
+
+```
+tutorial=# truncate table test1;
+TRUNCATE TABLE
+tutorial=# insert into test1 values(1,'guohui',now());
+INSERT 0 1
+tutorial=# select * from page_header(get_raw_page('test1',0));
+    lsn     | checksum | flags | lower | upper | special | pagesize | version | prune_xid 
+------------+----------+-------+-------+-------+---------+----------+---------+-----------
+ 0/2BC7D000 |        0 |     0 |    28 |  8144 |    8192 |     8192 |       4 |         0
+(1 row)
+tutorial=# select * from heap_page_items(get_raw_page('test1',0));
+ lp | lp_off | lp_flags | lp_len | t_xmin | t_xmax | t_field3 | t_ctid | t_infomask2 | t_infomask
+ | t_hoff | t_bits | t_oid 
+----+--------+----------+--------+--------+--------+----------+--------+-------------+-----------
+-+--------+--------+-------
+  1 |   8144 |        1 |     48 |   2118 |      0 |        0 | (0,1)  |           3 |       2050
+ |     24 |        |      
+(1 row)
+tutorial=# select * from page_header(get_raw_page('idx_test1_id',0));
+    lsn     | checksum | flags | lower | upper | special | pagesize | version | prune_xid 
+------------+----------+-------+-------+-------+---------+----------+---------+-----------
+ 0/2BC7D038 |        0 |     0 |    48 |  8176 |    8176 |     8192 |       4 |         0
+(1 row)
+tutorial=# select * from heap_page_items(get_raw_page('idx_test1_id',0));
+ lp | lp_off | lp_flags | lp_len | t_xmin | t_xmax | t_field3 | t_ctid | t_infomask2 | t_infomask
+ | t_hoff | t_bits | t_oid 
+----+--------+----------+--------+--------+--------+----------+--------+-------------+-----------
+-+--------+--------+-------
+  1 |  12642 |        2 |      2 |        |        |          |        |             |           
+ |        |        |      
+  2 |      2 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  3 |      1 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  4 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  5 |      1 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  6 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+(6 rows)
+
+
+```
+
+更新一次后
+
+```
+tutorial=# update test1 set info ='info';
+UPDATE 1
+tutorial=# select * from heap_page_items(get_raw_page('test1',0));
+ lp | lp_off | lp_flags | lp_len | t_xmin | t_xmax | t_field3 | t_ctid | t_infomask2 | t_infomask
+ | t_hoff | t_bits | t_oid 
+----+--------+----------+--------+--------+--------+----------+--------+-------------+-----------
+-+--------+--------+-------
+  1 |   8144 |        1 |     48 |   2118 |   2119 |        0 | (0,2)  |       16387 |        258
+ |     24 |        |      
+  2 |   8096 |        1 |     48 |   2119 |      0 |        0 | (0,2)  |       32771 |      10242
+ |     24 |        |      
+(2 rows)
+
+tutorial=# select * from heap_page_items(get_raw_page('idx_test1_id',0));
+ lp | lp_off | lp_flags | lp_len | t_xmin | t_xmax | t_field3 | t_ctid | t_infomask2 | t_infomask
+ | t_hoff | t_bits | t_oid 
+----+--------+----------+--------+--------+--------+----------+--------+-------------+-----------
+-+--------+--------+-------
+  1 |  12642 |        2 |      2 |        |        |          |        |             |           
+ |        |        |      
+  2 |      2 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  3 |      1 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  4 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  5 |      1 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  6 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+(6 rows)
+
+
+```
+
+vacuum后
+
+```
+tutorial=# vacuum test1;
+VACUUM
+tutorial=# select * from heap_page_items(get_raw_page('test1',0));
+ lp | lp_off | lp_flags | lp_len | t_xmin | t_xmax | t_field3 | t_ctid | t_infomask2 | t_infomask
+ | t_hoff | t_bits | t_oid 
+----+--------+----------+--------+--------+--------+----------+--------+-------------+-----------
+-+--------+--------+-------
+  1 |      2 |        2 |      0 |        |        |          |        |             |           
+ |        |        |      
+  2 |   8144 |        1 |     48 |   2119 |      0 |        0 | (0,2)  |       32771 |      10498
+ |     24 |        |      
+(2 rows)
+
+```
+
+
+
+多次进行update后
+
+```
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# update test1 set info ='info' where id = 1;
+UPDATE 1
+tutorial=# select * from heap_page_items(get_raw_page('test1',0));
+ lp | lp_off | lp_flags | lp_len | t_xmin | t_xmax | t_field3 | t_ctid | t_infomask2 | t_infomask
+ | t_hoff | t_bits | t_oid 
+----+--------+----------+--------+--------+--------+----------+--------+-------------+-----------
+-+--------+--------+-------
+  1 |      2 |        2 |      0 |        |        |          |        |             |           
+ |        |        |      
+  2 |   8144 |        1 |     48 |   2119 |   2120 |        0 | (0,3)  |       49155 |       9474
+ |     24 |        |      
+  3 |   8096 |        1 |     48 |   2120 |   2121 |        0 | (0,4)  |       49155 |       9474
+ |     24 |        |      
+  4 |   8048 |        1 |     48 |   2121 |   2122 |        0 | (0,5)  |       49155 |       9474
+ |     24 |        |      
+  5 |   8000 |        1 |     48 |   2122 |   2123 |        0 | (0,6)  |       49155 |       9474
+ |     24 |        |      
+  6 |   7952 |        1 |     48 |   2123 |   2124 |        0 | (0,7)  |       49155 |       9474
+ |     24 |        |      
+  7 |   7904 |        1 |     48 |   2124 |   2125 |        0 | (0,8)  |       49155 |       9474
+ |     24 |        |      
+  8 |   7856 |        1 |     48 |   2125 |   2126 |        0 | (0,9)  |       49155 |       9474
+ |     24 |        |      
+  9 |   7808 |        1 |     48 |   2126 |   2127 |        0 | (0,10) |       49155 |       9474
+ |     24 |        |      
+ 10 |   7760 |        1 |     48 |   2127 |   2128 |        0 | (0,11) |       49155 |       9474
+ |     24 |        |      
+ 11 |   7712 |        1 |     48 |   2128 |   2129 |        0 | (0,12) |       49155 |       8450
+ |     24 |        |      
+ 12 |   7664 |        1 |     48 |   2129 |      0 |        0 | (0,12) |       32771 |      10242
+ |     24 |        |      
+(12 rows)
+
+tutorial=# 
+
+```
+
+再次vacuum后
+
+```
+tutorial=# vacuum test1;
+VACUUM
+tutorial=# select * from heap_page_items(get_raw_page('test1',0));
+ lp | lp_off | lp_flags | lp_len | t_xmin | t_xmax | t_field3 | t_ctid | t_infomask2 | t_infomask
+ | t_hoff | t_bits | t_oid 
+----+--------+----------+--------+--------+--------+----------+--------+-------------+-----------
+-+--------+--------+-------
+  1 |     12 |        2 |      0 |        |        |          |        |             |           
+ |        |        |      
+  2 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  3 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  4 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  5 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  6 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  7 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  8 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+  9 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+ 10 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+ 11 |      0 |        0 |      0 |        |        |          |        |             |           
+ |        |        |      
+ 12 |   8144 |        1 |     48 |   2129 |      0 |        0 | (0,12) |       32771 |      10498
+ |     24 |        |      
+(12 rows)
+
+tutorial=# 
+
+```
 
 
 
@@ -453,15 +819,21 @@ tutorial=# explain analyze select * from test1 where c2 = 100;
 
 ​	索引算法不同，B-tree,HASH,Gist,SP-GiST 
 
-​	`select amname from pg_am`
+```
+select amname from pg_am
+```
+
+
 
 
 
 ### 索引应用场景
 
+​	postgresql不同的索引类别支持的索引访问操作符也有不同，下面是不同的索引类型对应的系统默认的索引策略
 
+#### Btree
 
-### Btree
+支持前导模糊查询(like 'xxx%' 或者~'^xxx'),忽略大小写字符前导模糊查询(ILIKE 'xxx%' 或 ~* '^xxx')
 
 <
 
@@ -475,12 +847,31 @@ tutorial=# explain analyze select * from test1 where c2 = 100;
 
 ###  HASH
 
+=
+
 ### GIN
+
+支持多值列的索引，例如数组类型，全文检索累类型
+
+![_](../img_src/000/2018-08-07_102549.png)
 
 ### Gist 
 
+并不是单类的索引，可以认为它是一种索引框架，支持许多不同的索引策略
+
+![_](../img_src/000/2018-08-07_102734.png)
+
+### Sp-Gist
+
+与gist类似，也是一种索引框架，支持基于磁盘存储的非平衡数据结构，如四叉树，k-d树，raidx树
+
+![_](../img_src/000/2018-08-07_103034.png)
 
 
-除此之外，gist索引还支持紧邻排序，例如
 
-​	 
+
+
+
+
+## 全文检索
+
