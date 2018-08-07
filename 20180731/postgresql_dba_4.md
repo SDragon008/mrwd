@@ -345,7 +345,7 @@ tutorial=#
 
 ​	
 
-#### 是否使用索引和什么有关
+### 是否使用索引和什么有关
 
 
 
@@ -377,7 +377,7 @@ tutorial=#
  #enable_tidscan = on
 ```
 
-#### 多列索引使用
+### 多列索引使用
 
 ​	多列索引，使用任何列作为条件，只要条件中的操作符或者函数满足opclass的匹配都可以使用索引，索引被扫描的部分还是全部基本取决于条件是否有索引的第一列作为条件之一
 
@@ -434,7 +434,7 @@ tutorial=# explain analyze select * from test1 where c2 = 100;
 
 **创建多列索引时，选择第一个字段尤为重要**
 
-#### 索引合并查询
+### 索引合并查询
 
 Combining Multiple Indexes
 
@@ -475,17 +475,13 @@ ws=0 loops=1)
 
 ```
 
-
-
-#### 索引和collate的匹配
+### 索引和collate的匹配
 
 
 
 ​	collate是什么？
 
-
-
-#### 部分值索引
+### 部分值索引
 
 ​	
 
@@ -545,9 +541,7 @@ ual time=0.010..0.011 rows=1 loops=1)
 
 ```
 
-
-
-#### 函数索引和表达式索引
+### 函数索引和表达式索引
 
 ```
 tutorial=# explain select * from test1 where id + 1 = 100;
@@ -871,8 +865,9 @@ select amname from pg_am
 
 
 
-
-
-## 全文检索
+### 全文检索
 
 ​	
+
+​	详情请参考:[pg全文搜索](../20180807/postgresql全文搜索.md)
+

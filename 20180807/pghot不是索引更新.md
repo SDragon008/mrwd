@@ -246,3 +246,15 @@ tutorial=#
 
 ```
 
+
+
+
+
+
+
+
+
+## 链接地址
+
+[外文资料](https://git.postgresql.org/gitweb/?spm=a2c4e.11153940.blogcont59251.96.79cd7fc3I37D46&p=postgresql.git;a=blob;f=src/backend/access/heap/README.HOT;h=4cf3c3a0d4c2db96a57e73e46fdd7463db439f79;hb=f2dba881a5e13abc957f0e692749f89c9288134d)
+

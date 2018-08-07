@@ -460,8 +460,6 @@ osdba=# select * from page_header(get_raw_page('test_1',0));
 
 
 
-
-
 heap_page_items(page bytea):items的相关信息
 
 `src/include/storage/itemid.h` ，`src/include/access/htup_details.h` 
@@ -478,10 +476,6 @@ heap_page_items(page bytea):items的相关信息
 | t_infomask2 | uint16          | 2字节 | 字段个数，以及各种标志位            |
 | t_infomask  | uint16          | 2字节 | 各种标志位                          |
 | t_hoff      | uint8           | 1字节 | 用户数据偏移量                      |
-
-
-
-
 
 
 
