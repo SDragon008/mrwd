@@ -871,3 +871,103 @@ select amname from pg_am
 
 ​	详情请参考:[pg全文搜索](../20180807/postgresql全文搜索.md)
 
+
+
+## pg_trgm 近似匹配
+
+​	
+
+​	默认在源码中/contrib/pg_trgm，编译并且安装就可以了
+
+
+
+### 原理
+
+​	首先把一个字符串拆分成多个独立的字符串(拆分间隔为非字符如数字空格标点)  
+
+​	然后再拆分后的独立字符串前加2个空格后加1个空格, 然后把字符串切分成相近的3个字符一组的一些单元      
+
+​	两个字符串的相似度匹配和他们被切分成的单元共性有关.    
+
+
+
+```
+tutorial=# select show_trgm('abc');
+        show_trgm        
+-------------------------
+ {"  a"," ab",abc,"bc "}
+(1 row)
+
+tutorial=# select show_trgm('abd');
+        show_trgm        
+-------------------------
+ {"  a"," ab",abd,"bd "}
+(1 row)
+
+tutorial=# select show_trgm('adb');
+        show_trgm        
+-------------------------
+ {"  a"," ad",adb,"db "}
+(1 row)
+
+tutorial=# select similarity('abc','abd');
+ similarity 
+------------
+   0.333333
+(1 row)
+
+tutorial=# select similarity('abc','adb');
+ similarity 
+------------
+   0.142857
+(1 row)
+
+
+```
+
+
+
+pg_trgm 函数
+
+| 函数                     | 返回     | 描述                                                         |
+| ------------------------ | -------- | ------------------------------------------------------------ |
+| `similarity(text, text)` | `real`   | 返回一个数字表明两个参数是多么相似。结果的范围是0（表明两个字符串完全不相似）    到1（表明两个字符串是完全相同的）。 |
+| `show_trgm(text)`        | `text[]` | 返回一个给定字符串中所有三元模型的数组。（实际上这个除了调试之外很少有用。） |
+| `show_limit()`           | `real`   | 返回`%`操作符使用的当前相似性阈值。例如，这个设置两个单词间的最小相似性，    这两个单词被认为足够相似以致相互之间拼写错误。 |
+| `set_limit(real)`        | `real`   | 设置`%`操作符使用的当前相似性阈值。该阈值必须在0和1之间（缺省是0.3）。    返回传递进来的相同的值。 |
+
+pg_trgm操作符
+
+| 操作符              | 返回      | 描述                                                         |
+| ------------------- | --------- | ------------------------------------------------------------ |
+| `text` `%` `text`   | `boolean` | 如果它的参数的相似性高于`set_limit`设置的当前相似性阈值则返回`true`。 |
+| `text` `<->` `text` | `real`    | 返回参数之间的"距离"，这是1减去`similarity()`值。            |
+
+pg_trgm索引支持
+
+pg_trgm模块提供GIST和GIN索引操作符类，该操作符类允许你为了非常快速的相似性搜索在文本字段上创建一个索引，这些索引类型支持上面描述的相似性操作符，并且额外支持基于三元模型的索引搜索LIKE,ILIKE,~,~*.
+
+```
+CREATE TABLE test_trgm (t text);
+CREATE INDEX trgm_idx ON test_trgm USING gist (t gist_trgm_ops);
+CREATE INDEX trgm_idx ON test_trgm USING gin (t gin_trgm_ops);
+
+SELECT t, similarity(t, 'word') AS sml
+  FROM test_trgm
+  WHERE t % 'word'
+  ORDER BY sml DESC, t;
+  
+SELECT t, t <-> 'word' AS dist
+  FROM test_trgm
+  ORDER BY dist LIMIT 10;
+```
+
+
+
+
+
+## 链接地址
+
+
+
+http://www.postgres.cn/docs/9.4/pgtrgm.html
