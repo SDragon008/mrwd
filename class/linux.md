@@ -32,6 +32,16 @@
 
 
 
+### linux+命令行和shell脚本编程宝典
+
+##### 	linux shell 入门
+
+
+
+
+
+
+
 ### linux 入门基础 linuxcast
 
 1、[linux 操作系统安装](../20170601/centos_6.5_install.md)
