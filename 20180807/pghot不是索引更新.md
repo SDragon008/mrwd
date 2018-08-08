@@ -4,6 +4,12 @@
 
 ​	更新的字段为索引字段不会支持Hot技术
 
+```
+HOT updates only work when the changed columns are not involved in indexes in any way because the indexes pointing the the old tuples need to point to the new version of it as of transaction id. 
+```
+
+
+
 
 
 ```
@@ -245,12 +251,6 @@ tutorial=# select * from heap_page_items(get_raw_page('test1',0));
 tutorial=# 
 
 ```
-
-
-
-
-
-
 
 
 
