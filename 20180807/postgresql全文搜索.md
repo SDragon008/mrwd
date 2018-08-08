@@ -8,7 +8,7 @@
 
 ​	postgresql提供了两种数据类型用于支持全文搜索，即通过自然语言documents的集合来找到那些匹配一个query的检索。tsvector类型产生一个文档，tsquery类型表示一个文本查询。
 
-	### tsvector
+###  tsvector
 
 ​	tsvector的值是一个无重复值的lexemes排序列表，即一些同一个词的不同变种的标准化
 
