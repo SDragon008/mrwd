@@ -176,26 +176,59 @@ tutorial=# SELECT to_tsvector( 'postgraduate' ) @@ to_tsquery( 'postgres:*' );
 
 ```
 
+​	
 
+​	带上语言配置
 
 ```
-
-tutorial=# SELECT to_tsquery('Fat:ab & Cats');
+select to_tsquery('english','Fat:ab & Cats');
     to_tsquery    
 ------------------
  'fat':AB & 'cat'
 (1 row)
 
-tutorial=# select to_tsvector('Fat:ab & Cats');
-      to_tsvector       
-------------------------
- 'ab':2 'cat':3 'fat':1
+
+```
+
+
+
+​	tsquery对于操作符@@的使用
+
+```
+tutorial=# select to_tsvector('spanish', $$Hello world, I'm digoal.$$);
+                to_tsvector                
+-------------------------------------------
+ 'digoal':5 'hell':1 'i':3 'm':4 'world':2
 (1 row)
 
-tutorial=# select 'Fat:ab & Cats'::tsquery;
-      tsquery      
--------------------
- 'Fat':AB & 'Cats'
+tutorial=# select to_tsvector('spanish', $$Hello world, I'm digoal.$$) @@ 'i:b'::tsquery;
+ ?column? 
+----------
+ f
+(1 row)
+
+tutorial=# select to_tsvector('spanish', $$Hello world, I'm digoal.$$) @@ 'i:d'::tsquery;
+ ?column? 
+----------
+ t
+(1 row)
+
+tutorial=# select to_tsvector('spanish', $$Hello world, I'm digoal.$$) @@ 'i:*'::tsquery;
+ ?column? 
+----------
+ t
+(1 row)
+
+tutorial=# select to_tsvector('spanish', $$Hello world, I'm digoal.$$) @@ 'i:d*'::tsquery;
+ ?column? 
+----------
+ t
+(1 row)
+
+tutorial=# select to_tsvector('spanish', $$Hello world, I'm digoal.$$) @@ 'i:a*'::tsquery;
+ ?column? 
+----------
+ f
 (1 row)
 
 ```
@@ -268,12 +301,255 @@ tutorial=# select 'Fat:ab & Cats'::tsquery;
 
 ## 全文搜索
 
-​	
+### 全文检索
 
-​	
+​	和全文检索有关数据类型就是tsvector和tsquery
+
+​	tsvector--文本在经过全文检索标准化处理后得到类型，处理后的文本包括(分词去重后排序,分词的位置,分词的权重结构(一共有4个权重ABCD,D默认不显示))
+
+​	tsquery--需要检索的分词组合，组合类型包括’ &,|,!‘,同时还支持分词的权重，分词的前导匹配
+
+
+
+​	使用to_tsvector可以指定不同的语言配置，把文本根据指定的语言配置进行分词
+
+​	例如，使用西班牙语言和英语得到tsvector值是不同的
+
+```
+tutorial=# select to_tsvector('english', $$Hello world, I'm guohui.$$);
+             to_tsvector              
+--------------------------------------
+ 'guohui':5 'hello':1 'm':4 'world':2
+(1 row)
+
+tutorial=# select to_tsvector('spanish', $$Hello world, I'm guohui.$$);
+                to_tsvector                
+-------------------------------------------
+ 'guohui':5 'hell':1 'i':3 'm':4 'world':2
+(1 row)
+
+tutorial=# select to_tsvector('french', $$Hello world, I'm guohui.$$);
+             to_tsvector              
+--------------------------------------
+ 'guohui':5 'hello':1 'i':3 'world':2
+(1 row)
+
+```
+
+
+
+​	查看系统中已经安装的全文检索配置
+
+```
+tutorial=# \dF *
+               List of text search configurations
+   Schema   |    Name    |              Description              
+------------+------------+---------------------------------------
+ pg_catalog | danish     | configuration for danish language
+ pg_catalog | dutch      | configuration for dutch language
+ pg_catalog | english    | configuration for english language
+ pg_catalog | finnish    | configuration for finnish language
+ pg_catalog | french     | configuration for french language
+ pg_catalog | german     | configuration for german language
+ pg_catalog | hungarian  | configuration for hungarian language
+ pg_catalog | italian    | configuration for italian language
+ pg_catalog | norwegian  | configuration for norwegian language
+ pg_catalog | portuguese | configuration for portuguese language
+ pg_catalog | romanian   | configuration for romanian language
+ pg_catalog | russian    | configuration for russian language
+ pg_catalog | simple     | simple configuration
+ pg_catalog | spanish    | configuration for spanish language
+ pg_catalog | swedish    | configuration for swedish language
+ pg_catalog | turkish    | configuration for turkish language
+ public     | testzhcfg  | 
+(17 rows)
+
+
+```
+
+​	testzhcfg是中文分词	
+
+
+
+​	全文检索的索引使用
+
+```
+tutorial=# create table test1(id int ,info tsvector,crt_time timestamp(0));
+CREATE TABLE
+tutorial=# insert into test1 values(1,$$Hello world,I'm guohui.$$,now());
+INSERT 0 1
+tutorial=# select * from test1;
+ id |              info              |      crt_time       
+----+--------------------------------+---------------------
+  1 | 'Hello' 'guohui.' 'world,I''m' | 2018-08-08 08:03:09
+(1 row)
+
+tutorial=# create index idx_test1_info on test1 using gin(info);
+CREATE INDEX
+tutorial=# select * from test1 where info @@ 'guohui.'::tsquery;
+ id |              info              |      crt_time       
+----+--------------------------------+---------------------
+  1 | 'Hello' 'guohui.' 'world,I''m' | 2018-08-08 08:03:09
+(1 row)
+
+tutorial=# select * from test1 where info @@ 'guohui'::tsquery;
+ id | info | crt_time 
+----+------+----------
+(0 rows)
+```
+
+​	全文检索的索引使用(tsvector支持的索引策略gin,gist,btree)
+
+​	gin索引策略，可用于tsvector包含tsquery的查询匹配
+
+```
+tutorial=# explain analyze select * from test1 where info @@ 'guohui'::tsquery;
+                                           QUERY PLAN                                           
+------------------------------------------------------------------------------------------------
+ Seq Scan on test1  (cost=0.00..1.01 rows=1 width=44) (actual time=0.005..0.005 rows=0 loops=1)
+   Filter: (info @@ '''guohui'''::tsquery)
+   Rows Removed by Filter: 1
+ Planning time: 0.043 ms
+ Execution time: 0.016 ms
+(5 rows)
+
+tutorial=# set enable_seqscan = off;
+SET
+tutorial=# explain analyze select * from test1 where info @@ 'guohui'::tsquery;
+                                                      QUERY PLAN                                       
+                
+-------------------------------------------------------------------------------------------------------
+----------------
+ Bitmap Heap Scan on test1  (cost=8.00..12.01 rows=1 width=44) (actual time=0.009..0.009 rows=0 loops=1
+)
+   Recheck Cond: (info @@ '''guohui'''::tsquery)
+   ->  Bitmap Index Scan on idx_test1_info  (cost=0.00..8.00 rows=1 width=0) (actual time=0.008..0.008 
+rows=0 loops=1)
+         Index Cond: (info @@ '''guohui'''::tsquery)
+ Planning time: 0.068 ms
+ Execution time: 0.056 ms
+(6 rows)
+
+
+```
+
+
+
+​	GIST索引策略，可用于包含匹配
+
+```
+tutorial=# drop index idx_test1_info;
+DROP INDEX
+tutorial=# create index idx_test1_info on test1 using gist(info);
+CREATE INDEX
+tutorial=# explain analyze select * from test1 where info @@ 'guohui'::tsquery;
+                                                      QUERY PLAN                                       
+                
+-------------------------------------------------------------------------------------------------------
+----------------
+ Index Scan using idx_test1_info on test1  (cost=0.12..8.14 rows=1 width=44) (actual time=0.007..0.007 
+rows=0 loops=1)
+   Index Cond: (info @@ '''guohui'''::tsquery)
+ Planning time: 0.138 ms
+ Execution time: 0.076 ms
+(4 rows)
+
+tutorial=# 
+
+```
+
+
+
+###  中文检索
+
+#### 创建中文检索
+
+https://github.com/digoal/blog/blob/master/201206/20120621_01.md
+
+#### 创建中文检索二
+
+```
+# wget -q -O - http://www.xunsearch.com/scws/down/scws-1.2.2.tar.bz2 | tar xjf
+# cd scws-1.2.2/
+# ./configure --prefix=/opt/scws-1.2.2
+# make
+# make install
+```
+
+
+
+```
+# cd zhparser
+# export PATH=/usr/local/pgsql/bin:$PATH
+# SCWS_HOME=/opt/scws-1.2.2 make
+# make install
+
+```
+
+
+
+```
+# su - osdba
+[osdba@mysql45 ~]$ psql -d tutorial
+psql (9.4.1)
+Type "help" for help.
+
+tutorial=# create extension zhparser;  
+CREATE EXTENSION  
+  
+tutorial=# select * from pg_ts_parser ;  
+ prsname  | prsnamespace |  prsstart   |    prstoken     |  prsend   |  prsheadline  |  prslextype     
+----------+--------------+-------------+-----------------+-----------+---------------+---------------  
+ default  |           11 | prsd_start  | prsd_nexttoken  | prsd_end  | prsd_headline | prsd_lextype  
+ zhparser |        25956 | zhprs_start | zhprs_getlexeme | zhprs_end | prsd_headline | zhprs_lextype  
+(2 rows)  
+  
+tutorial=# CREATE TEXT SEARCH CONFIGURATION testzhcfg (PARSER = zhparser);  
+CREATE TEXT SEARCH CONFIGURATION  
+  
+tutorial=# select * from pg_ts_config where cfgname='testzhcfg';  
+  cfgname  | cfgnamespace | cfgowner | cfgparser   
+-----------+--------------+----------+-----------  
+ testzhcfg |        25956 |       10 |     26134  
+ 
+ 
+ 
+tutorial=# ALTER TEXT SEARCH CONFIGURATION testzhcfg ADD MAPPING FOR n,v,a,i,e,l WITH simple;  
+ALTER TEXT SEARCH CONFIGURATION  
+tutorial=# select * from pg_ts_config_map where mapcfg=(select oid from pg_ts_config where cfgname='testzhcfg');  
+ mapcfg | maptokentype | mapseqno | mapdict   
+--------+--------------+----------+---------  
+  26135 |           97 |        1 |    3765  
+  26135 |          101 |        1 |    3765  
+  26135 |          105 |        1 |    3765  
+  26135 |          108 |        1 |    3765  
+  26135 |          110 |        1 |    3765  
+  26135 |          118 |        1 |    3765  
+(6 rows)  
+
+
+SELECT * FROM ts_parse('zhparser', 'hello world! 2010年保障房建设在全国范围内获全面启动，从中央到地方纷纷加大 了保障房的建设和投入力度 。2011年，保障房进入了更大规模的建设阶段。住房城乡建设部党组书记、部长姜伟新去年底在全国住房城乡建设工作会议上表示，要继续推进保障性安居工程建设。');
+
+
+SELECT to_tsvector('testzhcfg','“今年保障房新开工数量虽然有所下调，但实际的年度在建规模以及竣工规模会超以往年份，相对应的对资金的需求也会创历>史纪录。”陈国强说。在他看来，与2011年相比，2012年的保障房建设在资金配套上的压力将更为严峻。');
+
+
+SELECT to_tsquery('testzhcfg', '保障房资金压力');
+```
+
+
+
+
 
 ## 链接地址
 
 
 
 http://www.postgres.cn/docs/9.4/textsearch-intro.html
+
+https://github.com/digoal/blog/blob/master/201403/20140324_01.md
+
+https://github.com/digoal/blog/blob/master/201206/20120621_01.md
+
+https://pgxn.org/dist/zhparser
+
