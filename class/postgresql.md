@@ -75,7 +75,7 @@
 
 [pg 培训 4](../20180731/postgresql_dba_4.md)
 
-[pg 培训 5]()
+[pg 培训 5](../20180804/postgresql_dba_5.md)
 
 [pg 培训 6]()
 
