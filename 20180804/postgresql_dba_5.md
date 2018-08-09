@@ -320,3 +320,305 @@ tutorial=# select 0.01903492647058823529*100000;
 
 ```
 
+#### MCV(most common values)
+
+​	条件中查询的数据是最多的统计
+
+```
+tutorial=# explain select * from test1 where id = 1;
+                         QUERY PLAN                          
+-------------------------------------------------------------
+ Seq Scan on test1  (cost=0.00..3774.00 rows=99940 width=17)
+   Filter: (id = 1)
+(2 rows)
+
+```
+
+​	查看pg_class的reltuples和pg_stats的most_common_vals和most_common_freqs
+
+```
+tutorial=# select * from pg_stats where tablename='test1' and attname ='id';
+-[ RECORD 1 ]----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+schemaname             | public
+tablename              | test1
+attname                | id
+inherited              | f
+null_frac              | 0
+avg_width              | 4
+n_distinct             | -0.13058
+most_common_vals       | {1}
+most_common_freqs      | {0.4997}
+histogram_bounds       | {3,1027,1993,3159,4069,5268,6187,7245,8226,9380,10451,11377,12419,13349,14359,15457,16445,17442,18350,19398,20416,21424,22381,23408,24310,25260,26220,27221,28240,29306,30347,31292,32257,33190,34231,35219,36302,37284,38164,39186,40193,41272,42285,43235,44248,45269,46232,47131,48297,49305,50293,51294,52347,53355,54365,55409,56289,57315,58415,59271,60345,61369,62308,63160,64186,65366,66314,67370,68449,69398,70361,71485,72516,73536,74676,75740,76780,77697,78621,79534,80575,81489,82498,83344,84282,85234,86151,87237,88186,89135,90085,91106,92072,93028,94133,95091,96178,97171,98075,99022,100000}
+correlation            | -0.499999
+most_common_elems      | 
+most_common_elem_freqs | 
+elem_count_histogram   | 
+
+tutorial=# select 200000*0.4997;
+  ?column?  
+------------
+ 99940.0000
+(1 row)
+
+```
+
+
+
+#### MCV和distinct值个数评估行数
+
+​	条件中查询的数据为一个distinct数据
+
+```
+tutorial=# explain select * from test1 where id = 1000;
+                       QUERY PLAN                        
+---------------------------------------------------------
+ Seq Scan on test1  (cost=0.00..3774.00 rows=4 width=17)
+   Filter: (id = 1000)
+(2 rows)
+```
+
+
+
+```
+tutorial=# select * from pg_stats where tablename='test1' and attname ='id';
+-[ RECORD 1 ]----------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+schemaname             | public
+tablename              | test1
+attname                | id
+inherited              | f
+null_frac              | 0
+avg_width              | 4
+n_distinct             | -0.128015
+most_common_vals       | {1}
+most_common_freqs      | {0.5054}
+histogram_bounds       | {5,1007,2003,2962,3910,4930,5881,6787,7747,8757,9765,10748,11684,12562,13575,14598,15581,16612,17632,18701,19638,20693,21755,22786,23728,24670,25666,26718,27759,28654,29580,30387,31476,32669,33701,34730,35746,36713,37751,38790,39869,40693,41771,42853,43737,44821,45883,46827,47820,48753,49756,50729,51718,52835,53809,54911,55818,56774,57704,58902,59839,60822,61750,62775,63886,64868,65874,66752,67712,68733,69718,70863,71890,72876,73864,74775,75790,76938,77951,78982,80002,80903,81916,82912,84017,84957,86041,87090,88177,89154,90210,91136,92115,93071,94210,95267,96244,97118,98160,99121,99999}
+correlation            | -0.499825
+most_common_elems      | 
+most_common_elem_freqs | 
+elem_count_histogram   | 
+
+```
+
+
+
+```
+(1-sum(mcf))(sumn_distinct-count(mcv))sum
+```
+
+```
+tutorial=# select (1-0.5054)/(25603-1)*200000;
+-[ RECORD 1 ]------------------------
+?column? | 3.863760643699710960000000
+
+```
+
+
+
+#### mcv和柱状图
+
+​	条件中既包含MCV有落在柱状图的情况，柱状图的统计不包括MCV的值，所以从柱状图中计算航的选择性时，要乘以一个系数，这个系数是1减去MCF的总和
+
+```
+tutorial=# explain select * from test1 where id <99121;
+                          QUERY PLAN                          
+--------------------------------------------------------------
+ Seq Scan on test1  (cost=0.00..3774.00 rows=199011 width=17)
+   Filter: (id < 99121)
+(2 rows)
+
+```
+
+```
+tutorial=# select * from pg_stats where tablename='test1' and attname ='id';
+-[ RECORD 1 ]----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+schemaname             | public
+tablename              | test1
+attname                | id
+inherited              | f
+null_frac              | 0
+avg_width              | 4
+n_distinct             | -0.128015
+most_common_vals       | {1}
+most_common_freqs      | {0.5054}
+histogram_bounds       | {5,1007,2003,2962,3910,4930,5881,6787,7747,8757,9765,10748,11684,12562,13575,14598,15581,166,32669,33701,34730,35746,36713,37751,38790,39869,40693,41771,42853,43737,44821,45883,46827,47820,48753,49756,50729,512,67712,68733,69718,70863,71890,72876,73864,74775,75790,76938,77951,78982,80002,80903,81916,82912,84017,84957,86041,8
+correlation            | -0.499825
+most_common_elems      | 
+most_common_elem_freqs | 
+elem_count_histogram   | 
+
+tutorial=# select (1-0.5054)/100;
+        ?column?        
+------------------------
+ 0.00494600000000000000
+(1 row)
+
+tutorial=# select 1-(1-0.5054)/100;
+        ?column?        
+------------------------
+ 0.99505400000000000000
+(1 row)
+
+tutorial=# select  0.99505400000000000000*200000;
+          ?column?           
+-----------------------------
+ 199010.80000000000000000000
+(1 row)
+
+tutorial=# 
+
+```
+
+#### 多列条件
+
+
+
+​	相互独立事件
+
+```
+tutorial=# explain select * from test1 where id = 1 and info ='guose';
+                         QUERY PLAN                          
+-------------------------------------------------------------
+ Seq Scan on test1  (cost=0.00..4274.00 rows=49962 width=18)
+   Filter: ((id = 1) AND (info = 'guose'::text))
+(2 rows)
+
+```
+
+```
+tutorial=# select * from pg_stats where tablename='test1' and attname ='id';
+-[ RECORD 1 ]----------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+schemaname             | public
+tablename              | test1
+attname                | id
+inherited              | f
+null_frac              | 0
+avg_width              | 4
+n_distinct             | -0.12921
+most_common_vals       | {1}
+most_common_freqs      | {0.502733}
+histogram_bounds       | {3,989,2005,3061,3991,4923,5894,6949,7921,8857,9831,10793,11698,12696,13674,14720,15668,16768,17806,18720,19774,20763,21783,22629,23713,24835,25807,26892,27938,28940,29834,30759,31845,32824,33822,34701,35766,36800,37993,39038,40044,41015,41947,43018,44125,45155,46116,47084,48072,49102,50113,51209,52150,53228,54222,55133,56214,57189,58238,59200,60319,61279,62324,63350,64286,65202,66097,67096,68066,69045,69995,71109,72208,73218,74159,75099,76166,77112,78147,79106,80109,81113,82048,83107,84063,85011,86116,87156,88286,89235,90171,91189,92076,93079,94044,95230,96138,97043,98105,99036,99989}
+correlation            | 0.999444
+most_common_elems      | 
+most_common_elem_freqs | 
+elem_count_histogram   | 
+
+tutorial=# select * from pg_stats where tablename='test1' and attname ='info';
+-[ RECORD 1 ]----------+----------------
+schemaname             | public
+tablename              | test1
+attname                | info
+inherited              | f
+null_frac              | 0
+avg_width              | 6
+n_distinct             | 2
+most_common_vals       | {guoqi,guose}
+most_common_freqs      | {0.5031,0.4969}
+histogram_bounds       | 
+correlation            | 1
+most_common_elems      | 
+most_common_elem_freqs | 
+elem_count_histogram   | 
+
+
+```
+
+
+
+```
+tutorial=# select 200000*(0.502733)*(0.4969);
+     ?column?     
+------------------
+ 49961.6055400000
+(1 row)
+
+```
+
+
+
+### explain 成本计算
+
+
+
+​	索引扫描时，和全表扫描不同，扫描PAGE的开销是pages*random_page_cost
+
+​	另外，索引扫描一般都涉及到操作符，例如大于小于等于
+
+​	这些操作符对应的函数的coast乘以cpu_operator_cost就得到这个操作符的代价因子，乘以实际操作的行数就得到CPU操作符开销，rows explain中可能无输出
+
+​	索引的CPU开销则是实际扫描的索引条目乘以cpu_index_tuple_cost,row explain中无输出
+
+​	最后一个开销是实际返回或丢给上层的TUPLE带来的CPU开销，cpu_tuple_cost*实际扫描的行数。Rows Explain中有输出
+
+
+
+## explain 代价因子校准
+
+​	略过
+
+
+
+## auto_explain插件的使用
+
+​	auto_explain的目的是给数据库中执行的sql语句一个执行时间阈值。超过这个阈值的话，记录下当时这个sql的执行计划到日志中，便于未来查看这个sql执行计划有没有问题
+
+
+
+### 编译运行
+
+​	到/contrib/auto_explain下
+
+```
+[osdba@mysql45 auto_explain]$ make
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -O2 -fpic -I. -I. -I../../src/include -D_GNU_SOURCE   -c -o auto_explain.o auto_explain.c
+mgcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -O2 -fpic -shared -o auto_explain.so auto_explain.o -L../../src/port -L../../src/common -Wl,--as-needed -Wl,-rpath,'/usr/local/pgsql/lib',--enable-new-dtags  
+[osdba@mysql45 auto_explain]$ make install
+/bin/mkdir -p '/usr/local/pgsql/lib'
+/usr/bin/install -c -m 755  auto_explain.so '/usr/local/pgsql/lib/auto_explain.so'
+[osdba@mysql45 auto_explain]$ 
+
+```
+
+​	
+
+### 会话使用
+
+```
+tutorial=# load 'auto_explain';
+LOAD
+tutorial=# set auto_explain.log_min_duration=0;--设置sql执行时间执行阈值
+SET
+tutorial=# select * from test1 limit 1;
+ id | info  |      crt_time       
+----+-------+---------------------
+  2 | guoqi | 2018-08-09 09:14:22
+(1 row)
+
+```
+
+```
+$ tail -200f postgresql-*.csv
+Query Text: select * from test1 limit 1;
+Limit  (cost=0.00..0.02 rows=1 width=18)
+  ->  Seq Scan on test1  (cost=0.00..3274.00 rows=200000 width=18)",,,,,,,,,"psql"
+
+```
+
+
+
+​	
+
+### 数据库使用
+
+
+
+​	vi $PGDATA/postgresql.conf
+
+​	shared_preload_libraries = 'auto_explain' #shared_preload_libraries = 'pg_stat_statments,auto_explain' # 在本次配置并没有安装pg_stat_statments文件，所以添加它会报错
+	auto_explain.log_min_duration = 100ms   
+
+​	
+
+​	修改后需要重启数据库
+
+
+
