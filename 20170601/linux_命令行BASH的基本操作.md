@@ -8,7 +8,7 @@
 
 		CLI:Commang Line Interface
 
-		GUI:graphical User Interface(默认windows,macos都是图像化命令)
+	GUI:graphical User Interface(默认windows,macos都是图像化命令)
 
 
 
@@ -16,7 +16,7 @@
 
 		GUI:GNOME
 
-		CLI：bash
+	CLI：bash
 
 
 
@@ -25,7 +25,7 @@
 	​	
 
 		[user@hostname director]$
-	
+		
 		[user@hostname director]#
 
 - 提示符
@@ -60,13 +60,13 @@
 
 - 使用tab键来自动补全
 
-		自动补全命名
+   自动补全命名
 
-		自动补全文件名
-		
-		无法补全参数
+   自动补全文件名
 
+   无法补全参数
 
+   
 
 - 按上两次tab键选择y会出现所有的命令
 
