@@ -1,26 +1,32 @@
 [TOC]
 
-# pg pgbouncer install
+# pg pgbouncer 本地安装 postgresql 不在本地安装
 
 
 
-## 前言
+​	一直以来，认为pgbouncer和postgresql数据库要一起安装，pgbouncer才能够使用。之前自己学习和认知不够，一直对此有误解，现在经过测试，pgbouncer本地安装，不需要安装postgresql也可以使用。
 
-​	
 
-​	每次应用程序和postgres连接，都会克隆出一个服务进程来为应用程序服务，在频繁的创建和销毁进程，会耗费比较多的资源。而pgbouncer会把与后端postgresql数据库的连接缓存住，当有前端请求时，只为分配一个空闲的连接给前端程序使用，这样就降低了资源的消耗。
 
-​	
-
-## 环境
+## 环境介绍
 
 
 
 ​	软件：pgbouncer-1.5.5.tar.gz，libevent-2.0.22-stable.tar.gz
 
-​	安装必须在已经安装好的postgresql源码数据库,如果没有postgresql源码数据库，建议使用yum安装一下依赖包 `yum -y install readline-devel perl-ExtUtils-Embed bison flex zlib zlib-devel python python-devel gcc`
 
-​	
+
+## 适用场景
+
+
+
+​	1、访问用户非常多，且都是多连接
+
+​	2、不适合在安装数据库的服务器上再次安装其他软件(容易对数据库软件误操作)
+
+
+
+
 
 ## 说明
 
@@ -39,6 +45,12 @@ $:如果没有特别声明，代表普通用户
 
 
 ## 安装
+
+### yum 安装依赖包
+
+```
+# yum -y install readline-devel perl-ExtUtils-Embed bison flex zlib zlib-devel python python-devel gcc
+```
 
 
 
@@ -156,7 +168,7 @@ $ kill {number}
 ### 重启
 
 ```
-$ /home/ysys/pgbouncer/bin/pgbouncer -R /home/ysys/pgbouncer/etc/pgbouncer.ini  &
+$ /home/ysys/pgbouncer/bin/pgbouncer -R /home/ysys/pgbouncer/etc/pgbouncer.ini  
 ```
 
 
@@ -165,33 +177,25 @@ $ /home/ysys/pgbouncer/bin/pgbouncer -R /home/ysys/pgbouncer/etc/pgbouncer.ini  
 
 ### 访问pgbouncer
 
+需要在其他postgres服务器才能执行
+
 ```
-$ psql -h 127.0.0.1 -p 6543 -U pgadmin pgbouncer
-$ psql -h 127.0.0.1 -p 6543 -U pgmon pgbouncer
+$ psql -h {pgbouncer_ip} -p 6543 -U pgadmin pgbouncer
+$ psql -h {pgbouncer_ip} -p 6543 -U pgmon pgbouncer
 ```
 
 
 
 ### 访问数据库
 
+需要在其他postgres服务器才能执行
+
 ```
-$ psql -h 127.0.0.1 -p 6543 -U ysys -d guohui
+$ psql -h {pgbouncer_ip} -p 6543 -U ysys -d guohui
 ```
 
 
 
+## 备注
 
-
-## 链接文档
-
-[pg pgbouncer 本地安装 配置异地数据库]()
-
- ##  链接地址
-
- http://pgbouncer.github.io/downloads/
-
- <https://yq.aliyun.com/articles/43328>
-
- http://www.bubuko.com/infodetail-1203143.html
-
- http://blog.csdn.net/lk_db/article/details/77939005?locationNum=8&fps=1
+​	默认pgbouncer不能直接通过root用户启动，需要一个普通用户启动关闭或者重启才可以，所以本次安装部署时依然采用ysys用户
