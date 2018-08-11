@@ -184,7 +184,7 @@ $ psql -h 127.0.0.1 -p 6543 -U ysys -d guohui
 
 ## 链接文档
 
-[pg pgbouncer 本地安装 配置异地数据库]()
+[pg pgbouncer 本地安装 配置异地数据库](../20180811/pgpgbouncer本地安装postgresql不在本地安装.md)
 
  ##  链接地址
 
