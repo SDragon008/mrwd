@@ -616,7 +616,7 @@ name       the name of the function.  This is the minor sort
 
 
 
-## gprof 目录文件是否可以删除
+## gprof 目录下文件是否可以删除
 
 ​	
 
@@ -654,6 +654,8 @@ tutorial=# select * from test1;
 ​	只要gprof目录只有gmon.out文件就可以被删除，不过删除文件前请再三确认删除命令和删除的文件。
 
 
+
+​	注意：gprof目录最好不要删除，操作过程中可能会有一些报错，但是gprof目录下的子目录可以删除。
 
 
 
