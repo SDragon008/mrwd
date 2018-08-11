@@ -620,7 +620,38 @@ name       the name of the function.  This is the minor sort
 
 ​	
 
-​	gprof目录下的文件是postgresql安装启动关闭时所在进程的分析信息，对于数据库来说，删除并不会影响数据库的一致性。
+​	gprof目录下的文件是postgresql安装启动关闭时所在进程的分析信息，理论上对于数据库来说，删除并不会影响数据库的一致性。
+
+
+
+​	测试:在插入数据的同时，删除gprof下目录，重启数据库
+
+```
+tutorial=# insert into test1 select generate_series(1,1000),md5('guohui');
+INSERT 0 1000
+
+$ rm -rf gprof/*
+
+$ pg_ctl stop -m fast
+$ pg_ctl start -m fast
+
+tutorial=# select * from test1;
+  id  |               info               
+------+----------------------------------
+    1 | cfb599bba2e35793a620de1ecec0d09a
+    2 | cfb599bba2e35793a620de1ecec0d09a
+    3 | cfb599bba2e35793a620de1ecec0d09a
+    4 | cfb599bba2e35793a620de1ecec0d09a
+    5 | cfb599bba2e35793a620de1ecec0d09a
+    6 | cfb599bba2e35793a620de1ecec0d09a
+    7 | cfb599bba2e35793a620de1ecec0d09a
+    8 | cfb599bba2e35793a620de1ecec0d09a
+
+```
+
+
+
+​	只要gprof目录只有gmon.out文件就可以被删除，不过删除文件前请再三确认删除命令和删除的文件。
 
 
 
