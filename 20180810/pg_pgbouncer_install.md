@@ -14,7 +14,98 @@
 
 软件：pgbouncer-1.5.5.tar.gz，libevent-2.0.22-stable.tar.gz
 
- 安装必须在已经安装好的postgresql
+安装必须在已经安装好的postgresql
+
+
+
+## 说明
+
+#:如果没有特别声明，代表root用户
+
+$:如果没有特别声明，代表普通用户
+
+{user}:代表安装postgres的用户
+
+
+
+本次postgres安装的用户为ysys
+
+
+
+## 安装
+
+
+
+### 上传文件并解压
+
+```
+ # tar xvf libevent-2.0.22-stable.tar.gz  
+ # tar xvf pgbouncer-1.5.5.tar.gz  
+```
+
+### libevent安装
+
+```
+ # ./configure --prefix=/home/{user}/libevent
+ # make
+ # make install
+```
+
+### pgbouncer 安装
+
+```
+# ./configure --prefix=/home/{user}/pgbouncer/ --with-libevent=/home/{user}/libevent/
+# make
+# make install
+```
+
+### 授权用户{user}对安装目录的权限
+
+```
+ # chown -R ysys:ysys /home/ysys/pgbouncer/
+ # chown -R ysys:ysys /home/ysys/libevent/
+```
+
+### 配置{user}环境变量并生效
+
+```
+$ vim .bash_profile
+export LD_LIBRARY_PATH=/home/ysys/libevent/lib:$LD_LIBRARY_PATH
+```
+
+```
+$ source .bash_profile
+```
+
+### 在pgbouncer安装目录下创建目录并拷贝配置文件修改
+
+```
+$ cd /home/ysys/pgbouncer/
+$ mkdir etc
+$ mkdir log
+$ cp pgbouncer-1.5.5/etc/pgbouncer.ini /home/ysys/pgbouncer/etc/
+$ cd /home/ysys/pgbouncer/etc/
+$ vim pgbouncer.ini
+
+[databases]
+postgres = host=localhost port=5432 dbname=postgres user=postgres password=postgres connect_query='SELECT 1'
+
+[pgbouncer]
+logfile = /home/postgres/pgbouncer/pgbouncer.log
+pidfile = /home/postgres/pgbouncer/pgbouncer.pid
+listen_addr = *
+listen_port = 6432
+auth_type = trust
+auth_file = /home/postgres/pgbouncer/userlist.txt
+pool_mode = transaction
+server_reset_query = DISCARD ALL
+max_client_conn = 100
+default_pool_size = 20
+```
+
+
+
+
 
  **安装**
 
