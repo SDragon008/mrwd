@@ -36,12 +36,20 @@
 ## 未整理
 
 - [pg_列式存储](../20180628/pg_列式存储.md)
+
 - [pg_dblink_fdw_比较](../20180701/pg_dblink_fdw_比较.md)
+
 - [pg_一次性授权](../20180118/pg_一次性授权.md)
+
 - [pg_truncate_原理分析](../20180204/pg_truncate_原理分析.md)
+
 - [pg_pid_子进程关系](../20180720/PG_TERMINATE_BACKEND_子进程关系.md)
+
 - [pg_toast](../20180725/pg_toast.md)
+
 - [pg btree 索引结构](../20180728/pg_btree_结构.md)
+
+- [pg gprof目录](../20180810/pg_gprof_目录.md)
 
   
 
