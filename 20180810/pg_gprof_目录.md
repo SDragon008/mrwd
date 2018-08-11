@@ -344,7 +344,7 @@ total 1720
 
 ​	在目录中发现只有gmon.out的文件，那么上层它的上层目录一堆数字又是什么？
 
-​	在一些文档中写的是pid,gprof会为每隔pid生成一个目录和gmon.out文件
+​	在一些文档中写的是pid,gprof会为每个相关的pid生成一个目录和gmon.out文件
 
 ​	在这里设计一个小实验，测试一下是不是gprof会为每个postgresql相关进程创建一个目录和文件
 
