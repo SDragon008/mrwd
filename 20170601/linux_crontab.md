@@ -84,8 +84,15 @@ crontab -e 也是可以修改执行计划的，而且crontab -l只能看到cront
 
 注：使用crontab -e的方式不论是添加或者修改都会重新加载((root) RELOAD /var/sppl/cron/root),不需要重启crond服务
     使用crontab -e那个用户创建的就是在/var/spool/cron/*
-    只有使用crontab -e创建的命令，才能使用crontab -l命令显示，如果直接
-在/etc/crontab编辑的命令，无法显示
+    只有使用crontab -e创建的命令，才能使用crontab -l命令显示，如果直接在/etc/crontab编辑的命令，无法显示
+
+
+
+## 扩展
+
+[crontab 每秒执行命令](../20180811/linux_crontab_每秒钟执行.md)
+
+
 
 
 
