@@ -71,7 +71,7 @@ tutorial=#
 
 ## 查询
 
-查询
+查询info - > 'colum_name 1',info -> 'column_name 2'具体字段
 
 ```
 tutorial=# select id,info -> 'guid' as guid,info-> 'name' as name,info -> 'tags',info -> 'unknown' as unknown,info from test_jsonb_info ;
@@ -88,4 +88,14 @@ tutorial=#
 ```
 
 
+
+## 优化
+
+--`jsonb`缺省的GIN操作符类支持使用`@>`、`?`、 `?&`和`?|`操作符查询 
+
+```
+tutorial=# create index idx_test_jsonb_info on test_jsonb_info  using gin(info);
+CREATE INDEX
+
+```
 
