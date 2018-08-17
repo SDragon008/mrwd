@@ -541,4 +541,87 @@ statement latencies in milliseconds:
 
 
 
+#### 小结
+
+​	使用pgbouncer后明显在transaction或者sesession的情况下提高效率，不过相对而言，对于短链接更加具有对比性。
+
+
+
+
+
 ## 数据库高速缓存
+
+
+
+### 本地高速缓存
+
+
+
+#### 安装
+
+```
+# tar -zxvf pgfincore-41f2b9f.tar.gz 
+# cd pgfincore-41f2b9f
+# export PATH=/usr/local/pgsql/bin:$PATH
+# which pg_config
+# make clean
+# make 
+# make install
+$ su - ysys
+$ psql -d tutorial
+tutorial=# create extension pgfincore;
+CREATE EXTENSION
+
+```
+
+#### 测试
+
+```
+tutorial=# create table user_info(id int primary key,info text);
+CREATE TABLE
+tutorial=# insert into user_info select generate_series(1,5000000),md5(random()::text);
+INSERT 0 5000000
+tutorial=# select pg_size_pretty(pg_total_relation_size('user_info'::regclass));
+ pg_size_pretty 
+----------------
+ 433 MB
+(1 row)
+```
+
+修改postgresql.conf参数shared_buffers
+
+```
+$ vim $PGDATA/postgresql.conf
+shared_buffers = 32MB
+$ pg_ctl stop -m fast
+$ pg_ctl start
+```
+
+清空缓存
+
+```
+# echo 3 > /proc/sys/vm/drop_caches
+
+```
+
+
+
+
+
+
+
+### 异地高速缓存
+
+
+
+
+
+
+
+
+
+## 链接地址
+
+
+
+https://git.postgresql.org/gitweb/
