@@ -601,7 +601,6 @@ $ pg_ctl start
 
 ```
 # echo 3 > /proc/sys/vm/drop_caches
-
 ```
 
 
@@ -618,7 +617,7 @@ $ pg_ctl start
 
 
 
-
+ 
 
 ## 链接地址
 
