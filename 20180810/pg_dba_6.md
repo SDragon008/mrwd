@@ -174,17 +174,368 @@ statement latencies in milliseconds:
 
 ### pgbouncer 安装
 
-
-
 [readme](pg_pgbouncer_install.md)
 
 
 
+### 连接池tps
+
+```
+$ cd ~
+$ vim .pgpass
+*:6543:db45:ysys:ysys
+```
+
+*:任何ip
+
+6543：端口6543
+
+db45:pgbouncer下的数据库链接
+
+ysys：用户
+
+ysys:密码
+
+
+
+#### 短链接tps测试
+
+```
+$ pgbench -M extended -n -r -f ./test.sql -h /home/ysys/pgbouncer/etc/ -p 6543 -U ysys -c 16 -j 4 -C -T 30 db45
+transaction type: Custom query
+scaling factor: 1
+query mode: extended
+number of clients: 16
+number of threads: 4
+duration: 30 s
+number of transactions actually processed: 120121
+latency average: 3.996 ms
+tps = 4003.607216 (including connections establishing)
+tps = 321134.923934 (excluding connections establishing)
+statement latencies in milliseconds:
+	3.002545	select 1;
+
+
+$ sar -w 1 10000
+Linux 2.6.32-431.el6.x86_64 (gh56) 	08/17/2018 	_x86_64_	(1 CPU)
+
+04:14:09 AM    proc/s   cswch/s
+04:14:10 AM      0.00     80.81
+04:14:11 AM      0.00     87.00
+04:14:12 AM      0.00     79.80
+04:14:13 AM      0.00     76.00
+04:14:14 AM      0.00     73.74
+04:14:15 AM      0.00    104.00
+04:14:17 AM      4.00  55962.00
+04:14:18 AM      0.00  58652.53
+04:14:19 AM      0.00  58956.00
+04:14:20 AM      0.00  58667.33
+04:14:21 AM      0.00  58683.00
+04:14:22 AM      0.00  56754.00
+04:14:23 AM      0.00  58658.59
+04:14:24 AM      0.00  58929.00
+04:14:25 AM      0.00  56918.81
+04:14:26 AM      0.00  59385.86
+04:14:27 AM      0.00  58589.90
+04:14:28 AM      0.00  58552.00
+04:14:29 AM      1.00  58203.00
+04:14:30 AM      0.00  59311.11
+04:14:31 AM      1.98  58125.74
+04:14:32 AM      0.00  57757.00
+04:14:33 AM      0.00  54143.43
+04:14:34 AM      0.00  56225.74
+04:14:35 AM      0.00  55780.00
+04:14:36 AM      0.00  54749.00
+04:14:37 AM      0.00  54690.00
+04:14:38 AM      0.00  53962.00
+04:14:39 AM      0.00  46022.45
+04:14:40 AM      0.00  52496.00
+04:14:41 AM      0.00  51546.39
+04:14:42 AM      1.01  54052.53
+04:14:43 AM      0.00  53856.44
+04:14:44 AM      0.00  56566.00
+04:14:45 AM      0.00  57261.62
+04:14:46 AM      0.00  53304.95
+04:14:47 AM      0.00    203.03
+04:14:48 AM      0.00     75.00
+
+04:14:48 AM    proc/s   cswch/s
+04:14:49 AM      0.00     74.00
+04:14:50 AM      0.00     76.00
+04:14:51 AM      0.00     77.78
+04:14:52 AM      0.00    127.84
+04:14:53 AM      0.00     89.00
+04:14:54 AM      0.00     75.76
+04:14:55 AM      0.00     78.00
+04:14:56 AM      0.00     88.00
+04:14:57 AM      0.00     98.99
+04:14:58 AM      0.00     77.00
+04:14:59 AM      0.00     77.00
+04:15:00 AM      0.00     99.00
+04:15:01 AM      1.01    124.24
+04:15:02 AM      0.00     86.00
+04:15:03 AM      0.00     80.00
+04:15:04 AM      0.00     77.00
+04:15:05 AM      0.00     73.74
+04:15:06 AM      0.00     79.00
+04:15:07 AM      0.00    100.00
+04:15:08 AM      0.00     78.00
+04:15:09 AM      0.00     73.74
+04:15:10 AM      0.00     77.78
+
+```
+
+
+
+​	将discared all注销掉
+
+```
+
+$ pgbench -M extended -n -r -f ./test.sql -h /home/ysys/pgbouncer/etc/ -p 6543 -U ysys -c 16 -j 4 -C -T 30 db45
+transaction type: Custom query
+scaling factor: 1
+query mode: extended
+number of clients: 16
+number of threads: 4
+duration: 30 s
+number of transactions actually processed: 175983
+latency average: 2.728 ms
+tps = 5865.988937 (including connections establishing)
+tps = 374830.072156 (excluding connections establishing)
+statement latencies in milliseconds:
+	2.050816	select 1;
+
+$ sar -w 1 10000
+Linux 2.6.32-431.el6.x86_64 (gh56) 	08/17/2018 	_x86_64_	(1 CPU)
+
+04:49:02 AM    proc/s   cswch/s
+04:49:03 AM      0.00     82.00
+04:49:04 AM      0.00     78.22
+04:49:05 AM      0.00     74.00
+04:49:06 AM      0.00     90.91
+04:49:07 AM      0.00     82.83
+04:49:08 AM      0.00     83.00
+04:49:09 AM      0.00     79.80
+04:49:10 AM      0.00     75.00
+04:49:11 AM      0.00     77.23
+04:49:12 AM      0.00     80.81
+04:49:13 AM      0.00     83.84
+04:49:14 AM      4.00  36658.00
+04:49:15 AM      0.00  60889.90
+04:49:16 AM      0.00  58731.68
+04:49:17 AM      0.00  55376.29
+04:49:18 AM      0.00  47075.00
+04:49:19 AM      0.00  64096.00
+04:49:20 AM      0.00  51772.73
+04:49:21 AM      0.00  52788.89
+04:49:22 AM      0.00  62365.00
+04:49:23 AM      0.00  43864.95
+04:49:24 AM      0.00  46041.24
+04:49:25 AM      0.00  56407.07
+04:49:26 AM      0.00  54647.42
+04:49:27 AM      0.00  57461.39
+04:49:28 AM      0.00  60503.03
+04:49:29 AM      1.00  61458.00
+04:49:30 AM      0.00  58113.13
+04:49:31 AM      0.00  62063.00
+04:49:32 AM      1.00  63612.00
+04:49:33 AM      0.00  63389.00
+04:49:34 AM      0.00  63738.38
+04:49:35 AM      0.00  63772.00
+04:49:36 AM      0.00  62217.17
+04:49:37 AM      0.00  62137.62
+04:49:38 AM      0.00  61965.00
+04:49:39 AM      0.00  63630.30
+04:49:40 AM      0.00  62242.00
+
+04:49:40 AM    proc/s   cswch/s
+04:49:41 AM      0.00  62708.00
+04:49:42 AM      1.01  63515.15
+04:49:43 AM      0.00  61820.59
+04:49:44 AM      0.00  25917.00
+04:49:45 AM      0.00     88.78
+04:49:46 AM      0.00     77.23
+04:49:47 AM      0.00     74.00
+
+```
+
+将transaction变为session
+
+```
+$ pgbench -M prepared -n -r -f ./test.sql -h /home/ysys/pgbouncer/etc/ -p 6543 -U ysys -c 16 -j 4 -C  -T 30 db45
+transaction type: Custom query
+scaling factor: 1
+query mode: prepared
+number of clients: 16
+number of threads: 4
+duration: 30 s
+number of transactions actually processed: 98481
+latency average: 4.874 ms
+tps = 3282.465523 (including connections establishing)
+tps = 7761.501444 (excluding connections establishing)
+statement latencies in milliseconds:
+	4.164251	select 1;
+
+```
 
 
 
 
 
+#### 长连接tps
+
+```
+$ pgbench -M extended -n -r -f ./test.sql -h /home/ysys/pgbouncer/etc/ -p 6543 -U ysys -c 16 -j 4  -T 30 db45
+transaction type: Custom query
+scaling factor: 1
+query mode: extended
+number of clients: 16
+number of threads: 4
+duration: 30 s
+number of transactions actually processed: 241173
+latency average: 1.990 ms
+tps = 8038.380565 (including connections establishing)
+tps = 8042.285952 (excluding connections establishing)
+statement latencies in milliseconds:
+	1.988176	select 1;
+	
+	
+	
+$ sar -w 1 10000
+Linux 2.6.32-431.el6.x86_64 (gh56) 	08/17/2018 	_x86_64_	(1 CPU)
+
+04:59:41 AM    proc/s   cswch/s
+04:59:42 AM      0.00     86.00
+04:59:43 AM      0.00     79.80
+04:59:44 AM      0.00     94.06
+04:59:45 AM      4.04  48206.06
+04:59:46 AM      0.00  73229.70
+04:59:47 AM      0.00  82595.00
+04:59:48 AM      0.00  81371.00
+04:59:49 AM      0.00  81583.00
+04:59:50 AM      0.00  82756.00
+04:59:51 AM      0.00  81583.84
+04:59:52 AM      0.00  79465.00
+04:59:53 AM      0.00  78181.37
+04:59:54 AM      0.00  82522.22
+04:59:55 AM      0.00  82811.00
+04:59:56 AM      0.00  81027.00
+04:59:57 AM      0.00  77633.66
+04:59:58 AM      0.00  74783.84
+04:59:59 AM      0.00  80546.46
+05:00:00 AM      0.00  81225.74
+05:00:01 AM      2.02  81028.28
+05:00:02 AM      0.99  78330.69
+05:00:03 AM      0.00  78420.20
+05:00:04 AM      0.00  81553.00
+05:00:05 AM      0.00  81860.00
+05:00:06 AM      0.00  82276.77
+05:00:07 AM      0.00  80551.49
+05:00:08 AM      0.00  80744.00
+05:00:09 AM      0.00  81453.00
+05:00:10 AM      0.00  80850.00
+05:00:11 AM      0.00  80877.00
+05:00:12 AM      0.00  81785.86
+05:00:13 AM      0.00  80982.00
+05:00:14 AM      0.00  82489.00
+05:00:15 AM      0.00  33036.73
+05:00:16 AM      0.00     80.00
+05:00:17 AM      0.00     78.00
+05:00:18 AM      0.00     79.00
+05:00:19 AM      0.00     83.17
+
+```
+
+
+
+将discared all注销掉
+
+```
+$ pgbench -M extended -n -r -f ./test.sql -h /home/ysys/pgbouncer/etc/ -p 6543 -U ysys -c 16 -j 4  -T 30 db45
+transaction type: Custom query
+scaling factor: 1
+query mode: extended
+number of clients: 16
+number of threads: 4
+duration: 30 s
+number of transactions actually processed: 533375
+latency average: 0.900 ms
+tps = 17776.453980 (including connections establishing)
+tps = 17784.341614 (excluding connections establishing)
+statement latencies in milliseconds:
+	0.898878	select 1;
+
+$ sar -w 1 10000
+Linux 2.6.32-431.el6.x86_64 (gh56) 	08/17/2018 	_x86_64_	(1 CPU)
+
+04:50:55 AM    proc/s   cswch/s
+04:50:56 AM      0.00     81.00
+04:50:57 AM      1.00     91.00
+04:50:58 AM      0.00     82.83
+04:50:59 AM      0.00     80.61
+04:51:00 AM      9.18  12008.16
+04:51:01 AM      0.00 110103.00
+04:51:02 AM      0.98 105980.39
+04:51:03 AM      1.02 111591.84
+04:51:04 AM      0.00 112428.00
+04:51:05 AM      0.00 111201.00
+04:51:06 AM      0.00 110348.00
+04:51:07 AM      0.00 112001.00
+04:51:08 AM      0.00 108139.60
+04:51:09 AM      0.00 116930.30
+04:51:10 AM      0.00 117369.70
+04:51:11 AM      0.00 113807.92
+04:51:12 AM      0.00 116273.74
+04:51:13 AM      0.00 115552.00
+04:51:14 AM      0.00 114886.00
+04:51:15 AM      0.00 115300.00
+04:51:16 AM      0.00 112712.87
+04:51:17 AM      0.00 116902.04
+04:51:18 AM      0.00 113026.00
+04:51:19 AM      0.00 106337.00
+04:51:20 AM      0.00 109114.85
+04:51:21 AM      0.00 113291.00
+04:51:22 AM      0.00  72005.15
+04:51:23 AM      0.00 106188.89
+04:51:24 AM      1.02 106426.53
+04:51:25 AM      0.00 107293.00
+04:51:26 AM      0.00  91272.92
+04:51:27 AM      0.00  95781.63
+04:51:28 AM      0.00 115796.00
+04:51:29 AM      0.00  80526.04
+04:51:30 AM      0.00  68419.59
+04:51:31 AM      0.00     79.21
+04:51:32 AM      1.02    132.65
+04:51:33 AM      0.00     85.86
+
+04:51:33 AM    proc/s   cswch/s
+04:51:34 AM      0.00     75.00
+04:51:35 AM      0.00     78.79
+04:51:36 AM      0.00     89.11
+04:51:37 AM      0.00     80.00
+04:51:38 AM      0.00     80.81
+
+
+```
+
+将transaction变为session
+
+```
+ pgbench -M prepared -n -r -f ./test.sql -h /home/ysys/pgbouncer/etc/ -p 6543 -U ysys -c 16 -j 4  -T 30 db45
+transaction type: Custom query
+scaling factor: 1
+query mode: prepared
+number of clients: 16
+number of threads: 4
+duration: 30 s
+number of transactions actually processed: 797843
+latency average: 0.602 ms
+tps = 26594.140818 (including connections establishing)
+tps = 26599.079264 (excluding connections establishing)
+statement latencies in milliseconds:
+	0.600630	select 1;
+
+```
 
 
 
