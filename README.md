@@ -8,3 +8,4 @@ gh_95533's|学习|文章|归类
 [5 oracle](class/oracle.md) | [6 mysql](class/mysql.md) | [7 r](class/r.md) | [8 redis](class/redis.md) 
  [9 linux](class/linux.md) | [10 question](question.md) | [11 common software](class/common_software.md) |  
 
+f8ab0c254f31122dd1832d17483ec545
