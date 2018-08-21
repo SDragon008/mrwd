@@ -78,7 +78,20 @@ chmod ugo-+rwx filename
 
 
 
-linux  默认权限
+## linux  默认权限
+
+```
+[ysys@gh9 ~]$ touch gh.txt
+[ysys@gh9 ~]$ ls -ld gh.txt 
+-rw-rw-r-- 1 ysys ysys 0 Aug 21 08:32 gh.txt
+[ysys@gh9 ~]$ mkdir gh
+[ysys@gh9 ~]$ ls -lsd gh
+4 drwxrwxr-x 2 ysys ysys 4096 Aug 21 08:32 gh
+```
+
+
+
+
 
 每个终端都拥有umask,来确定新建文件，文件夹的默认权限
 
@@ -90,13 +103,54 @@ umask使用数字权限方式表示，如：022
 
 普通用户的默认权限为002，root用户的默认权限为022
 
-[[linuxlearn@centos65](mailto:linuxlearn@centos65) ~]$ umask
-
+```
+$ umask
 0002
+```
 
 修改默认权限
 
-[[linuxlearn@centos65](mailto:linuxlearn@centos65) ~]$ umask 022
+```
+$ umask 022
+$ umask
+0022
+```
+
+
+
+在普通用户修改umask并且创建文件夹和文件
+
+```
+[ysys@gh9 ~]$ umask
+0002
+[ysys@gh9 ~]$ touch gh.txt
+[ysys@gh9 ~]$ mkdir gh
+
+[ysys@gh9 ~]$ ls -ls
+total 8
+4 drwxrwxr-x 2 ysys ysys 4096 Aug 21 08:32 gh
+0 -rw-rw-r-- 1 ysys ysys    0 Aug 21 08:32 gh.txt
+4 -rw-rw-r-- 1 ysys ysys   63 Aug 21 07:41 test.sql
+
+
+[ysys@gh9 ~]$ umask 022
+[ysys@gh9 ~]$ umask
+0022
+
+[ysys@gh9 ~]$ rm -rf gh
+[ysys@gh9 ~]$ rm -rf gh.txt
+[ysys@gh9 ~]$ touch gh.txt
+[ysys@gh9 ~]$ mkdir gh
+[ysys@gh9 ~]$ ls -ls
+total 8
+4 drwxr-xr-x 2 ysys ysys 4096 Aug 21 08:37 gh
+0 -rw-r--r-- 1 ysys ysys    0 Aug 21 08:37 gh.txt
+4 -rw-rw-r-- 1 ysys ysys   63 Aug 21 07:41 test.sql
+```
+
+![_](../img_src/000/2018-08-21_165301.png)
+
+
 
 系统显示为4位，使用ugo占用了其中的9位，换算为3，前面第一个为特殊权限
 

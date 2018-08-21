@@ -581,6 +581,8 @@ tutorial=# create table user_info(id int primary key,info text);
 CREATE TABLE
 tutorial=# insert into user_info select generate_series(1,5000000),md5(random()::text);
 INSERT 0 5000000
+tutorial=# analyze user_info;
+ANALYZE
 tutorial=# select pg_size_pretty(pg_total_relation_size('user_info'::regclass));
  pg_size_pretty 
 ----------------
@@ -603,6 +605,162 @@ $ pg_ctl start
 # echo 3 > /proc/sys/vm/drop_caches
 ```
 
+使用pgbench测试
+
+```
+$ vi test.sql
+$ cat test.sql
+\setrandom id 1 5000000
+select * from user_info where id =:id;
+
+$  pgbench -M prepared -n -r -f ./test.sql -c 16 -j 4 -T 10 tutorial
+transaction type: Custom query
+scaling factor: 1
+query mode: prepared
+number of clients: 16
+number of threads: 4
+duration: 10 s
+number of transactions actually processed: 948
+latency average: 172.889 ms
+tps = 92.544749 (including connections establishing)
+tps = 92.713889 (excluding connections establishing)
+statement latencies in milliseconds:
+	0.005976	\setrandom id 1 5000000
+	170.067445	select * from user_info where id =:id;
+```
+
+
+
+加载本地缓存
+
+```
+tutorial=# \d user_info;
+   Table "public.user_info"
+ Column |  Type   | Modifiers 
+--------+---------+-----------
+ id     | integer | not null
+ info   | text    | 
+Indexes:
+    "user_info_pkey" PRIMARY KEY, btree (id)
+    
+tutorial=#  select pgfadvise_willneed('user_info');
+          pgfadvise_willneed          
+--------------------------------------
+ (base/16384/16385,4096,83334,131753)
+(1 row)
+tutorial=# select pgfadvise_willneed('user_info_pkey');
+          pgfadvise_willneed          
+--------------------------------------
+ (base/16384/16391,4096,27424,109805)
+(1 row)
+
+
+$  pgbench -M prepared -n -r -f ./test.sql -c 16 -j 4 -T 10 tutorial
+transaction type: Custom query
+scaling factor: 1
+query mode: prepared
+number of clients: 16
+number of threads: 4
+duration: 10 s
+number of transactions actually processed: 223084
+latency average: 0.718 ms
+tps = 22280.892011 (including connections establishing)
+tps = 22346.974789 (excluding connections establishing)
+statement latencies in milliseconds:
+	0.001186	\setrandom id 1 5000000
+	0.713107	select * from user_info where id =:id;
+	
+其实她还有toast表需要加载到本地缓存中
+
+
+tutorial=# \x
+Expanded display is on.
+tutorial=# select * from pg_class where relname = 'user_info';
+-[ RECORD 1 ]--+------------
+relname        | user_info
+relnamespace   | 2200
+reltype        | 16387
+reloftype      | 0
+relowner       | 10
+relam          | 0
+relfilenode    | 16385
+reltablespace  | 0
+relpages       | 41667
+reltuples      | 4.99998e+06
+relallvisible  | 0
+reltoastrelid  | 16388
+relhasindex    | t
+relisshared    | f
+relpersistence | p
+relkind        | r
+relnatts       | 2
+relchecks      | 0
+relhasoids     | f
+relhaspkey     | t
+relhasrules    | f
+relhastriggers | f
+relhassubclass | f
+relispopulated | t
+relreplident   | d
+relfrozenxid   | 1809
+relminmxid     | 1
+relacl         | 
+reloptions     | 
+
+tutorial=# select * from pg_class where oid ='16388';
+-[ RECORD 1 ]--+---------------
+relname        | pg_toast_16385
+relnamespace   | 99
+reltype        | 16389
+reloftype      | 0
+relowner       | 10
+relam          | 0
+relfilenode    | 16388
+reltablespace  | 0
+relpages       | 0
+reltuples      | 0
+relallvisible  | 0
+reltoastrelid  | 0
+relhasindex    | t
+relisshared    | f
+relpersistence | p
+relkind        | t
+relnatts       | 3
+relchecks      | 0
+relhasoids     | f
+relhaspkey     | t
+relhasrules    | f
+relhastriggers | f
+relhassubclass | f
+relispopulated | t
+relreplident   | n
+relfrozenxid   | 1809
+relminmxid     | 1
+relacl         | 
+reloptions     | 
+
+tutorial=#  select pgfadvise_willneed('pg_toast.pg_toast_16385');
+-[ RECORD 1 ]------+---------------------------------
+pgfadvise_willneed | (base/16384/16388,4096,0,109154)
+
+$  pgbench -M prepared -n -r -f ./test.sql -c 16 -j 4 -T 10 tutorial
+transaction type: Custom query
+scaling factor: 1
+query mode: prepared
+number of clients: 16
+number of threads: 4
+duration: 10 s
+number of transactions actually processed: 220928
+latency average: 0.725 ms
+tps = 22072.369814 (including connections establishing)
+tps = 22113.591198 (excluding connections establishing)
+statement latencies in milliseconds:
+	0.001281	\setrandom id 1 5000000
+	0.720442	select * from user_info where id =:id;
+
+发现两者没有太大区别(可能是因为测试环境较差)，不过建议将toast加载到本地缓存中
+```
+
 
 
 
@@ -613,7 +771,7 @@ $ pg_ctl start
 
 
 
-
+略过
 
 
 
