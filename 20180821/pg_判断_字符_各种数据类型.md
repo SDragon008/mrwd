@@ -68,6 +68,59 @@ tutorial=# select '过会ABC'~'[0-9]';
 
 ​	判断是否为特殊字符(不知道什么是特殊字符)
 
+```
+特殊字符指的是什么？
+```
+
+
+
+​	判断非数字
+
+```
+tutorial=# select '123过会123' ~ '^[0-9]*$';
+ ?column? 
+----------
+ f
+(1 row)
+
+tutorial=# select '12123' ~ '^[0-9]*$';
+ ?column? 
+----------
+ t
+(1 row)
+
+tutorial=# select '121,23' ~ '^[0-9]*$';
+ ?column? 
+----------
+ f
+(1 row)
+
+```
+
+
+
+​	判断非中文
+
+```
+tutorial=# select '121过会23' ~ '^[\u4e00-\u9fa5]{0,}$';
+ ?column? 
+----------
+ f
+(1 row)
+
+tutorial=# select '过会' ~ '^[\u4e00-\u9fa5]{0,}$';
+ ?column? 
+----------
+ t
+(1 row)
+
+tutorial=# select '过会123' ~ '^[\u4e00-\u9fa5]{0,}$';
+ ?column? 
+----------
+ f
+(1 row)
+```
+
 
 
 
