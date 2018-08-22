@@ -72,6 +72,24 @@ tutorial=# select '过会ABC'~'[0-9]';
 特殊字符指的是什么？
 ```
 
+​	判断是否空格
+
+```
+tutorial=# select '过会 1223'~ E'\\s+';
+ ?column? 
+----------
+ t
+(1 row)
+
+tutorial=# select '过会1223'~ E'\\s+';
+ ?column? 
+----------
+ f
+(1 row)
+```
+
+​	
+
 
 
 ​	判断非数字
@@ -152,25 +170,28 @@ tutorial=# select '过会123' ~ '^[\u4e00-\u9fa5]{0,}$';
 
 
 
-
-
-​	判断是否空格
+​	判断非字母数字
 
 ```
-tutorial=# select '过会 1223'~ E'\\s+';
+tutorial=# select 'abcd' ~ '^[A-Za-z0-9]+$';
  ?column? 
 ----------
  t
 (1 row)
 
-tutorial=# select '过会1223'~ E'\\s+';
+tutorial=# select '1abc2d1' ~ '^[A-Za-z0-9]+$';
+ ?column? 
+----------
+ t
+(1 row)
+
+tutorial=# select '1abc,2d1' ~ '^[A-Za-z0-9]+$';
  ?column? 
 ----------
  f
 (1 row)
-```
 
-​	
+```
 
 
 
