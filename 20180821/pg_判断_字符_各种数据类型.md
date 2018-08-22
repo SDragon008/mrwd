@@ -97,6 +97,35 @@ tutorial=# select '121,23' ~ '^[0-9]*$';
 
 ```
 
+​	判断非字母
+
+```
+tutorial=# select '123过会123' ~ '^[A-Za-z]*$';
+ ?column? 
+----------
+ f
+(1 row)
+
+tutorial=# select '123cd123' ~ '^[A-Za-z]*$';
+ ?column? 
+----------
+ f
+(1 row)
+
+tutorial=# select 'abcd123' ~ '^[A-Za-z]*$';
+ ?column? 
+----------
+ f
+(1 row)
+
+tutorial=# select 'abcd' ~ '^[A-Za-z]*$';
+ ?column? 
+----------
+ t
+(1 row)
+
+```
+
 
 
 ​	判断非中文
