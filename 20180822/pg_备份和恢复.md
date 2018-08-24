@@ -26,3 +26,131 @@ pg_dump dbname > dbname_bak.sql
 
 ​	pg_dump是一个普通的postgresql客户端应用。这意味着你可以在任何可以访问该数据库的远端主机上进行备份工作。
 
+​	pg_dump不会以任何特殊权限运行。具体说来，就是它必须有你想要备份的表的读权限，因此为了备份整个数据库你几乎总是必须以一个数据库超级用户来运行它
+
+​	和其他postgresql客户端应用一样，pg_dump默认使用与当前操作系统用户名同名的数据库用户名连接。要使用其他名字，要么声明-U选项，要么设置环境变量PGUSER,请注意pg_dump的连接也要通过客户认证机制
+
+​	pg_dump对于其他备份方法的一个重要优势是，pg_dump的输出可以很容易的在新版本的postgresql中载入，而文件备份和连续归档都是限定的服务器和数据库。pg_dump是唯一可以将一个数据库传送到一个不同机器架构的方法。例如从一个32位服务器到一个64位服务器
+
+​	由pg_dump创建的备份在内部是一致的，也就是说，dump表现了pg_dump开始运行时刻的数据库快照，且在pg_dump运行过程中发生的更新将不会dump，pg_dump工作的时候并不会阻塞其他对数据库的操作(但是会阻塞那些需要排它锁的操作，如alter table)	
+
+### restoring the dump
+
+​	pg_dump生成的文本文件可以由psql程序读取。从dump恢复的常用命令是:
+
+```
+psql dbname < infile
+```
+
+​	其中infile就是pg_dump命令的输出文件。这条命令不会创建数据库dbname,必须在执行psql前自己从template0创建,psql支持类似pg_dump的选项用以指定要连接的数据库服务器和要使用的用户名。参阅psql的手册获取更多信息。非文本文件dump可以使用pg_restore工具来恢复
+
+​	在开始恢复之前，dump库中对象的拥有者以及在其上被授予了权限的用户必须已经存在，如果它们不存在，那么恢复过程将无法将对象创建成具有原来的所属关系以及权限
+
+​	默认情况下，psql脚本在遇到一个sql错误后会继续执行，如果希望在遇到一个sql错误后让psql退出，那么可以设置ON_ERROR_STOP变量来运行psql,这将使psql在遇到sql错误后退出并返回状态3
+
+```
+psql --set ON_ERROR_STOP=on dbname <infile
+```
+
+​	不管怎样，你将只能得到一个部分恢复的数据库。作为另一种选择，你可以指定让整个恢复作为一个单独的事务运行，这样恢复要么完全完成要么完全回滚。这种模式可以通过向psql传递-1或`--single-transaction`命令选项来指定。在使用这种模式时，注意即使时很小的一个错误也会导致数小时的护肤被回滚。但是，这任然比在一个部分恢复后手工清理复杂的数据库更好。
+
+​	pg_dump和psql读写管道的能力使得直接从一个服务器dump一个数据库到另外一个服务器成为可能。
+
+```
+pg_dump -h host1 dbname | psql -h host2 dbname
+```
+
+**pg_dump产生的dump是相对于tmplate0,这意味在template1中加入的任何语言，过程都会被pg_dump而dump。结果是，如果在恢复时使用的一个自定义的template1,必须从template0创建一个空的数据库**
+
+​	一旦完成恢复，在每个数据库上运行`ANALYZE`是明智的举动，这样优化器就有有用的统计数据。
+
+### using pg_dumpall
+
+​	pg_dump每次只能dump一个数据库，而且不会dump关于角色或者表空间(因为它们是集簇范围的)信息，为了支持方便的dump一个数据库集簇的全部内容，提供`pg_dumpall`备份一个给定集簇中的每一个数据库，而且也保留了集簇范围的数据，如角色和表空间定义。该命令基本用法是
+
+```
+pg_dumpall > outfile
+```
+
+​	dump的结果可以使用psql恢复
+
+```
+psql -f infile postgres
+```
+
+​	实际上，你可以指定恢复到任何已有数据库名，但是如果你正在将dump载入到一个空集簇中则通常使用(postgresq)。在恢复一个pg_dump的dump常常需要具有数据库超级用户访问权限，因为它需要恢复角色和表空间信息。如果在使用表空间，请确保dump中的表空间路径适合新的安装
+
+​	pg_dumpall工作时会发出命令会重新创建角色，表空间和数据库，接着为每一个数据库pg_dump。这意味者每个数据库自身是一致的，但是不同数据库的快照并不同步。
+
+​	集簇范围的数据可以使用pd_dumpall的--global-only选项来单独dump，如果在单个数据库上运行pg_dump命令，上述做法对于完全备份整个集簇是必须的。
+
+
+
+### Handling Large Databases
+
+​	在一些具有最大文件尺寸限制的操作系统上创建大型的pg_dump输出文件可能会出现文件。幸运地是，pg_dup可以写出到标准输出，因此你可以使用标准Unix工具来处理这种潜在的问题。有几种的方法
+
+1、使用压缩转储
+
+​	这里可以使用喜欢的压缩程序，例如gzip
+
+```
+pg_dump dbname | gzip > filename.gz
+```
+
+恢复
+
+```
+gunzip -c filename.gz | psql dbname
+```
+
+2、使用split
+
+​	split命令允许将输出分割为较小的文件以便能够适应底层文件系统的尺寸要求。例如，让每一块的大小为1M字节
+
+```
+pg_dump dbname | split -b 1m - filename
+```
+
+恢复
+
+```
+cat filename*|psql dbname
+```
+
+3、使用pg_dump的自定义存储格式
+
+​	如果postgresql所在的系统上安装了zlib压缩裤，自定义dump格式将在写出数据到输出文件时对齐压缩。这将产生和使用gzip时差不多的dump文件，但是这种方式的一个优势是其中的表可以被有选择的恢复。下面的命令使用自定义dump格式来dump一个数据库
+
+```
+pg_dump -Fc dbname > filename
+```
+
+​	自定义格式的dump不是psql的脚本，只能通过pg_restore来恢复,例如
+
+```
+pg_restore -d dbname filename
+```
+
+​	详情参阅pg_dump和pg_restore
+
+​	对于非常大型的数据库，你可能需要split配合其他两种方法之一进行使用。
+
+4、使用pg_dump的并行dump特性
+
+​	为了加快dump一个大型数据库的速度，可以使用pg_dump的并行模式。它将同时dump多个表，可以使用-j参数控制并行度。并行dump支持"目录"归档格式
+
+```
+pg_dump -j num -F d -f out.dir dbname
+```
+
+​	可以使用pg_restore -j 来以并行方式恢复一个dump,它只能适用于"自定义"归档或者"目录"归档，但不管归档是否有pg_dump -j创建。
+
+
+
+
+
+
+
+
+
