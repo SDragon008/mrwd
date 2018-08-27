@@ -215,3 +215,8 @@ total 8
 4 drwxr-xr-x 2 root root       4096 May 16 22:12 linuxl
 
 sticky：对目录拥有读写权限的用户可以删除各自拥有的文件
+
+
+
+
+
