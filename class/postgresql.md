@@ -23,7 +23,13 @@
 
 - [pg arrary](../20180806/postgresql_array.md)
 
-- 
+- [pg 去除字段特殊字符](../20180824/pg_去除字段特殊字符.md)
+
+- [pg_开启归档](../20180822/pg_开启归档.md)
+
+- [pg 判断 字符_各种数据类型](../20180821/pg_判断_字符_各种数据类型.md)
+
+- [pg_json_jsonb_使用](../20180815/pg_json_jsonb_使用.md)
 
   
 
@@ -51,6 +57,16 @@
 
 - [pg gprof目录](../20180810/pg_gprof_目录.md)
 
+- [pg 去除字段特殊字符](../20180824/pg_去除字段特殊字符.md)
+
+- [pg_开启归档](../20180822/pg_开启归档.md)
+
+- [pg_json_jsonb_使用](../20180815/pg_json_jsonb_使用.md)
+
+- [postgresql_json_jsonb](../20180825/postgresql_json_jsonb.md)
+
+- [postgresql_行转列](../20180815/postgresql_行转列.md)
+
   
 
   
@@ -61,6 +77,20 @@
 
 
 ## 系列
+
+
+
+###  pg 9.6 中文官方文档
+
+
+
+
+
+[pg_备份和恢复](../20180822/pg_备份和恢复.md)
+
+
+
+
 
 
 

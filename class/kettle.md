@@ -30,6 +30,7 @@ kettle是一款开源的etl软件，非常适合小型公司数据抽取，转�
 - [kettle 配置oracle集群](../img_src/kettle配置oracle集群方式.md)
 - [kettle json 17M 文件解析](../20170504/kettle_17Mjson文件解析.md)
 - [kettle gpload](../20170504/KETTLE_GPLOAD_LOAD.md)
+- [wps_excel_超多行数据导入](../20180820/wps_excel_超多行数据导入.md)
 
 
 
