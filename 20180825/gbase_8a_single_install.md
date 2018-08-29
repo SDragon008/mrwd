@@ -6,11 +6,18 @@
 
 ​	系统版本：GBase8a-NoLicense-Free-8.6.2_build33-R3-redhat7.3-x86_64.tar.bz2
 
-​	操作系统:   CENTOS7.3
+​	操作系统要求:   CENTOS7.3
 
-​	
+​	本次安装系统版本:CentOS Linux release 7.4.1708 (Core) 
+
+```
+cat /etc/redhat-release 
+CentOS Linux release 7.4.1708 (Core) 
+```
 
 
+
+## 操作手册
 
 ```
 # tar xfj GBase8a-NoLicense-Free-8.6.2_build33-R3-redhat7.3-x86_64.tar.bz2 
@@ -24,29 +31,18 @@ $ source ~/.bashrc
 
 
 
+```
+$ gbase.server start
+Starting GBase. SUCCESS! 
+```
 
 
 
 
 
+## 问题
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+​	如果操作系统低于7.3，就会出现各种依赖包版本报错；如果操作系统安装时没有默认安装图形化界面，也会出现各种依赖包不存在
 
 
 

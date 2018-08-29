@@ -226,4 +226,4 @@ Public key for libXaw-1.0.11-2.el6.x86_64.rpm is not installed
 
 ## 链接地址
 
-<http://www.cnblogs.com/JemBai/archive/2012/11/07/2759140.html>
+http://www.cnblogs.com/JemBai/archive/2012/11/07/2759140.html
