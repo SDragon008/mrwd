@@ -153,3 +153,18 @@ total 0
 total 0
 ```
 
+6、boss组用户对所有的文件都有查看权限，但无修改权限
+
+```
+# ls -lt
+total 16
+drwxr-x--- 3 root boss     4096 Aug 29 13:47 boss
+drwxr-x--- 4 root manage   4096 Aug 29 13:00 manage
+drwxr-x--- 4 root market   4096 Aug 29 12:59 market
+drwxr-x--- 4 root training 4096 Aug 29 12:59 training
+# setfacl -m g:boss:rx manage
+# setfacl -m g:boss:rx market
+# setfacl -m g:boss:rx training
+# setfacl -m g:boss:rx boss
+```
+
