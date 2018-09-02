@@ -146,7 +146,7 @@ NIC statistics:
 
 ```
 [root@centos65 ~]# ifconfig
-eth1      Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99  
+eth0      Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99  
           inet addr:192.168.1.9  Bcast:192.168.1.255  Mask:255.255.255.0
           inet6 addr: fe80::a00:27ff:fe1f:2b99/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
@@ -169,9 +169,9 @@ Stopping NetworkManager daemon:                            [  OK  ]
 [root@centos65 ~]# chkconfig NetworkManager off
 [root@centos65 ~]# chkconfig --list NetworkManager
 NetworkManager 	0:off	1:off	2:off	3:off	4:off	5:off	6:off
-[root@centos65 ~]# ip addr add 192.168.1.200/24 dev eth1 label eth1:0
+[root@centos65 ~]# ip addr add 192.168.1.200/24 dev eth0 label eth0:0
 [root@centos65 network-scripts]# ifconfig 
-eth1      Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99  
+eth0      Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99  
           inet addr:192.168.1.9  Bcast:192.168.1.255  Mask:255.255.255.0
           inet6 addr: fe80::a00:27ff:fe1f:2b99/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
@@ -180,7 +180,7 @@ eth1      Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99
           collisions:0 txqueuelen:1000 
           RX bytes:52775 (51.5 KiB)  TX bytes:37587 (36.7 KiB)
 
-eth1:0    Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99  
+eth0:0    Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99  
           inet addr:192.168.1.200  Bcast:0.0.0.0  Mask:255.255.255.0
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
 
@@ -198,12 +198,30 @@ lo        Link encap:Local Loopback
 
 ![_](../img_src/000/2018-09-01_094644.png)
 
+```
+# vim /etc/sysconfig/network-scripts/ifcfg-eth0:0
+DEVICE=eth0:0
+IPADDR=192.168.1.200
+PREFIX=24
+ONPARENT=yes
+```
 
+```
+# service network restart
+```
 
+**删除ip别名**
 
+```
+# rm -rf ifcfg-eth0:0
+```
 
 
 
 ## 多网卡绑定
 
-​	
+
+
+
+
+2018-09-01_101354.png	
