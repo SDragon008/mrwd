@@ -145,7 +145,7 @@ NIC statistics:
 **测试脚本**
 
 ```
-[root@centos65 ~]# ifconfig
+# ifconfig
 eth0      Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99  
           inet addr:192.168.1.9  Bcast:192.168.1.255  Mask:255.255.255.0
           inet6 addr: fe80::a00:27ff:fe1f:2b99/64 Scope:Link
@@ -164,13 +164,13 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0 
           RX bytes:7408 (7.2 KiB)  TX bytes:7408 (7.2 KiB)
 
-[root@centos65 ~]# service NetworkManager stop
+# service NetworkManager stop
 Stopping NetworkManager daemon:                            [  OK  ]
-[root@centos65 ~]# chkconfig NetworkManager off
-[root@centos65 ~]# chkconfig --list NetworkManager
+# chkconfig NetworkManager off
+# chkconfig --list NetworkManager
 NetworkManager 	0:off	1:off	2:off	3:off	4:off	5:off	6:off
-[root@centos65 ~]# ip addr add 192.168.1.200/24 dev eth0 label eth0:0
-[root@centos65 network-scripts]# ifconfig 
+# ip addr add 192.168.1.200/24 dev eth0 label eth0:0
+# ifconfig 
 eth0      Link encap:Ethernet  HWaddr 08:00:27:1F:2B:99  
           inet addr:192.168.1.9  Bcast:192.168.1.255  Mask:255.255.255.0
           inet6 addr: fe80::a00:27ff:fe1f:2b99/64 Scope:Link
@@ -222,6 +222,39 @@ ONPARENT=yes
 
 
 
+​	linux 支持将多个物理网卡绑定为一个逻辑网卡，绑定后的逻辑网卡可以并行使用组成其的所有物理网卡，通过这样的方式用以提高带宽和稳定性
+
+​	绑定后物理网卡不再直接使用，ip地址配置在绑定后的逻辑网卡上。
+
+​	linux 支持以下的网卡绑定模式
+
+ - 模式0：平衡轮训
+
+ - 模式1：主动备份
+
+ - 模式3：广播
+
+   
 
 
-2018-09-01_101354.png	
+
+**测试脚本**
+
+
+
+​	
+
+​	
+
+
+
+
+
+
+
+
+
+## 链接地址
+
+https://www.cnblogs.com/nulige/p/6714183.html?utm_source=itdadao&utm_medium=referral
+
