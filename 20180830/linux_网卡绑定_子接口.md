@@ -220,7 +220,7 @@ ONPARENT=yes
 
 ## 多网卡绑定
 
-
+![_](../img_src/000/2018-09-06_232941.png)
 
 ​	linux 支持将多个物理网卡绑定为一个逻辑网卡，绑定后的逻辑网卡可以并行使用组成其的所有物理网卡，通过这样的方式用以提高带宽和稳定性
 
@@ -238,25 +238,52 @@ ONPARENT=yes
 
 ![_](../img_src/000/2018-09-03_130826.png)
 
-
-
-
-
-​	
-
-
+![_](../img_src/000/2018-09-06_233635.png)
 
 **测试脚本**
 
+```
+# vim /etc/sysconfig/network-scripts/ifcfg-bond0
+DEVICE=bond0
+IPADDR=192.168.1.200
+NETMASK=255.255.255.0
+NETWORK=192.168.1.1
+ONBOOT=yes
+USERCTL=no
+BONDING_OPTS="mode=0  miimon=50"
+BOOTPROTO=none
+```
 
+```
+# vim ifcfg-eth[0-3]
+DEVICE=eth1
+BOOTPROTO=none
+ONBOOT=yes
+MASTER=bond0
+SLAVE=yes
+USERCTL=no
+TYPE=Ethernet
+HWADDR=08:00:27:61:bc:87
+```
 
-​	
+添加驱动
 
-​	
+```
+# vim /etc/modprobe.d/bonding.conf 
+alias bond0 bonding
+```
 
+ 加载模块(重启系统后就不用手动再加载了) 
 
+```
+# modprobe bonding
+```
 
+重启网络或者重启服务器(测试发现重启服务器更有效)
 
+```
+# service network restart | reboot
+```
 
 
 

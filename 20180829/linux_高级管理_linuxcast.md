@@ -14,3 +14,9 @@
 
 6、[linux 软件RAID配置 ](../20170627/linux_raid.md)
 
+7、[linux 网卡绑定 子接口](../20180830/linux_网卡绑定_子接口.md)
+
+8、[selinux 基础](../20180907/selinux_基础.md)
+
+
+
