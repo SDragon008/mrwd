@@ -259,7 +259,21 @@ test ! -f /mnt/server/archivedir/00000001000000A900000065 && cp pg_xlog/00000001
 
 #### Making a non-exclusive low level backup
 
-​	非排他低级备份允许其他并发备份运行()
+​	非排他低级备份允许其他并发备份运行(即包括那些使用同样的 备份API 开始的备份，也包括那些使用pg_basebackup开始的备份)
+
+​	1、确保WAL归档被启用且正在工作
+
+​	2、作为一个具有运行pg_stat_backup权利的用户连接到服务器并且发出命令
+
+```
+select pg_start_backup('label',false,false');
+```
+
+​	其中label是用来唯一标识这次备份操作的任意字符串。调用pg_start_backup的连接必须被保持到备份结束，否则备份将被自动终止。
+
+​	默认情况下，pg_stat_backup可能需要较长的时间完成。
+
+​	3、
 
 
 

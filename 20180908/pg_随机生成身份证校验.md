@@ -38,59 +38,56 @@
 
 
 
+```
+-- Function: f_sfzh18_jyzsx(character varying)
 
+-- DROP FUNCTION f_sfzh18_jyzsx(character varying);
 
+CREATE OR REPLACE FUNCTION f_sfzh18_jyzsx(i_sfzh character varying)
+  RETURNS text AS
+$BODY$ declare
+v_sfzh varchar(100);
+v_s varchar(100);
+v_array1 int[];
+v_array2 varchar[];
+v_sum int;
+v_i int;
+begin
 
+v_sfzh :=i_sfzh;
+v_array1:=array[7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2];
+v_array2:=array['1','0','X','9','8','7','6','5','4','3','2'];
+v_i:=1;
+v_sum:=0;
+	loop
+		v_s:=substr(v_sfzh,v_i,1);
+ 
+		if (v_s)~ '^[0-9]' then 
+			v_sum:=v_sum + cast(v_s as integer)*v_array1[v_i];
+		else
+			return -1;
+		end if;
+ 
+		v_i:=v_i + 1;
+		if v_i>17 then
+			exit;
+		end if;
+	end loop;
+ 
+	v_sum:=mod(v_sum,11) ;
+	v_s:=v_array2[v_sum];
+	if v_s=substr(v_sfzh,18,1) then
+		return 0;
+	else
+		return -2;
+	end if;
+end; $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION f_sfzh18_jyzsx(character varying)
+  OWNER TO ysys;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```
 
 
 

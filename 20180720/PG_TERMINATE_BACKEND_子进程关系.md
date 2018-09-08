@@ -12,13 +12,7 @@
 
 ​	在看德哥视频讲述pg的进程结构时，突然想到一个问题，pg_terminate_backend('pid')的pid是否就是父进程复制的子进程。
 
-
-
-
-
 ## 测试步骤
-
-
 
 ​	执行命令ps -ef|grep postgres查看当前活动的进程，通过pg_stat_activitity检查会话
 
@@ -246,4 +240,4 @@ esttab_18_07_20
 
 
 
-测试发现pg_terminate_backend(pid)和kill pid的效果是一样，那么pg_cancel_backend(pid)其实也是在进程上做文章，同时可以测试出pg_terminate_backend的pid就是子进程。
+​	测试发现pg_terminate_backend(pid)和kill pid的效果是一样，那么pg_cancel_backend(pid)其实也是在进程上做文章，同时可以测试出pg_terminate_backend的pid就是子进程。
