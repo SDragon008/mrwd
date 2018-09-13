@@ -435,6 +435,49 @@ $ mongo 192.168.1.31:20000
 
 
 
+##  启动步骤
+
+​	启动步骤请注意安装的顺序就是启动的过程
+
+### 每一台服务器启动
+
+```
+# su - ysys
+$ numactl --interleave=all mongod --config /usr/local/mongodb/conf/config.conf
+```
+
+### 节点一节点二 启动 shard1
+
+```
+$ numactl --interleave=all mongod  --config  /usr/local/mongodb/conf/shard1.conf
+```
+
+### 节点二节点三 启动 shard2
+
+```
+$ numactl --interleave=all mongod  --config  /usr/local/mongodb/conf/shard2.conf
+```
+
+### 节点三节点一 启动 shard3
+
+```
+$ numactl --interleave=all mongod  --config  /usr/local/mongodb/conf/shard3.conf
+```
+
+### 节点一节点二启动 mongos
+
+```
+$ mongos  --config  /usr/local/mongodb/conf/mongos.conf
+```
+
+
+
+### 关闭步骤
+
+​	从mongos>shard3>shard2>shard1>config 删除进程
+
+
+
 
 
 ## 链接地址
