@@ -18,7 +18,7 @@ redis,redis cluster,install
 
 ## 背景介绍
 
-​	在TJ形成一套体系后，现场这边需要部署一套redis集群，从支持部陈庆龙这边要到信息后，准备进行部署安装，顺带要了安装的链接地址(https://www.cnblogs.com/yingchen/p/6763524.html)
+​	在TJ形成一套体系后，现场这边需要部署一套redis集群(tj的redis集群是由华三部署)，从支持部陈庆龙这边要到信息后，准备进行部署安装，顺带要了安装的链接地址(https://www.cnblogs.com/yingchen/p/6763524.html)
 
 
 
