@@ -63,7 +63,17 @@ run 'setenforce 1' to reenable
 
 ​	第六步：反思shutdown -h now
 
-​		
+​	可能与服务器操作系统cpu等兼容问题
+
+​	第七步：修改BIOS时间
+
+```
+#  hwclock -r --查看当前BIOS时间
+#  date --查看系统时间
+#  hwclock -w  --BIOS同步系统时间
+```
+
+
 
 
 
