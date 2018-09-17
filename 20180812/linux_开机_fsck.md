@@ -73,12 +73,6 @@ run 'setenforce 1' to reenable
 #  hwclock -w  --BIOS同步系统时间
 ```
 
-
-
-
-
-
-
 ​	写到这里手都是颤动，就怕服务器没有启动起来(下一周白加黑)。后面在想为什么会出现fsck，fsck又是什么？这个下一篇文档里写。
 
 
@@ -90,6 +84,8 @@ https://blog.csdn.net/okhelp/article/details/44220755
 http://www.91ctc.com/article/article-439.html
 
 http://blog.chinaunix.net/uid-20940095-id-3239618.html
+
+http://codingstandards.iteye.com/blog/804830
 
 
 

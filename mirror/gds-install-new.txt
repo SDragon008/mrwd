@@ -1,0 +1,17 @@
+华为gds安装
+1.vim /etc/ntp.conf
+	service ntpd start
+	最后面添加server 192.168.1.190
+2.service ntpd restart
+	通过 ntpq -p查看是否同步
+3、创建目录/home/apps/LibrA
+  mkdir -p /home/apps/LibrA
+  chmod -R 777 /home/apps/LibrA/data
+4、  
+tar -xvf Gauss-MPPDB-ALL-PACKAGES.tar.gz 
+tar -xvf Gauss200-OLAP-V100R007C10-SUSE11-64bit-Gds.tar.gz
+5.创建数据加载目录mkdir -p /home/apps/LibrA/data/   日志加载目录mkdir -p /var/log/gds_log
+6.启动gds服务
+./gds -d /home/apps/LibrA/data/ -p 192.168.1.190:3425 -H 192.168.0.0/16 -l /var/log/gds_log/gds_log.txt -D -t 2
+./gds -d /home/apps/LibrA/data/ -p 192.168.1.191:3425 -H 192.168.0.0/16 -l /var/log/gds_log/gds_log.txt -D -t 2
+./gds -d /home/apps/LibrA/data/ -p 192.168.1.192:3425 -H 192.168.0.0/16 -l /var/log/gds_log/gds_log.txt -D -t 2
