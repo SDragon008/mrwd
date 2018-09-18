@@ -38,7 +38,7 @@
 
 ​	目前实施团队主要使用data Studio客户端来访问华为Libra数据库，当前将主要的操作流程记录下来。
 
-​	需要用的软件分别是[jdk1.8_32](../mirror/jre-8u92-windows-i586.exe),[data_studio 32](../mirror/Data_Studio_32.zip)，在配置中(**发现只是支持32位**)
+​	需要用的软件分别是**jdk1.8_32**,**data_studio 32**，在配置中(**发现只是支持32位**)
 
 **jdk1.8-32 data_studio 32**
 
