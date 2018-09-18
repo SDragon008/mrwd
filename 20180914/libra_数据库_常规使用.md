@@ -40,7 +40,7 @@
 
 ​	需要用的软件分别是**jdk1.8_32**,**data_studio 32**，在配置中(**发现只是支持32位**)
 
-**jdk1.8-32 data_studio 32**
+**jdk1.8-32 data_studio 32** 相关链接：https://pan.baidu.com/s/1l7uv7MVy_V4t6sftpF_dVA 密码：zgk3
 
 ​	配置jdk环境后，将**data_studio 32**解压后执行命令**Data Studio.exe**,出现如图界面,点击文件下发的发黄的按钮
 
