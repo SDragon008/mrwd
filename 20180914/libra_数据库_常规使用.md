@@ -300,7 +300,7 @@ CREATE SCHEMA AUTHORIZATION user_name [ schema_element [ ... ] ];
 # create schema schema_name 
 ```
 
-​	**用户不会跨库访问，但是可以跨schema来访问，不过首先需要授予使用schema的权限**
+**用户不会跨库访问，但是可以跨schema来访问，不过首先需要授予使用schema的权限**
 
 ```
 # grant usage on schema schema to username 
