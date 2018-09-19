@@ -4,9 +4,7 @@
 
 
 
-​	之前安装的数据库后期测试有问题，而且也是很难理解具体架构
-
-
+​	之前安装的数据库后期测试有问题，而且也是很难理解具体架构，参考新的就比较简单，而且更好理解。
 
 
 
@@ -17,6 +15,20 @@
 ### 每台服务器都要执行
 
 
+
+#### 删除文件
+
+​	之前在GZ部署时参考的文档有的出入，导致数据库安装不是很准确，之前想在旧的环境部署，发现很多错误信息，考虑到mongo的真实情况，将数据全部删除重新搞，如果之前并没有部署，可以不参考此内容
+
+```
+rm -rf  /usr/local/mongodb/conf/*
+rm -rf  /data/config/data/*
+rm -rf  /data/shard1/data/*
+rm -rf  /data/shard2/data/*
+rm -rf  /data/shard3/data/*
+```
+
+​	删除过这些后，可以跳到 创建config 环节	
 
 #### 上传文件并解压文件到规定的目录
 
@@ -56,7 +68,7 @@ $ mongod -v
 --查看mongo版本是否存在
 ```
 
-在每台服务器上执行下面语句
+**在每台服务器上执行下面语句**
 
 ```
 mkdir -p /usr/local/mongodb/conf
@@ -169,9 +181,11 @@ $ use admin
 
 #### 创建shard2
 
-
-
 ```
+# su - ysys
+$ cd /usr/local/mongodb/conf/
+$ vim shard2.conf
+
 pidfilepath = /data/shard2/log/shard2.pid
 dbpath = /data/shard2/data
 logpath = /data/shard2/log/shard2.log
@@ -210,11 +224,14 @@ $ mongo 192.168.1.32:27002
 > rs.initiate(config)
 ```
 
-
-
 #### 创建shard3
 
 ```
+# su - ysys
+$ cd /usr/local/mongodb/conf/
+$ vim shard3.conf
+
+
 pidfilepath = /data/shard3/log/shard3.pid
 dbpath = /data/shard3/data
 logpath = /data/shard3/log/shard3.log
@@ -238,9 +255,17 @@ shardsvr = true
 maxConns=20000
 ```
 
-
+**三台启动shard3**
 
 ```
+$ mongod  --config  /usr/local/mongodb/conf/shard3.conf
+```
+
+**任意一台登陆**
+
+```
+$ mongo 192.168.1.33:27003
+> use admin
 > config = { _id : "shard3",members : [{_id : 0, host : "192.168.1.31:27003" },{_id : 1, host : "192.168.1.32:27003" , arbiterOnly: true},{_id : 2, host : "192.168.1.33:27003" }]}
 > rs.initiate(config);
 ```
@@ -250,6 +275,11 @@ maxConns=20000
 #### 创建mongos
 
 ```
+# su - ysys
+$ cd /usr/local/mongodb/conf/
+$ vim mongos.conf
+
+
 #内容
 pidfilepath = /data/mongos/log/mongos.pid
 logpath = /data/mongos/log/mongos.log
@@ -266,9 +296,33 @@ configdb = configs/192.168.1.31:21000,192.168.1.32:21000,192.168.1.33:21000
 maxConns=20000
 ```
 
+**三台启动mongos**
 
+```
+$ mongos -f /usr/local/mongodb/conf/mongos.conf
+```
 
+**任意一台登陆**
 
+```\
+$ mongo 192.168.1.31:20000
+> use admin
+> sh.addShard("shard1/192.168.1.31:27001,192.168.1.32:27001,192.168.1.33:27001")
+> sh.addShard("shard2/192.168.1.31:27002,192.168.1.32:27002,192.168.1.33:27002")
+> sh.addShard("shard3/192.168.1.31:27003,192.168.1.32:27003,192.168.1.33:27003")
+> sh.status()
+```
+
+### 测试
+
+```
+$ mongo 192.168.1.31:20000
+> use admin
+> db.runCommand( { enablesharding :"testdb"});
+> db.runCommand( { shardcollection : "testdb.table1",key : {id: 1} } )
+> for (var i = 1; i <= 10; i++) db.table1.save({id:i,"test1":"testval1"});
+> db.table1.find();
+```
 
 
 
@@ -282,8 +336,6 @@ $ vim shard1.conf
 httpinterface=true
 rest=true
 ```
-
-
 
 ```
 [ysys@gh31 conf]$ mongod -f /usr/local/mongodb/conf/shard1.conf 
