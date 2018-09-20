@@ -12,17 +12,19 @@
 
 ![_](../img_src/000/2018-09-19_210111.png)
 
-
-
 ​	mongos:数据库集群请求的入口，所有的请求都通过mongos进行协调，不需要在应用程序添加一个路由选择器，mongos自己就是一个请求分发中心，它负责将对应的数据请求转发到对应的shard服务器上。在生产环境通常有多个mongos作为请求的入口，防止其中一个挂掉所有的mongodb请求都没有办法操作
 
+​	config server:配置服务器，存储所有数据库 元信息(路由，分片)的配置。mongos本身没有物理存储分片服务器和数据路由信息，只能缓存在内存里，配置服务器则实际存储这些数据。monogs第一次启动或者关掉重启就会从config server 加载配置信息，以后如果配置服务器信息变化会通知到所有的mongos更新自己的状态，这样mongos就能继续准确路由，在生产环境下通常有多个config server配置服务器，因为它存储了分片路由的元数据，防止数据丢失。
 
+​	shard：分片，是将数据库拆分，将其分散到不同的机器上的过程。将数据分散到不同的机器上，不需要功能强大的服务区就可以存储跟多的数据和处理更大的负载。基本思想就是将集合切成小块，这些块分散到若干片里，每个片只负责总数据的一部分，最后通过一个均衡器来对各个分片进行均衡(数据迁移)。
 
-​	config server:配置服务器，存储所有数据库 元信息(路由，分片)的配置。mongos本身没有物理存储分片服务器和数据路由信息，只能缓存在内存里，配置服务器则实际存储这些数据。monogs第一次启动或者关掉重启就会从config server 加载配置信息，以后如果配置服务器信息变化会通知到所有的mongos更新自己的状态，这样mongos就能继续准确路由，在生产环境下通常有多个config server配置服务器，因为它存储了分片路由的元数据，防止数据丢失
+​	replica set是shard的备份，防止shard挂掉之后数据丢失。复制提供了数据冗余备份，并在多个服务器上存储数据副本，提高了数据的可用性，并可以保证数据的安全性
 
+​	Arbiter，仲裁者，是复制集中的一个MongbDB实例，他并不保存数据。仲裁节点使用最小的资源并且要求硬件设备，不能将Arbiter部署在同一个数据集节点中，可以部署在其他应用服务器或者监视服务器中，也可部署在单独的虚拟中。为了确保复制集中有奇数的投票成员(包括primary)，需要添加仲裁节点作为投票，否则primary不能运行时不会自动切换primary。
 
+​	应用请求mongos来操作mongodb的增删改查，配置服务器存储数据库元信息，并且和mongos做同步，数据最终存入在shard(分片)上，为了防止数据丢失同步在副本集中存储了一份，仲裁在数据存储分片的时候决定存储到哪个节点。
 
-
+​	
 
 
 
@@ -142,12 +144,12 @@ maxConns=20000
 **三台启动config**
 
 ```
-$ mongod --config /usr/local/mongodb/conf/config.conf
+$ mongod -f /usr/local/mongodb/conf/config.conf
 ```
 
 **只要登陆到其中一台就可以了，以ip:192.168.1.31为例**
 
-**请注意从config开始ip的顺序，比如是_id是0的192.168.1.31,id_0是1的192.168.1.32,id_1是2的192.168.1.33就确定了，后续都需要按照这个顺序配置，因此要注意**
+**请注意从config开始ip的顺序，比如是_id是0的192.168.1.31,id是1的192.168.1.32,id是2的192.168.1.33就确定了，后续都需要按照这个顺序配置，因此要注意**
 
 ```
 $ mongo 192.168.1.31:21000
@@ -193,7 +195,7 @@ maxConns=20000
 **三台启动shard1**
 
 ```
-$ mongod  --config  /usr/local/mongodb/conf/shard1.conf
+$ mongod  -f  /usr/local/mongodb/conf/shard1.conf
 ```
 
 **任意一台登陆**
@@ -238,7 +240,7 @@ maxConns=20000
 **三台启动shard2**
 
 ```
-$ mongod  --config  /usr/local/mongodb/conf/shard2.conf
+$ mongod  -f  /usr/local/mongodb/conf/shard2.conf
 ```
 
 **任意一台登陆**
@@ -284,7 +286,7 @@ maxConns=20000
 **三台启动shard3**
 
 ```
-$ mongod  --config  /usr/local/mongodb/conf/shard3.conf
+$ mongod  -f  /usr/local/mongodb/conf/shard3.conf
 ```
 
 **任意一台登陆**
@@ -345,12 +347,38 @@ $ mongo 192.168.1.31:20000
 $ mongo 192.168.1.31:20000
 > use admin
 > db.runCommand( { enablesharding :"testdb"});
+$ mongo 192.168.1.31:20000
+> use testdb
 > db.runCommand( { shardcollection : "testdb.table1",key : {id: 1} } )
 > for (var i = 1; i <= 10; i++) db.table1.save({id:i,"test1":"testval1"});
 > db.table1.find();
 ```
 
 
+
+## 启动关闭
+
+​	启动
+
+```
+$ mongod -f /usr/local/mongodb/conf/config.conf
+$ mongod -f /usr/local/mongodb/conf/shard1.conf
+$ mongod -f /usr/local/mongodb/conf/shard2.conf
+$ mongod -f /usr/local/mongodb/conf/shard3.conf
+$ mongos -f /usr/local/mongodb/conf/mongos.conf
+```
+
+​	关闭
+
+```
+$ kill mongos.conf --ps -ef|grep monogs.conf
+$ kill shard3.conf --ps -ef|grep shard3.conf
+$ kill shard2.conf --ps -ef|grep shard2.conf
+$ kill shard1.conf --ps -ef|grep shard1.conf
+$ kill config.conf --ps -ef|grep config.conf
+```
+
+​	
 
 
 
