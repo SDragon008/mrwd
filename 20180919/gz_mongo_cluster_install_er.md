@@ -143,6 +143,8 @@ $ mongod --config /usr/local/mongodb/conf/config.conf
 
 **只要登陆到其中一台就可以了，以ip:192.168.1.31为例**
 
+**请注意从config开始ip的顺序，比如是_id是0的192.168.1.31,id_0是1的192.168.1.32,id_1是2的192.168.1.33就确定了，后续都需要按照这个顺序配置，因此要注意**
+
 ```
 $ mongo 192.168.1.31:21000
 ```
@@ -365,7 +367,7 @@ Error parsing INI config file: unrecognised option 'httpinterface'
 try 'mongod --help' for more information
 ```
 
-
+某些应用可能有问题
 
 
 
