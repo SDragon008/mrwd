@@ -6,7 +6,7 @@
 
 ## FTP
 
-
+​	ftp是交换数据重要工具，在windows和linux上都有使用，而linux和windows的安装又是如此的不同。
 
 ### 安装
 
@@ -24,3 +24,18 @@
 
 [linux sh 获取文件信息](../20170503/linux_sh_get_ftp_filename.md)
 
+
+
+
+
+
+
+## virtualbox
+
+
+
+
+
+### 设置上网和主机通讯
+
+https://jingyan.baidu.com/article/48a420571e6d75a9242504e0.html
