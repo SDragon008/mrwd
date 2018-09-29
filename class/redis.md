@@ -1,25 +1,19 @@
 ﻿
 
 
-## 关于postgresql外部表实测支持数据库
-
-### oracle oracle_fdw
+## REDIS
 
 
-### postgresql postgres_fdw
+
+## 未整理
 
 
-### mysql mysql_fdw
+
+[redis cluster 3.2 install for linux](../20180917/redis_cluster_install.md)：单机模拟集群
 
 
-### mongo mongo_fdw
 
 
-### redis redis_fdw
 
-
-### file  file_fdw
-
-
-后期还会继续整理遇到的其他数据库
+## 系列
 

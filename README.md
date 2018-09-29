@@ -16,9 +16,15 @@ gh_95533's|学习|文章|归类
 
 ### 文档
 
-**NEW**
+**NEW(7)**
 
-[和virtualbox死磕上网问题]()
+
+
+[redis cluster install mutiple](20180928/redis_cluster_install_multiple.md):三台服务器，每台服务器两个服务节点
+
+[redis cluster install](20180917/redis_cluster_install.md):单机模拟集群安装
+
+[和virtualbox死磕上网问题](20180923/我和virtualbox死磕上网问题.md)：路由问题
 
 
 
