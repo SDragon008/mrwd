@@ -16,9 +16,9 @@
 
 ## 问题 
 
-​	virtualbox 网络设置
+**virtualbox 网络设置**
 
-​	路由器问题
+​**路由器问题**
 
 ​	
 
@@ -86,3 +86,9 @@ lo        Link encap:Local Loopback
 ​	如果后期ping www.baidu.com依然ping不同，可能是因为当前环境下，你连接的路由禁止ping www.baidu.com,在windows环境下ping www.baidu.com尝试一下
 
 **测试发现，如果当前环境下无法ping www.baidu.com，复制服务器并修改信息，后期连到正常的网络，依然不会成功**
+
+
+
+## 链接地址
+
+https://jingyan.baidu.com/article/48a420571e6d75a9242504e0.html

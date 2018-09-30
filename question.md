@@ -28,8 +28,8 @@
 | 20180828 | [centos7 安装图形化](20180828/linux_centos7_install_desktop.md) |        图形化没有安装，后期启动后安装图形化依赖包失败        |          |
 | 20180914 |                          mongo 集群                          |            mongo创建collection并没有在界面中找到             |    N     |
 | 20180915 |                       mpp gds无法使用                        |                 gds启动后，报限制ip地址访问                  |          |
-| 20180921 |             virtualbox添加新的网络Host Only网络              | win10每次更新后，virtualbox的host only都需要重建，但是可能之前的环境还被注册，只能注册为192.168.1.2 |          |
-|          |                                                              |                                                              |          |
+| 20180921 |             virtualbox添加新的网络Host Only网络              | win10每次更新后，virtualbox的host only都需要重建，但是可能之前的环境还被注册，只能注册为192.168.1.2 |    N     |
+| 20180923 |                     virtualbox 网络设置                      |                     virtualbox 网络原理                      |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |

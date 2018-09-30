@@ -34,8 +34,21 @@
 
 
 
+### virtualbox 安装版本
+
+**当前win10环境下，建议使用4.3版本,版本以上不兼容**
+
+
+
+### linux 服务器 安装 virtualbox 虚拟机
+
+
+
 
 
 ### 设置上网和主机通讯
 
-https://jingyan.baidu.com/article/48a420571e6d75a9242504e0.html
+[virtualbox 虚拟机上网](../20180923/我和virtualbox死磕上网问题.md)
+
+
+

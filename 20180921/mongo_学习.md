@@ -2,7 +2,7 @@
 
 # mongo 学习
 
-**记录**
+**文档整理**
 
 ysys
 
@@ -18,7 +18,7 @@ mongo,learn
 
 
 
-​	学习地址
+## 学习地址
 
 ​	链接：https://pan.baidu.com/s/1vk-UdVaoicR3JqcXNVxJgg 密码：6hmk
 
