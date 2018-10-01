@@ -78,7 +78,7 @@ createrepo_rpm
 
 #### 在每台服务器上文件夹下创建文件并修改redis.conf
 
-​	每个服务器上依次创建不同的文件夹，分别为7000,7001;7002,7003;7004,7005
+​	每个服务器上创建两个文件夹，依次创建不同的文件夹，分别为7000,7001;7002,7003;7004,7005
 
 ```
 # cd /usr/local/redis-cluster
@@ -202,6 +202,57 @@ gpgcheck=0
 # cp /software/redis-3.2.12/src/redis-trib.rb ./
 # ./redis-trib.rb 
 # ./redis-trib.rb create --replicas 1 192.168.1.18:7000 192.168.1.18:7001 192.168.1.19:7002 192.168.1.19:7003 192.168.1.20:7004 192.168.1.20:7005
+
+
+>>> Creating cluster
+>>> Performing hash slots allocation on 6 nodes...
+Using 3 masters:
+192.168.1.19:7002
+192.168.1.18:7000
+192.168.1.20:7004
+Adding replica 192.168.1.18:7001 to 192.168.1.19:7002
+Adding replica 192.168.1.19:7003 to 192.168.1.18:7000
+Adding replica 192.168.1.20:7005 to 192.168.1.20:7004
+M: 7fec74ccd4ac03ffb2a6ddb789bc71e2cf88e1f4 192.168.1.18:7000
+   slots:5461-10922 (5462 slots) master
+S: 2fec7ba73c69f09acc67e3bf20c980ab319f08ef 192.168.1.18:7001
+   replicates c0213d85374423a2e624a8506d75f128c503264a
+M: c0213d85374423a2e624a8506d75f128c503264a 192.168.1.19:7002
+   slots:0-5460 (5461 slots) master
+S: b3d3187fb89cd7d27def83ddf80558aa257d3daf 192.168.1.19:7003
+   replicates 7fec74ccd4ac03ffb2a6ddb789bc71e2cf88e1f4
+M: f1acbf85af5908899896542ddca3c1ec95173e94 192.168.1.20:7004
+   slots:10923-16383 (5461 slots) master
+S: 6627d0d722c2f651dfacabce30b9a55e759290c2 192.168.1.20:7005
+   replicates f1acbf85af5908899896542ddca3c1ec95173e94
+Can I set the above configuration? (type 'yes' to accept): *yes*
+>>> Nodes configuration updated
+>>> Assign a different config epoch to each node
+>>> Sending CLUSTER MEET messages to join the cluster
+Waiting for the cluster to join..
+>>> Performing Cluster Check (using node 192.168.1.18:7000)
+M: 7fec74ccd4ac03ffb2a6ddb789bc71e2cf88e1f4 192.168.1.18:7000
+   slots:5461-10922 (5462 slots) master
+   1 additional replica(s)
+S: 2fec7ba73c69f09acc67e3bf20c980ab319f08ef 192.168.1.18:7001
+   slots: (0 slots) slave
+   replicates c0213d85374423a2e624a8506d75f128c503264a
+M: f1acbf85af5908899896542ddca3c1ec95173e94 192.168.1.20:7004
+   slots:10923-16383 (5461 slots) master
+   1 additional replica(s)
+M: c0213d85374423a2e624a8506d75f128c503264a 192.168.1.19:7002
+   slots:0-5460 (5461 slots) master
+   1 additional replica(s)
+S: 6627d0d722c2f651dfacabce30b9a55e759290c2 192.168.1.20:7005
+   slots: (0 slots) slave
+   replicates f1acbf85af5908899896542ddca3c1ec95173e94
+S: b3d3187fb89cd7d27def83ddf80558aa257d3daf 192.168.1.19:7003
+   slots: (0 slots) slave
+   replicates 7fec74ccd4ac03ffb2a6ddb789bc71e2cf88e1f4
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
 ```
 
 
