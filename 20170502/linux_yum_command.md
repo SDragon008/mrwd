@@ -115,10 +115,10 @@ Other       : Provides-match: /etc/yum
 4、配置yum仓库
 
 ```
-#rpm -ivh python-deltarpm-3.5-0.5.20090913git.el6.x86_64.rpm  createrepo-0.9.9-18.el6.noarch.rpm deltarpm-3.50.5.20090913git.el6.x86_64.rpm 
+#rpm -ivh python-deltarpm-3.5-0.5.20090913git.el6.x86_64.rpm  createrepo-0.9.9-18.el6.noarch.rpm deltarpm-3.5-0.5.20090913git.el6.x86_64.rpm 
 # createrepo -v .
 # ls -ls repodata
-# vim /etc/yum.res
+# vim /etc/yum.repos.d/**.repo
 
 ```
 

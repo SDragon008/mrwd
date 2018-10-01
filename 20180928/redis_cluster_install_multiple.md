@@ -18,7 +18,7 @@ redis,redis cluster,multiple install
 
 ## 背景介绍
 
-​	之前在GZ规划时，规划了三台服务器作为redis集群的部署，前一段时间在一台虚拟机上虚拟了集群环境，现在在三台虚拟机上虚拟一下环境。
+​	之前在GZ规划时，规划了三台服务器作为redis集群的部署，前一段时间在一台虚拟机上虚拟了集群环境，现在在三台虚拟机上虚拟一下环境。如果想参考在内网(ga)下部署安装集群环境，请查看文档[redis_cluster_install_multiple_not_internet](../20181001/redis_cluster_install_multiple_not_internet.md)
 
 
 
@@ -132,6 +132,329 @@ rpm依赖包(centos6.5)
 链接：https://pan.baidu.com/s/1eY8SBKl-Vmeu1XNQPH1qbg 
 提取码：br0n
 
+
+
+**后期发现有几个是升级包，对于团队来说不太好使用，可以参考下面的执行过程，或者请继续查看解决方案**
+
+```
+Dependencies Resolved
+
+================================================================================
+ Package                Arch        Version                     Repository
+                                                                           Size
+================================================================================
+Installing:
+ rpm-build              x86_64      4.8.0-59.el6                base      131 k
+ ruby                   x86_64      1.8.7.374-5.el6             base      538 k
+ ruby-devel             x86_64      1.8.7.374-5.el6             base      318 k
+ rubygems               noarch      1.3.7-5.el6                 base      207 k
+Installing for dependencies:
+ compat-readline5       x86_64      5.2-17.1.el6                base      130 k
+ redhat-rpm-config      noarch      9.0.3-51.el6.centos         base       60 k
+ ruby-irb               x86_64      1.8.7.374-5.el6             base      318 k
+ ruby-libs              x86_64      1.8.7.374-5.el6             base      1.7 M
+ ruby-rdoc              x86_64      1.8.7.374-5.el6             base      381 k
+Updating for dependencies:
+ rpm                    x86_64      4.8.0-59.el6                base      906 k
+ rpm-libs               x86_64      4.8.0-59.el6                base      318 k
+ rpm-python             x86_64      4.8.0-59.el6                base       61 k
+
+Transaction Summary
+================================================================================
+Install       9 Package(s)
+Upgrade       3 Package(s)
+
+Total size: 4.9 M
+Downloading Packages:
+warning: rpmts_HdrFromFdno: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY
+Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+Importing GPG key 0xC105B9DE:
+ Userid : CentOS-6 Key (CentOS 6 Official Signing Key) <centos-6-key@centos.org>
+ Package: centos-release-6-5.el6.centos.11.1.x86_64 (@anaconda-CentOS-201311272149.x86_64/6.5)
+ From   : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+Warning: RPMDB altered outside of yum.
+  Updating   : rpm-libs-4.8.0-59.el6.x86_64                                1/15 
+  Updating   : rpm-4.8.0-59.el6.x86_64                                     2/15 
+  Installing : redhat-rpm-config-9.0.3-51.el6.centos.noarch                3/15 
+  Installing : compat-readline5-5.2-17.1.el6.x86_64                        4/15 
+  Installing : ruby-libs-1.8.7.374-5.el6.x86_64                            5/15 
+  Installing : ruby-1.8.7.374-5.el6.x86_64                                 6/15 
+  Installing : ruby-irb-1.8.7.374-5.el6.x86_64                             7/15 
+  Installing : ruby-rdoc-1.8.7.374-5.el6.x86_64                            8/15 
+  Installing : rubygems-1.3.7-5.el6.noarch                                 9/15 
+  Installing : ruby-devel-1.8.7.374-5.el6.x86_64                          10/15 
+  Installing : rpm-build-4.8.0-59.el6.x86_64                              11/15 
+  Updating   : rpm-python-4.8.0-59.el6.x86_64                             12/15 
+  Cleanup    : rpm-python-4.8.0-37.el6.x86_64                             13/15 
+  Cleanup    : rpm-libs-4.8.0-37.el6.x86_64                               14/15 
+  Cleanup    : rpm-4.8.0-37.el6.x86_64                                    15/15 
+  Verifying  : ruby-rdoc-1.8.7.374-5.el6.x86_64                            1/15 
+  Verifying  : compat-readline5-5.2-17.1.el6.x86_64                        2/15 
+  Verifying  : rpm-4.8.0-59.el6.x86_64                                     3/15 
+  Verifying  : redhat-rpm-config-9.0.3-51.el6.centos.noarch                4/15 
+  Verifying  : ruby-1.8.7.374-5.el6.x86_64                                 5/15 
+  Verifying  : rpm-libs-4.8.0-59.el6.x86_64                                6/15 
+  Verifying  : rubygems-1.3.7-5.el6.noarch                                 7/15 
+  Verifying  : ruby-libs-1.8.7.374-5.el6.x86_64                            8/15 
+  Verifying  : rpm-build-4.8.0-59.el6.x86_64                               9/15 
+  Verifying  : ruby-irb-1.8.7.374-5.el6.x86_64                            10/15 
+  Verifying  : ruby-devel-1.8.7.374-5.el6.x86_64                          11/15 
+  Verifying  : rpm-python-4.8.0-59.el6.x86_64                             12/15 
+  Verifying  : rpm-4.8.0-37.el6.x86_64                                    13/15 
+  Verifying  : rpm-python-4.8.0-37.el6.x86_64                             14/15 
+  Verifying  : rpm-libs-4.8.0-37.el6.x86_64                               15/15 
+
+Installed:
+  rpm-build.x86_64 0:4.8.0-59.el6           ruby.x86_64 0:1.8.7.374-5.el6      
+  ruby-devel.x86_64 0:1.8.7.374-5.el6       rubygems.noarch 0:1.3.7-5.el6      
+
+Dependency Installed:
+  compat-readline5.x86_64 0:5.2-17.1.el6                                        
+  redhat-rpm-config.noarch 0:9.0.3-51.el6.centos                                
+  ruby-irb.x86_64 0:1.8.7.374-5.el6                                             
+  ruby-libs.x86_64 0:1.8.7.374-5.el6                                            
+  ruby-rdoc.x86_64 0:1.8.7.374-5.el6                                            
+
+Dependency Updated:
+  rpm.x86_64 0:4.8.0-59.el6               rpm-libs.x86_64 0:4.8.0-59.el6       
+  rpm-python.x86_64 0:4.8.0-59.el6       
+
+Complete!
+```
+
+上面的问题的可以通过创建新的yum来解决
+
+当前环境再次提醒是centos6.5
+
+需要其他一些依赖包
+
+链接地址
+
+链接：https://pan.baidu.com/s/1ItAFu_t8Qjv9qTPf7MovZA 
+提取码：afur
+
+安装createrepo依赖包
+
+```
+# rpm -ivh python-deltarpm-3.5-0.5.20090913git.el6.x86_64.rpm  createrepo-0.9.9-18.el6.noarch.rpm deltarpm-3.5-0.5.20090913git.el6.x86_64.rpm 
+```
+
+将前面的15个依赖包放到统一目录下，本次放到/software/redis_yum
+
+```
+# ls
+
+compat-readline5-5.2-17.1.el6.x86_64.rpm
+redhat-rpm-config-9.0.3-51.el6.centos.noarch.rpm
+rpm-4.8.0-59.el6.x86_64.rpm
+rpm-build-4.8.0-59.el6.x86_64.rpm
+rpm-libs-4.8.0-59.el6.x86_64.rpm
+rpm-python-4.8.0-59.el6.x86_64.rpm
+ruby-1.8.7.374-5.el6.x86_64.rpm
+ruby-devel-1.8.7.374-5.el6.x86_64.rpm
+rubygems-1.3.7-5.el6.noarch.rpm
+ruby-irb-1.8.7.374-5.el6.x86_64.rpm
+ruby-libs-1.8.7.374-5.el6.x86_64.rpm
+ruby-rdoc-1.8.7.374-5.el6.x86_64.rpm
+```
+
+到达/software/redis_yum目录下执行命令
+
+```
+#  createrepo -v .
+Spawning worker 0 with 12 pkgs
+Worker 0: reading rpm-python-4.8.0-59.el6.x86_64.rpm
+Worker 0: reading rpm-4.8.0-59.el6.x86_64.rpm
+Worker 0: reading rubygems-1.3.7-5.el6.noarch.rpm
+Worker 0: reading ruby-1.8.7.374-5.el6.x86_64.rpm
+Worker 0: reading redhat-rpm-config-9.0.3-51.el6.centos.noarch.rpm
+Worker 0: reading rpm-build-4.8.0-59.el6.x86_64.rpm
+Worker 0: reading rpm-libs-4.8.0-59.el6.x86_64.rpm
+Worker 0: reading ruby-libs-1.8.7.374-5.el6.x86_64.rpm
+Worker 0: reading ruby-irb-1.8.7.374-5.el6.x86_64.rpm
+Worker 0: reading compat-readline5-5.2-17.1.el6.x86_64.rpm
+Worker 0: reading ruby-rdoc-1.8.7.374-5.el6.x86_64.rpm
+Worker 0: reading ruby-devel-1.8.7.374-5.el6.x86_64.rpm
+Workers Finished
+Gathering worker results
+
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+Generating sqlite DBs
+Starting other db creation: Mon Oct  1 00:09:28 2018
+Ending other db creation: Mon Oct  1 00:09:28 2018
+Starting filelists db creation: Mon Oct  1 00:09:28 2018
+Ending filelists db creation: Mon Oct  1 00:09:28 2018
+Starting primary db creation: Mon Oct  1 00:09:28 2018
+Ending primary db creation: Mon Oct  1 00:09:28 2018
+Sqlite DBs complete
+```
+
+查看是否生成repodata
+
+```
+# ls
+compat-readline5-5.2-17.1.el6.x86_64.rpm
+redhat-rpm-config-9.0.3-51.el6.centos.noarch.rpm
+repodata
+rpm-4.8.0-59.el6.x86_64.rpm
+rpm-build-4.8.0-59.el6.x86_64.rpm
+rpm-libs-4.8.0-59.el6.x86_64.rpm
+rpm-python-4.8.0-59.el6.x86_64.rpm
+ruby-1.8.7.374-5.el6.x86_64.rpm
+ruby-devel-1.8.7.374-5.el6.x86_64.rpm
+rubygems-1.3.7-5.el6.noarch.rpm
+ruby-irb-1.8.7.374-5.el6.x86_64.rpm
+ruby-libs-1.8.7.374-5.el6.x86_64.rpm
+ruby-rdoc-1.8.7.374-5.el6.x86_64.rpm
+```
+
+修改yum.respond/*.repo
+
+```
+[ysys]
+name=ysys install
+baseurl=file:///software/redis_rpm
+enabled=1
+gpgcheck=0
+               
+```
+
+再次执行命令
+
+```
+# yum -y install  ruby ruby-devel rubygems rpm-build 
+
+
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+ysys                                                     | 2.9 kB     00:00 ... 
+ysys/primary_db                                          |  12 kB     00:00 ... 
+Setting up Install Process
+Resolving Dependencies
+--> Running transaction check
+---> Package rpm-build.x86_64 0:4.8.0-59.el6 will be installed
+--> Processing Dependency: rpm = 4.8.0-59.el6 for package: rpm-build-4.8.0-59.el6.x86_64
+--> Processing Dependency: system-rpm-config for package: rpm-build-4.8.0-59.el6.x86_64
+---> Package ruby.x86_64 0:1.8.7.374-5.el6 will be installed
+--> Processing Dependency: ruby-libs = 1.8.7.374-5.el6 for package: ruby-1.8.7.374-5.el6.x86_64
+--> Processing Dependency: libruby.so.1.8()(64bit) for package: ruby-1.8.7.374-5.el6.x86_64
+---> Package ruby-devel.x86_64 0:1.8.7.374-5.el6 will be installed
+---> Package rubygems.noarch 0:1.3.7-5.el6 will be installed
+--> Processing Dependency: ruby-rdoc for package: rubygems-1.3.7-5.el6.noarch
+--> Running transaction check
+---> Package redhat-rpm-config.noarch 0:9.0.3-51.el6.centos will be installed
+---> Package rpm.x86_64 0:4.8.0-37.el6 will be updated
+--> Processing Dependency: rpm = 4.8.0-37.el6 for package: rpm-libs-4.8.0-37.el6.x86_64
+--> Processing Dependency: rpm = 4.8.0-37.el6 for package: rpm-python-4.8.0-37.el6.x86_64
+---> Package rpm.x86_64 0:4.8.0-59.el6 will be an update
+---> Package ruby-libs.x86_64 0:1.8.7.374-5.el6 will be installed
+--> Processing Dependency: libreadline.so.5()(64bit) for package: ruby-libs-1.8.7.374-5.el6.x86_64
+---> Package ruby-rdoc.x86_64 0:1.8.7.374-5.el6 will be installed
+--> Processing Dependency: ruby-irb = 1.8.7.374-5.el6 for package: ruby-rdoc-1.8.7.374-5.el6.x86_64
+--> Running transaction check
+---> Package compat-readline5.x86_64 0:5.2-17.1.el6 will be installed
+---> Package rpm-libs.x86_64 0:4.8.0-37.el6 will be updated
+---> Package rpm-libs.x86_64 0:4.8.0-59.el6 will be an update
+---> Package rpm-python.x86_64 0:4.8.0-37.el6 will be updated
+---> Package rpm-python.x86_64 0:4.8.0-59.el6 will be an update
+---> Package ruby-irb.x86_64 0:1.8.7.374-5.el6 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package                Arch        Version                     Repository
+                                                                           Size
+================================================================================
+Installing:
+ rpm-build              x86_64      4.8.0-59.el6                ysys      131 k
+ ruby                   x86_64      1.8.7.374-5.el6             ysys      538 k
+ ruby-devel             x86_64      1.8.7.374-5.el6             ysys      318 k
+ rubygems               noarch      1.3.7-5.el6                 ysys      207 k
+Installing for dependencies:
+ compat-readline5       x86_64      5.2-17.1.el6                ysys      130 k
+ redhat-rpm-config      noarch      9.0.3-51.el6.centos         ysys       60 k
+ ruby-irb               x86_64      1.8.7.374-5.el6             ysys      318 k
+ ruby-libs              x86_64      1.8.7.374-5.el6             ysys      1.7 M
+ ruby-rdoc              x86_64      1.8.7.374-5.el6             ysys      381 k
+Updating for dependencies:
+ rpm                    x86_64      4.8.0-59.el6                ysys      906 k
+ rpm-libs               x86_64      4.8.0-59.el6                ysys      318 k
+ rpm-python             x86_64      4.8.0-59.el6                ysys       61 k
+
+Transaction Summary
+================================================================================
+Install       9 Package(s)
+Upgrade       3 Package(s)
+
+Total download size: 4.9 M
+Downloading Packages:
+--------------------------------------------------------------------------------
+Total                                           198 MB/s | 4.9 MB     00:00     
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+Warning: RPMDB altered outside of yum.
+  Updating   : rpm-libs-4.8.0-59.el6.x86_64                                1/15 
+  Updating   : rpm-4.8.0-59.el6.x86_64                                     2/15 
+  Installing : redhat-rpm-config-9.0.3-51.el6.centos.noarch                3/15 
+  Installing : compat-readline5-5.2-17.1.el6.x86_64                        4/15 
+  Installing : ruby-libs-1.8.7.374-5.el6.x86_64                            5/15 
+  Installing : ruby-1.8.7.374-5.el6.x86_64                                 6/15 
+  Installing : ruby-irb-1.8.7.374-5.el6.x86_64                             7/15 
+  Installing : ruby-rdoc-1.8.7.374-5.el6.x86_64                            8/15 
+  Installing : rubygems-1.3.7-5.el6.noarch                                 9/15 
+  Installing : ruby-devel-1.8.7.374-5.el6.x86_64                          10/15 
+  Installing : rpm-build-4.8.0-59.el6.x86_64                              11/15 
+  Updating   : rpm-python-4.8.0-59.el6.x86_64                             12/15 
+  Cleanup    : rpm-python-4.8.0-37.el6.x86_64                             13/15 
+  Cleanup    : rpm-libs-4.8.0-37.el6.x86_64                               14/15 
+  Cleanup    : rpm-4.8.0-37.el6.x86_64                                    15/15 
+  Verifying  : ruby-rdoc-1.8.7.374-5.el6.x86_64                            1/15 
+  Verifying  : compat-readline5-5.2-17.1.el6.x86_64                        2/15 
+  Verifying  : rpm-4.8.0-59.el6.x86_64                                     3/15 
+  Verifying  : redhat-rpm-config-9.0.3-51.el6.centos.noarch                4/15 
+  Verifying  : ruby-1.8.7.374-5.el6.x86_64                                 5/15 
+  Verifying  : rpm-libs-4.8.0-59.el6.x86_64                                6/15 
+  Verifying  : rubygems-1.3.7-5.el6.noarch                                 7/15 
+  Verifying  : ruby-libs-1.8.7.374-5.el6.x86_64                            8/15 
+  Verifying  : rpm-build-4.8.0-59.el6.x86_64                               9/15 
+  Verifying  : ruby-irb-1.8.7.374-5.el6.x86_64                            10/15 
+  Verifying  : ruby-devel-1.8.7.374-5.el6.x86_64                          11/15 
+  Verifying  : rpm-python-4.8.0-59.el6.x86_64                             12/15 
+  Verifying  : rpm-4.8.0-37.el6.x86_64                                    13/15 
+  Verifying  : rpm-python-4.8.0-37.el6.x86_64                             14/15 
+  Verifying  : rpm-libs-4.8.0-37.el6.x86_64                               15/15 
+
+Installed:
+  rpm-build.x86_64 0:4.8.0-59.el6           ruby.x86_64 0:1.8.7.374-5.el6      
+  ruby-devel.x86_64 0:1.8.7.374-5.el6       rubygems.noarch 0:1.3.7-5.el6      
+
+Dependency Installed:
+  compat-readline5.x86_64 0:5.2-17.1.el6                                        
+  redhat-rpm-config.noarch 0:9.0.3-51.el6.centos                                
+  ruby-irb.x86_64 0:1.8.7.374-5.el6                                             
+  ruby-libs.x86_64 0:1.8.7.374-5.el6                                            
+  ruby-rdoc.x86_64 0:1.8.7.374-5.el6                                            
+
+Dependency Updated:
+  rpm.x86_64 0:4.8.0-59.el6               rpm-libs.x86_64 0:4.8.0-59.el6       
+  rpm-python.x86_64 0:4.8.0-59.el6       
+
+Complete!
+```
+
+
+
+
+
 ```
 # cd /software/
 # gem install redis-3.2.2.gem
@@ -151,7 +474,7 @@ rpm依赖包(centos6.5)
 #### 测试redis-trib.rb
 
 ```
-# redis-trib.rb 
+# ./redis-trib.rb 
 Usage: redis-trib <command> <options> <arguments ...>
 
   set-timeout     host:port milliseconds

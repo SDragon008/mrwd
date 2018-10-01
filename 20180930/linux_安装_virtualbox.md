@@ -30,4 +30,36 @@ linux,virtualbox,virtualbox install
 
 ​	linux：centos6.5_x64
 
-​	
+​	目标：在linux上接着安装virtualbox虚拟机，查看是否可以使用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 链接地址
+
+https://www.cnblogs.com/usergaojie/p/4624498.html
+
+https://blog.csdn.net/body100123/article/details/53353995
+
+https://blog.csdn.net/houzhizhen/article/details/55096677
