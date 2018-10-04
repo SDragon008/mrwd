@@ -10,11 +10,15 @@
 
 ![_](../img_src/000/2018-09-13_143925.png)
 
-​	其中MMS不需要关注(MMS是什么啊，不知道)，部署的后续中发现整体有问题，后续会有更进一步的文档解析。
+​	其中MMS不需要关注(MMS是什么啊，不知道)
 
-​	问题每个shard分片都需要一个仲裁节点，参考《补充文档》
+​	后期正常安装后，发现有问题，每个shard{X}节点都需要仲裁节点，安装手册请参考[步骤](../20180919/gz_mongo_cluster_install_er.md)
 
+​	当前的部署安装手册有问题，问题主要是因为Arbiter
 
+​	Arbiter，仲裁者，是复制集中的一个MongbDB实例，他并不保存数据。仲裁节点使用最小的资源并且要求硬件设备，不能将Arbiter部署在同一个数据集节点中，可以部署在其他应用服务器或者监视服务器中，也可部署在单独的虚拟中。为了确保复制集中有奇数的投票成员(包括primary)，需要添加仲裁节点作为投票，否则primary不能运行时不会自动切换primary。
+
+​	
 
 
 
@@ -479,172 +483,6 @@ $ mongos  --config  /usr/local/mongodb/conf/mongos.conf
 ### 关闭步骤
 
 ​	从mongos>shard3>shard2>shard1>config 删除进程
-
-
-
-
-
-## 补充文档
-
-​	后期测试发现部署参考有问题，需要重新修改shard配置
-
-### 每台服务器
-
-```
-# su - ysys
-$ numactl --interleave=all mongod --config /usr/local/mongodb/conf/config.conf
-```
-
-### shard1 
-
-​	在节点三添加shard1.conf
-
-```
-$ cd /usr/local/mongodb/conf/
-$ vim shard1.conf
-```
-
-```
-#配置文件内容
-# where to write logging data.
-systemLog:
-  destination: file
-  logAppend: true
-  path: /data/shard1/log/shard1.log
- 
-# Where and how to store data.
-storage:
-  dbPath: /data/shard1/data
-  journal:
-    enabled: true
-  wiredTiger:
-    engineConfig:
-       cacheSizeGB: 20
-
-# how the process runs
-processManagement:
-  fork: true 
-  pidFilePath: /data/shard1/log/shard1.pid
- 
-# network interfaces
-net:
-  port: 27001
-  bindIp: 192.168.1.33
-
-#operationProfiling:
-replication:
-    replSetName: shard1
-sharding:
-    clusterRole: shardsvr
-```
-
-​	中间有报错，删除了三台服务器上的/data/shard1/data/目录下的文件	
-
-​	shard1启动三台服务器
-
-```
-$ numactl --interleave=all mongod  --config  /usr/local/mongodb/conf/shard1.conf
-```
-
-​	
-
-```
-> config = { _id : "shard1", members : [{_id : 0, host : "192.168.1.31:27001" }, {_id : 1, host : "192.168.1.32:27001" }, {_id : 2, host : "192.168.1.33:27001" , arbiterOnly: true }]}
-```
-
-
-
-shard2
-
-```
- config = {_id : "shard2", members : [{_id : 0, host : "192.168.1.32:27002" },{_id : 1, host : "192.168.1.33:27002" },{_id : 2, host : "192.168.1.31:27002" ,arbiterOnly: true} ]}
-```
-
-
-
-shard3
-
-```
- config = { _id : "shard3",members : [ {_id : 0, host : "192.168.1.31:27003" },{_id : 1, host : "192.168.1.33:27003" },{_id : 2, host : "192.168.1.32:27003" ,arbiterOnly: true}] }
-```
-
-
-
-```
-$ mongo 192.168.1.31:20000
-> use admin
-> sh.addShard("shard1/192.168.1.31:27001,192.168.1.32:27001,192.168.1.33:27001")
-> sh.addShard("shard2/192.168.1.31:27002,192.168.1.32:27002,192.168.1.33:27002")
-> sh.addShard("shard3/192.168.1.31:27003,192.168.1.32:27003,192.168.1.33:27003")
-> sh.status()
-```
-
-
-
-```
-for (var i = 1; i <= 100000; i++) db.table1.save({id:i,"test1":"testval1"});
-```
-
-
-
-
-
-**报错信息**
-
-```
-shard2:PRIMARY> use admin
-switched to db admin
-shard2:PRIMARY>  config = {_id : "shard2", members : [{_id : 0, host : "192.168.1.32:27002" },{_id : 1, host : "192.168.1.33:27002" },{_id : 2, host : "192.168.1.31:27002" ,arbiterOnly: true} ]}
-{
-	"_id" : "shard2",
-	"members" : [
-		{
-			"_id" : 0,
-			"host" : "192.168.1.32:27002"
-		},
-		{
-			"_id" : 1,
-			"host" : "192.168.1.33:27002"
-		},
-		{
-			"_id" : 2,
-			"host" : "192.168.1.31:27002",
-			"arbiterOnly" : true
-		}
-	]
-}
-shard2:PRIMARY> rs.initiate(config)
-{
-	"info" : "try querying local.system.replset to see current configuration",
-	"ok" : 0,
-	"errmsg" : "already initialized",
-	"code" : 23,
-	"codeName" : "AlreadyInitialized",
-	"operationTime" : Timestamp(1537299538, 2),
-	"$gleStats" : {
-		"lastOpTime" : Timestamp(0, 0),
-		"electionId" : ObjectId("7fffffff0000000000000003")
-	},
-	"$clusterTime" : {
-		"clusterTime" : Timestamp(1537299544, 1),
-		"signature" : {
-			"hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
-			"keyId" : NumberLong(0)
-		}
-	},
-	"$configServerState" : {
-		"opTime" : {
-			"ts" : Timestamp(1537299544, 1),
-			"t" : NumberLong(4)
-		}
-	}
-}
-shard2:PRIMARY> 
-```
-
-
-
-
 
 
 
