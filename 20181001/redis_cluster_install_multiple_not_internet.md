@@ -30,6 +30,12 @@ redis cluster install,multiple install, not internet
 | redis     | redis-3.2.12.tar.gz |
 | gem       | redis-3.2.2.gem     |
 
+| hostname | 7000 | 7001 | 7002 | 7003 | 7004 | 7005 |
+| -------- | ---- | ---- | ---- | ---- | ---- | ---- |
+| gh18     | √    | √    |      |      |      |      |
+| gh19     |      |      | √    | √    |      |      |
+| gh20     |      |      |      |      | √    | √    |
+
 
 
 ## 安装
@@ -90,7 +96,7 @@ createrepo_rpm
 # cd /usr/local/redis-cluster/7000
 # vim redis.conf
 
-bind 192.168.1.17
+bind 192.168.1.18
 daemonize    yes                          
 pidfile  /var/run/redis_7000.pid          
 port  7000                               
@@ -102,7 +108,7 @@ appendonly  yes
 # cd /usr/local/redis-cluster/7001
 # vim redis.conf
 
-bind 192.168.1.17
+bind 192.168.1.18
 daemonize    yes                          
 pidfile  /var/run/redis_7001.pid          
 port  7001                               
@@ -117,12 +123,12 @@ appendonly  yes
 #### 三台服务器启动redis服务
 
 ```
-[gh17]
+[gh18]
 # cd /usr/local/redis-cluster/bin
 # ./redis-server ../7000/redis.conf
 # ./redis-server ../7001/redis.conf
 
-[gh18]
+[gh19]
 # cd /usr/local/redis-cluster/bin
 # ./redis-server ../7002/redis.conf
 # ./redis-server ../7003/redis.conf

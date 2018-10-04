@@ -27,4 +27,4 @@
 
 2、[redis_cluster_install_multiple](../20180928/redis_cluster_install_multiple.md):三台服务器集群安装
 
-3、[redis_cluster_install_multiple_not_internet](../201810101/redis_cluster_install_multiple_not_internet.md):三台服务器集群无互联网安装
+3、[redis_cluster_install_multiple_not_internet](../20181001/redis_cluster_install_multiple_not_internet.md):三台服务器集群无互联网安装
