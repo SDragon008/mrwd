@@ -96,6 +96,6 @@ oracle merge update insert
 [kettle配置一次性抽取n张表(二)](../20180619/kettle配置一次性抽取n张表(二).md)
 
 
-其实配置n张表都是依赖于<kettle for 循环>的job设计
+其实配置n张表都是依赖于**kettle for 循环**的job设计
 
 
