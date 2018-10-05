@@ -18,7 +18,7 @@ gh_95533's|学习|文章|归类
 
 ### 2018-10
 
-[《redis_cluster_install_multiple_not_internet》](20181001/redis_cluster_install_multiple_not_internet.md):redis cluster,install,multiple install,not internet
+[《redis_cluster_install_multiple_not_internet》](20181001/redis_cluster_install_multiple_not_internet.md):redis cluster install,multiple install,not internet
 
 ### 2018-09
 
@@ -49,8 +49,6 @@ gh_95533's|学习|文章|归类
 [《mongodb_cluster_install》](20180910/mongodb_cluster_install_for_linux.md):mongo cluster,install,multiple install
 
 [《pg 德哥 宣讲会》](20180909/pg_德哥_宣讲会.md):pg,diagol
-
-
 
 
 
