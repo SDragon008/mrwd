@@ -16,7 +16,7 @@
 
 - kettle版本
 
-本次测试版本是kettle5.4,建议后期都尽量使用kettle5.4及其以上，本次测试都是使用postgresql数据库。
+本次测试版本是kettle5.4,建议后期都尽量使用kettle5.4及其以上，本次测试都是使用postgresql数据库,ORACLE数据库也是可以使用的。
 
 ### 方案配置
 
