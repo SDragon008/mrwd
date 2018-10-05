@@ -34,7 +34,7 @@ gh_95533's|学习|文章|归类
 
 [《mongo 视频X0(未完待续)》](20180921/mongo_学习.md):mongo,X0,learn
 
-[《gz_mongo_cluster_install_er》](20180919/gz_mongo_cluster_install_er.md):mongo cluser,multiple install
+[《gz_mongo_cluster_install》](20180919/gz_mongo_cluster_install_er.md):mongo cluser,multiple install
 
 [《mongo 菜鸟教程(未完待续)》](20180918/mongo_了解.md):mongo,cainiao,learn
 
