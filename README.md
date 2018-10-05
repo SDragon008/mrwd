@@ -22,7 +22,7 @@ gh_95533's|学习|文章|归类
 
 ### 2018-09
 
-[《linux install virtualbox(未完待续)》](20180930/linux_安装_virtualbox.md):linux,install,virtualbox 
+[《linux install virtualbox》](20180930/linux_安装_virtualbox.md):linux,install,virtualbox 
 
 [《redis 菜鸟教程(未完待续)》](20180929/redis_初级学习.md):redis,cainiao,learn
 
