@@ -54,7 +54,17 @@ unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 1890 pts/0 00:00:00 ps
 
 ![_](../img_src/000/2018-09-07_075935.png)
 
-​	当从disable改为enforcing时
+​	
+
+![_](../img_src/000/2018-10-06_131446.png)
+
+![_](../img_src/000/2018-10-06_131746.png)
+
+![_](../img_src/000/2018-10-06_155411.png)
+
+
+
+当从disable改为enforcing时
 
 ![_](../img_src/000/2018-09-07_131629.png)
 
