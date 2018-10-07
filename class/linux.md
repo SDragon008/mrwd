@@ -1,3 +1,5 @@
+
+
 [TOC]
 
 # LINUX
@@ -35,8 +37,6 @@
 
 
 ### linux+命令行和shell脚本编程宝典
-
-##### 	linux shell 入门
 
 
 
