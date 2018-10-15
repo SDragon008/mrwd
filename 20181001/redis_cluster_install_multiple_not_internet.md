@@ -77,7 +77,7 @@ createrepo_rpm
 ```
 # cd /software/
 # tar xvzf redis-3.2.12.tar.gz 
-# cd /software/redis-3.2.12/src
+# cd /software/redis-3.2.12
 # make
 # make install=/usr/local/redis-cluster
 ```
