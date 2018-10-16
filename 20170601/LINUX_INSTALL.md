@@ -13,3 +13,6 @@
 ## REDHAT
 
 [REDHAT6.5](../20170601/REDHAT_6.5_INSTALL.md)
+
+[REDHAT7.4](../20181015/redhat_7.4_install.md)
+

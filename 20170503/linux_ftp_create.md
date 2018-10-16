@@ -279,7 +279,7 @@ Error Downloading Packages:
 ### 建立Vsftpd虚拟宿主用户
 
 ```
-[root@centos65 home]# useradd overlord -s /sbin/nolog
+[root@centos65 home]# useradd overlord -s /sbin/nologin
 ```
 
 

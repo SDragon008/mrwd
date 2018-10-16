@@ -10,7 +10,9 @@
 
 ### 安装
 
-[linux 安装](../20170503/linux_ftp_create.md)
+[linux 安装](../20170503/linux_ftp_create.md):centos6.5 安装
+
+[linux redhat7.4 安装](../20181014/)
 
 [windows 安装](../20170503/window_ftp_create.md)
 
