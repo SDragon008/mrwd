@@ -174,7 +174,7 @@ statement latencies in milliseconds:
 
 ### pgbouncer 安装
 
-[readme](pg_pgbouncer_install.md)
+[readme](../20180810/pg_pgbouncer_install.md)
 
 
 
