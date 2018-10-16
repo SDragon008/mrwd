@@ -10,9 +10,9 @@
 
 ### 安装
 
-[linux 安装](../20170503/linux_ftp_create.md):centos6.5 安装
+[linux 安装](../20170503/linux_ftp_create.md):centos6.5 安装 vsftpd
 
-[linux redhat7.4 安装](../20181014/)
+[linux redhat7.4 安装](../20181014/linux_redhat7.4_install_vsftp.md)：redhat7.4 安装 vsftpd
 
 [windows 安装](../20170503/window_ftp_create.md)
 

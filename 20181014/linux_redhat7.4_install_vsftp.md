@@ -214,12 +214,6 @@ disabled
 
 
 
-
-
-
-
-
-
 ## 错误
 
 1、systemctl start vsftpd.service 服务无法启动
