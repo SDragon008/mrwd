@@ -80,4 +80,3 @@ DETAIL:  rule _RETURN on view view_test depends on column "note"
   ```
 
   删除表，那么依赖的所有相关的视图，函数都要删除，这个关系在数据库中哪里有体现呢？
-
