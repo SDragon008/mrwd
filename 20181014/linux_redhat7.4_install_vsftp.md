@@ -135,7 +135,6 @@ account    required     pam_userdb.so db=/etc/vsftpd/vuser
 
 ```
 # vim /etc/vsftpd/vsftpd.conf
-
 anonymous_enable=NO
 local_enable=YES
 guest_enable=YES
