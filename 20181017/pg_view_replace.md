@@ -92,11 +92,21 @@ DETAIL:  rule _RETURN on view view_test depends on column "note"
 
 
 ```
-create view v4 as   SELECT v1.id 
-    FROM v1,   
-     v2,       
-     pg_class, 
-     pg_authid;
+create or replace function get_dep_oids(oid) returns oid[] as $$
+declare
+  res oid[];
+begin
+  select array_agg(unnest::oid) into res from 
+  (
+    select unnest(regexp_matches(ev_action::text,':relid (\d+)', 'g')) from pg_rewrite where ev_class = $1 
+  union 
+    select unnest(regexp_matches(ev_action::text,':resorigtbl (\d+)','g')) from pg_rewrite where ev_class = $1 
+  EXCEPT 
+    select oid::text from pg_class where oid=$1 
+  ) t;
+return res;
+end;
+$$ language plpgsql strict;
 ```
 
 
