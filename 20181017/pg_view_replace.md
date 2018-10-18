@@ -80,3 +80,71 @@ DETAIL:  rule _RETURN on view view_test depends on column "note"
   ```
 
   删除表，那么依赖的所有相关的视图，函数都要删除，这个关系在数据库中哪里有体现呢？
+
+
+
+### 解决方案
+
+
+
+
+
+
+
+```
+create view v4 as   SELECT v1.id 
+    FROM v1,   
+     v2,       
+     pg_class, 
+     pg_authid;
+```
+
+
+
+```
+create or replace function recursive_get_deps(IN tbl oid, OUT oid oid, OUT relkind "char", OUT nspname name, OUT relname name, OUT deps oid[], OUT ori_oid oid, OUT ori_relkind "char", OUT ori_nspname name, OUT ori_relname name ) returns setof record as
+$$
+declare
+begin
+return query 
+with recursive a as (
+  select * from (
+    select t1.oid,t1.relkind,t2.nspname,t1.relname,get_dep_oids(t1.oid) deps,(select t1.oid from pg_class t1,pg_namespace t2 where t1.relnamespace=t2.oid and t1.oid=tbl) as ori_oid from pg_class t1, pg_namespace t2 where t1.relnamespace=t2.oid and t1.relkind in ('m','v')
+  ) t where t.ori_oid = any(t.deps)
+union 
+  select * from (
+    select t1.oid,t1.relkind,t2.nspname,t1.relname,get_dep_oids(t1.oid) deps, a.oid as ori_oid from pg_class t1,pg_namespace t2,a where t1.relnamespace=t2.oid and t1.relkind in ('m','v')
+  ) t where t.ori_oid = any(t.deps)
+)
+select a.oid,a.relkind,a.nspname,a.relname,a.deps,a.ori_oid,b.relkind ori_relkind, c.nspname ori_nspname,b.relname ori_relname from a,pg_class b,pg_namespace c where a.ori_oid=b.oid and b.relnamespace=c.oid order by a.nspname,a.relkind,a.relname;
+end;
+$$ language plpgsql strict;
+```
+
+
+
+```
+ysys=# select * from recursive_get_deps('test'::regclass);
+  oid  | relkind | nspname |  relname   |  deps   | ori_oid | ori_relkind | ori_nspname | ori_relname 
+-------+---------+---------+------------+---------+---------+-------------+-------------+-------------
+ 16467 | v       | public  | view_test  | {16453} |   16453 | r           | public      | test
+ 16471 | v       | public  | view_test2 | {16467} |   16467 | v           | public      | view_test
+ 16475 | v       | public  | view_test3 | {16453} |   16453 | r           | public      | test
+ 16479 | v       | public  | view_test4 | {16453} |   16453 | r           | public      | test
+```
+
+
+
+
+
+
+
+
+
+**谢谢德哥**
+
+
+
+## 链接地址
+
+https://github.com/digoal/blog/blob/master/201607/20160725_01.md
