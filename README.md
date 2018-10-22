@@ -18,11 +18,17 @@ gh_95533's|学习|文章|归类
 
 ### 2018-10
 
+[《pg_view_replace》](20181017/pg_view_replace.md):pg replace view
+
+[《linux_redhat7.4_install_vsftp.md》](20181014/linux_redhat7.4_install_vsftp.md):vsftp install,redhat 7.x vsftp install
+
 [《redis_cluster_install_multiple_not_internet》](20181001/redis_cluster_install_multiple_not_internet.md):redis cluster install,multiple install,not internet
 
 ### 2018-09
 
 [《linux install virtualbox》](20180930/linux_安装_virtualbox.md):linux,install,virtualbox 
+
+
 
 [《redis 菜鸟教程(未完待续)》](20180929/redis_初级学习.md):redis,cainiao,learn
 

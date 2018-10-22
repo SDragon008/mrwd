@@ -81,15 +81,7 @@ DETAIL:  rule _RETURN on view view_test depends on column "note"
 
   删除表，那么依赖的所有相关的视图，函数都要删除，这个关系在数据库中哪里有体现呢？
 
-
-
-### 解决方案
-
-
-
-
-
-
+## 解决方案
 
 ```
 create or replace function get_dep_oids(oid) returns oid[] as $$
@@ -142,14 +134,6 @@ ysys=# select * from recursive_get_deps('test'::regclass);
  16475 | v       | public  | view_test3 | {16453} |   16453 | r           | public      | test
  16479 | v       | public  | view_test4 | {16453} |   16453 | r           | public      | test
 ```
-
-
-
-
-
-
-
-
 
 **谢谢德哥**
 
