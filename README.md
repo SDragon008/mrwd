@@ -18,6 +18,12 @@ gh_95533's|学习|文章|归类
 
 ### 2018-10
 
+[《gpload_configure》](20181024/gpload_configure.md):gpload configure
+
+[《linux_redhat_7.4_install_gpload_4.3》](20181023/linux_redhat_7.4_install_gpload_4.3.md):redhat 7.4 install gpload
+
+[《kettle_运行一段时间不执行》](20181022/kettle_运行一段时间不执行.md):kettle Not run
+
 [《pg_view_replace》](20181017/pg_view_replace.md):pg replace view
 
 [《linux_redhat7.4_install_vsftp.md》](20181014/linux_redhat7.4_install_vsftp.md):vsftp install,redhat 7.x vsftp install
