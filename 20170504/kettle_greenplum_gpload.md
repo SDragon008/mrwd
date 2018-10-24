@@ -121,3 +121,5 @@ kettle没有自带mysql驱动，需要下载后安装就可以了
 source /usr/local/greenplum-loaders-4.3.8.1-build-1/greenplum_loaders_path.sh
 
 export PYTHONPATH=/usr/local/lib
+
+记得重新打开kettle软件

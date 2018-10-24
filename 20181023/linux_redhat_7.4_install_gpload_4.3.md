@@ -146,6 +146,9 @@ Writing /usr/lib64/python2.7/site-packages/PyYAML-3.10-py2.7.egg-info
 # vim /root/.bash_profile
 
 source /usr/local/greenplum-loaders-4.3.8.1-build-1/greenplum_loaders_path.sh
+PYTHONPATH=/usr/local/lib
+
+# source /root/.bash_profile
 ```
 
 
@@ -241,5 +244,23 @@ Writing /usr/lib64/python2.7/site-packages/PyYAML-3.10-py2.7.egg-info
 
 
 
+2、gpload.py not found
 
+```
+# cd ~
+# vim .bash_profile
+
+source /usr/local/greenplum-loaders-4.3.8.1-build-1/greenplum_loaders_path.sh
+PYTHONPATH=/usr/local/lib
+
+# source .bash_profile
+```
+
+
+
+
+
+## 链接地址
+
+[linux redhat 6.5 install gpload 4.3](../20170102/linux_redhat_6.5_install_gpload_4.3.md)
 
