@@ -22,7 +22,7 @@ gh_95533's|学习|文章|归类
 
 [《linux_redhat_7.4_install_gpload_4.3》](20181023/linux_redhat_7.4_install_gpload_4.3.md):redhat 7.4 install gpload
 
-[《kettle_运行一段时间不执行》](20181022/kettle_运行一段时间不执行.md):kettle Not run
+[《kettle_not_RUN》](20181022/kettle_运行一段时间不执行.md):kettle Not run
 
 [《pg_view_replace》](20181017/pg_view_replace.md):pg replace view
 
