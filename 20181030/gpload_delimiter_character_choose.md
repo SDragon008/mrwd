@@ -34,13 +34,13 @@ A gpload control file processing warning occurred. A delimiter must be single AS
 A gpload control file processing error occurred. Invalid delimiter, gpload quit immediately
 ```
 
-​	那么选用什么字符能够避免这种情况的发生。
+
 
 ```
-
+Optional. Specifies a single ASCII character that separates columns within each row (line) of data. The default is a tab character in TEXT mode, a comma in CSV mode. You can also specify a non- printable ASCII character or a non-printable unicode character, for example: "\x1B" or "\u001B". The escape string syntax, E'character-code', is also supported for non-printable characters. The ASCII or unicode character must be enclosed in single quotes. For example: E'\x1B' or E'\u001B'.
 ```
 
-
+​	网上的文档解释可以使用`E'\x1B'`使用，那么是否可以根据数据考虑一下可能性，我觉得可能的基础可以使用特殊的字符也是可以替代。
 
 
 
@@ -65,4 +65,10 @@ http://ascii.911cha.com/
 https://www.cnblogs.com/zzsdream/p/5802254.html
 
 https://kimnote.com/tools/ascii/
+
+https://github.com/Qihoo360/gpstall/blob/master/script/gpload.py
+
+https://stackoverflow.com/questions/28568747/using-ascii-31-field-separator-character-as-postgresql-copy-delimiter
+
+https://gpdb.docs.pivotal.io/500/utility_guide/admin_utilities/gpload.html
 
