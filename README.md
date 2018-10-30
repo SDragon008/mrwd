@@ -18,9 +18,11 @@ gh_95533's|学习|文章|归类
 
 ### 2018-10
 
+[《oracle rac 软连接》](20181028/oracle_rac_软连接.md):oracle rac,修改告警日志目录
 
 
 
+[《linux_ftp_中文乱码(未完待续)](20181026/linux_ftp_中文乱码.md):linux,ftp,中文目录乱码
 
 [《gpload_configure》](20181024/gpload_configure.md):gpload configure
 

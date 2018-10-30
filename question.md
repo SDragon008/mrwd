@@ -31,7 +31,7 @@
 | 20180921 |             virtualbox添加新的网络Host Only网络              | win10每次更新后，virtualbox的host only都需要重建，但是可能之前的环境还被注册，只能注册为192.168.1.2 |    N     |
 | 20180923 |                     virtualbox 网络设置                      |                     virtualbox 网络原理                      |    N     |
 | 20181022 |  [kettle突然不执行](20181022/kettle_运行一段时间不执行.md)   |             一个方案执行到一个环节时就是无法执行             |    N     |
-|          |                                                              |                                                              |          |
+| 20181030 | [gpload delimiter](20181030/gpload_delimiter_character_choose.md) |    gpload只能使用一个分割符，那么那些字符不容易被使用到？    |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |
