@@ -1,18 +1,34 @@
 [TOC]
 
-# kettle  支持 greenplum gpload
+# kettle  support greenplum gpload
+
+**文档整理**
+
+ysys
+
+**日期**
+
+20181030(20170101)
+
+**标签**
+
+kettle,greenplum gpload
 
 
 
-kettle greenplum loader
+## 背景
 
-测试用例：kettle的表输出，插入或者更新控件对于gp数据库来说，如果数据量都在万以下，不考虑时间，还可以接受，如果万级以上，时间要求比较及时，那么只能使用greenplum loader控件来完成
+​	之前在TT,XJ做方案时，遇到了Oracle到Gp数据库的迁移，当时就使用了gpload插件来完成数据迁移，今天从新整理一下文档，以便可以更好的使用;kettle的表输出，插入或者更新控件对于gp数据库来说，如果数据量都在万以下，不考虑时间，还可以接受，如果万级以上，时间要求比较及时，那么只能使用greenplum loader控件来完成
+
+
+
+## kettle greenplum loader
 
 操作环境：centos6.5
 
 软件：greenplum-loader（installed）;kettle(5.4)
 
-【步骤】
+### 步骤
 
 打开kettle界面
 
@@ -95,6 +111,22 @@ greenplum loader用时1min
 kettle自带的插入更新
 
 好像5.4没有插入更新这个控件，其实在生产库中，使用kettle插入更新gp数据库超级慢，后来由负责gp的人使用gpload写入加载数据，考虑到脚本不可确定性；使用kettle通过greenplum load控件更加易于管理
+
+
+
+**在实际测试中发现，如果后期使用crontab来调用方案调用的，发现环境变量配置后很多环境都已经报错了，建议使用如下命令,其实不建议直接在环境变量配置相关环境**
+
+```
+# cat gp_insert.sh
+source /usr/local/greenplum-loaders-4.3.8.1-build-1/greenplum_loaders_path.sh
+export PYTHONPATH=/usr/local/lib
+cd /../data-integration/
+./kitchen.sh /res:{repname} /user:admin /pass:admin /job:{jobname}
+```
+
+
+
+
 
 方案附件
 

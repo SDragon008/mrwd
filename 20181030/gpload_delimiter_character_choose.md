@@ -42,7 +42,7 @@ Optional. Specifies a single ASCII character that separates columns within each 
 
 ​	网上的文档解释可以使用`E'\x1B'`使用，那么是否可以根据数据考虑一下可能性，我觉得可能的基础可以使用特殊的字符也是可以替代。
 
-
+​		
 
 
 
