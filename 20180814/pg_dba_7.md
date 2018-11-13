@@ -30,8 +30,6 @@
 
 首先要开启归档，日志模式>=`archive`,步骤如下
 
-
-
 ```
 $ vim postgresql.conf
 wal_level = hot_standby                 # minimal, archive, or hot_standby
@@ -83,6 +81,8 @@ total 16384
 ```
 
 
+
+​	归档完了之后可以在数据库异常时(wal日志损害),是可以恢复数据库。但是想要创建一个真正意义的备份，就需要创建一个基础备份，基础备份+归档日志就可以做一个简单数据库备份；基础备份相当于很
 
 #### 创建备份
 
