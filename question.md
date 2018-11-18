@@ -8,6 +8,8 @@
 
 
 
+
+
 |   日期   |                             问题                             |                           详细描述                           | 是否解决 |
 | :------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :------: |
 | 20180707 |      [r语言画出三角函数](20180707/R语言_sin(x)图像.md)       |  将cosx,sinx,tgx,ctgx,arcsinx,arccosx,arctgx,arcctgx画下来   |          |
@@ -33,9 +35,9 @@
 | 20181022 |  [kettle突然不执行](20181022/kettle_运行一段时间不执行.md)   |             一个方案执行到一个环节时就是无法执行             |    N     |
 | 20181030 | [gpload delimiter](20181030/gpload_delimiter_character_choose.md) |    gpload只能使用一个分割符，那么那些字符不容易被使用到？    |    N     |
 | 20181106 | [虚拟机因为vt-x/amd-v无法打开](20181106/virtualbox_not_open_machine_with_vt-x.md) |             vt-x/amd-v硬件加速在你的系统中不可用             |          |
-| 20181107 | [datastage_not_load_library](20181108/ibm_datastage_not_load_library.md) |                dastage无法加载Oracle的依赖包                 |          |
-|          |                                                              |                                                              |          |
-|          |                                                              |                                                              |          |
+| 20181107 | [datastage_not_load_library](20181108/ibm_datastage_not_load_library.md) |                dastage无法加载Oracle的依赖包                 |    N     |
+| 20181115 | [greenplum source install](20181115/greenplum_open_source_install.md) |                  greenplum 5.1.20 集群安装                   |    N     |
+| 20181117 |                     Oracle awr 生成分析                      |                     Oracle awr 生成 分析                     |    N     |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |
