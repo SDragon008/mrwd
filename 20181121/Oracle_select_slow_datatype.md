@@ -24,6 +24,16 @@ oracle,select slow,datatype
 
 ## 测试
 
+​	sql语句是通过awr获取的
+
+`select * from tal where ybzj = ?`
+
+​	发现表tal中ybzj为主键，有索引，那么为什么不走索引，检查了一下字段类型为varchar,而昨天在修改对应的来源表视图时，源库的YBZJ字段类型是number
+
+​	使用number字段值查询发现sql查询特别慢，执行查询计划，发现不走索引。
+
+
+
 
 
 ​	创建一张表，插入数据和创建索引
