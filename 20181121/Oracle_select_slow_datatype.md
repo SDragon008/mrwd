@@ -138,6 +138,43 @@ SQL>
 
 
 
+再开个脑洞
+
+```
+create table test_del_181121_1(id number,dqsj varchar2(14),sjs varchar2(100),sjz varchar2(100))
+insert into test_del_181121_1 select * from TEST_DEL_181121
+create index index_test_del_181121_1 on test_del_181121_1(id);
+
+
+explain plan for select * from TEST_DEL_181121_1 t where id ='1452';
+ SELECT plan_table_output FROM TABLE(DBMS_XPLAN.DISPLAY('PLAN_TABLE'));
+ 
+ 
+ Plan hash value: 321127215
+ 
+-------------------------------------------------------------------------------------------------------
+| Id  | Operation                   | Name                    | Rows  | Bytes | Cost (%CPU)| Time     |
+-------------------------------------------------------------------------------------------------------
+|   0 | SELECT STATEMENT            |                         |    14 |  1764 |    16   (0)| 00:00:01 |
+|   1 |  TABLE ACCESS BY INDEX ROWID| TEST_DEL_181121_1       |    14 |  1764 |    16   (0)| 00:00:01 |
+|*  2 |   INDEX RANGE SCAN          | INDEX_TEST_DEL_181121_1 |    14 |       |     3   (0)| 00:00:01 |
+-------------------------------------------------------------------------------------------------------
+ 
+Predicate Information (identified by operation id):
+---------------------------------------------------
+ 
+   2 - access("ID"=1452)
+ 
+Note
+-----
+   - dynamic sampling used for this statement (level=2)
+
+```
+
+​	是不是觉得有的坑？
+
+
+
 
 
 ## 链接地址
