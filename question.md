@@ -38,7 +38,7 @@
 | 20181107 | [datastage_not_load_library](20181108/ibm_datastage_not_load_library.md) |                dastage无法加载Oracle的依赖包                 |    N     |
 | 20181115 | [greenplum source install](20181115/greenplum_open_source_install.md) |                  greenplum 5.1.20 集群安装                   |    N     |
 | 20181117 |                     Oracle awr 生成分析                      |                     Oracle awr 生成 分析                     |    N     |
-|          |                                                              |                                                              |          |
+| 20181119 |                     Oracle awr 详细分析                      |                                                              |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |

@@ -16,6 +16,8 @@
 | github   | https://github.com        | gh_95533         | *    | substr(,1,10)               |
 | pivotal  | https://pivotal.io/       | gh_95533@163.com | *    | substr(,1,10)\|\|'A'\|\|'!' |
 | coursera | https://www.coursera.org/ | gh_95533@163.com | *    | substr(,1,10)\|\|'A'\|\|'!' |
+| qq       |                           | 3085392839       | *    | substr(,1,10)               |
+| 炼书成金 | http://www.dataguru.cn/   | gh_95533         | *    | substr(,1,10)               |
 
 
 
