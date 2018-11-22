@@ -1,25 +1,26 @@
-﻿
 
 
-## 关于postgresql外部表实测支持数据库
-
-### oracle oracle_fdw
+[TOC]
 
 
-### postgresql postgres_fdw
 
 
-### mysql mysql_fdw
+
+# ORACLE
+
+​	其实数据库的场景不同，数据库的优势就不同。诚恳的对待每一个问题，才是完善之道。
 
 
-### mongo mongo_fdw
+
+## 未完成
 
 
-### redis redis_fdw
+
+​	
 
 
-### file  file_fdw
 
 
-后期还会继续整理遇到的其他数据库
+
+## 整理
 

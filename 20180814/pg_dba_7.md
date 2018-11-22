@@ -53,8 +53,10 @@ wal_level = hot_standby                 # minimal, archive, or hot_standby
 
 archive_mode = on               # allows archiving to be done
                                 # (change requires restart)
-archive_command = 'DATE=`date+%Y%m%d`;DIR="/home/backup/arch/$DATE";(test -d $DIR||mkdir -p $DIR)&& cp %p $DIR/%f'   
+archive_command = 'DATE=`date +%Y%m%d`;DIR="/home/backup/arch/$DATE";(test -d $DIR||mkdir -p $DIR)&& cp %p $DIR/%f'   
 ```
+
+​	上面的archive_command，每天生成一个当前日期的文件夹，并将xlog文件拷贝到当前目录下
 
 ```
 $ psql
@@ -72,23 +74,29 @@ ysys=# select pg_switch_xlog();
 ysys=# \q
 ```
 
+​	上面使用`checkpoint`和`pg_switch_xlog()`切换xlog日志，检查xlog日志是否到归档目录下
+
 **测试归档是否正常**
 
 ```
-$ ls -ls /home/backup/arch/
+$ ls -ls /home/backup/arch/20181121
 total 16384
-16384 -rw------- 1 ysys ysys 16777216 Nov  6 15:07 000000010000000000000003
+16384 -rw------- 1 ysys ysys 16777216 Nov  6 15:07 000000010000000000000013
 ```
 
+​	检查后发现归档日志放在当前目录下
 
 
-​	归档完了之后可以在数据库异常时(wal日志损害),是可以恢复数据库。但是想要创建一个真正意义的备份，就需要创建一个基础备份，基础备份+归档日志就可以做一个简单数据库备份；基础备份相当于很
 
-#### 创建备份
+#### 物理备份
 
-​	远程和本地都是可以创建备份，在本地可以使用`dba`用户来创建备份
+​	当数据库处于归档环境下，还需要对数据库做一个物理备份-基础备份
 
-​	可以使用流复制协议来备份，或者执行命令拷贝当前文件。
+
+
+
+
+
 
 
 
@@ -102,7 +110,7 @@ total 16384
 
 ## 逻辑备份与还原
 
- 备份数据
+ 备份数据,适用于跨版本数据库还原
 
 
 

@@ -35,7 +35,7 @@ hadoop,virtualbox
 
 ### 共享文件夹
 
-
+应该是不需要的，可以通过xftp
 
 ### 网络配置
 
