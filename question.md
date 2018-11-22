@@ -39,7 +39,7 @@
 | 20181115 | [greenplum source install](20181115/greenplum_open_source_install.md) |                  greenplum 5.1.20 集群安装                   |    N     |
 | 20181117 |                     Oracle awr 生成分析                      |                     Oracle awr 生成 分析                     |    N     |
 | 20181119 |                     Oracle awr 详细分析                      |                                                              |          |
-|          |                                                              |                                                              |          |
+| 20181122 |                 [Oracle 分区表多 无法查看]()                 |         oracle 分区表 分区多1096 无法查看表结构信息          |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |

@@ -20,6 +20,14 @@ greenplum,greenplum open source,greenplum open source install
 
 ​	最近一段时间听说greenplum从版本5开始推出了open source，商用版可能不考虑，但是open source还是需要了解怎样部署的。
 
+## 版本
+
+|          | 版本 | 备注 |
+| -------- | ---- | ---- |
+| 操作系统 |      |      |
+|          |      |      |
+|          |      |      |
+
 
 
 ## 环境
