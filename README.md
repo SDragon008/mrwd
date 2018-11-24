@@ -8,7 +8,7 @@ gh_95533's|学习|文章|归类
 [5 oracle](class/oracle.md) | [6 mysql](class/mysql.md) | [7 r](class/r.md) | [8 redis](class/redis.md) 
  **[9 linux](class/linux.md)** | **[10 postgresql](class/postgresql.md)** | **[11 common software](class/common_software.md)** | **[12 gbase](class/GBASE.md)** 
  [13 hbase](..) | [14 sqlite](..) | [15 greenplum](class/greenplum.md) | [16 plan](20130601/计划.md) 
- [17 hadoop]() |  |  |  
+ [17 hadoop]() | [18 kafka] |  |  
   |  |  |  
   |  |  |  
 
