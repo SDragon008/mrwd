@@ -40,7 +40,7 @@
 | 20181117 |                     Oracle awr 生成分析                      |                     Oracle awr 生成 分析                     |    N     |
 | 20181119 |                     Oracle awr 详细分析                      |                                                              |          |
 | 20181122 |                 [Oracle 分区表多 无法查看]()                 |         oracle 分区表 分区多1096 无法查看表结构信息          |          |
-|          |                                                              |                                                              |          |
+| 20181127 | [centos 7 无法使用root 用户登录图形化界面](20181126/centos_7_graphical_interface_input_root_correct_password_not_login.md) | 在centos7服务器启动后，在图形化界面输入root密码，无法进入root环境，gpadmin无法进入gpamdin环境，而原先的admin用户可以进入admin图形化环境 |    N     |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |
 |          |                                                              |                                                              |          |

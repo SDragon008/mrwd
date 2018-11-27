@@ -1,6 +1,10 @@
+[TOC]
+
+
+
 ﻿# mrwd
 
-
+​	
 
 gh_95533's|学习|文章|归类
 ---|---|---|---
@@ -18,7 +22,11 @@ gh_95533's|学习|文章|归类
 
 ## 文档说明
 
-### 最新
+### 最新(month)
+
+[greenplum_synchronization_time](20181127/greenplum_synchronization_time.md):greenplum,synchronization time
+
+[centos_7_graphical_interface_input_root_correct_password_not_login(not final)](20181126/centos_7_graphical_interface_input_root_correct_password_not_login.md):centos 7,root correct password,not login
 
 [oracle select slow reseason data type inconformity](20181121/Oracle_select_slow_datatype.md):oracle,select slow,data type inconformity
 
@@ -29,6 +37,12 @@ gh_95533's|学习|文章|归类
 
 
 ### 历史
+
+#### 201810
+
+[gpload_delimiter_character_choose(not final)](20181031/gpload_delimiter_character_choose.md)：gpload,delimiter character
+
+
 
 
 

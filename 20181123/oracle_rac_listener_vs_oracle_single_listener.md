@@ -16,11 +16,15 @@ oracle rac listener,oracle single listener
 
 
 
+## Oracle single listener
+
+​	
 
 
 
 
 
+### Oracle rac listener
 
 
 

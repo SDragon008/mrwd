@@ -22,6 +22,6 @@ oracle rac,drop tablespace
 
 
 
-## 重复过程
+## 重复
 
 ​	
