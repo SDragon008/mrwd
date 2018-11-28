@@ -12,7 +12,7 @@ ysys
 
 **标签**
 
-kafka,docker,zookeeper
+kafka,install
 
 
 
