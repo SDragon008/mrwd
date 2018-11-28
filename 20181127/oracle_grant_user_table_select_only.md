@@ -49,6 +49,33 @@ grant select on userA.tableB to username
 ### 创建profile
 
 ```
-
+create profile app_limit_session_db_profile limit sessions_per_user 1;
 ```
 
+### 创建用户
+
+```
+create user app_shard identified by "123456";
+alter user app_shard profile app_limit_session_db_profile;
+```
+
+### 授权
+
+```
+grant create session to app_shard;
+grant select on test_a to app_shard;
+```
+
+### 要开启resouce_limit
+
+```
+ alter system set resource_limit =TRUE; 
+```
+
+
+
+### 多次登陆 报错
+
+
+
+![_](../img_src/000/2018-11-28_160207.png)
