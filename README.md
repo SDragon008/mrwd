@@ -24,6 +24,8 @@ gh_95533's|学习|文章|归类
 
 ### 最新(month)
 
+[greenplum_table_lots_record](20181128/greenplum_table_lots_record.md):greeplum,table design
+
 [oracle rac synchronization time](20181128/oracle_rac_synchronization_time.md):oracle rac,synchronization time
 
 [oracle_grant_user_table_select_only](20181127/oracle_grant_user_table_select_only.md):oracle,grant
