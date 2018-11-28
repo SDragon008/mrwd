@@ -192,7 +192,6 @@ tar -cf backup.tar /usr/local/pgsql/data
 
    ​	要使用连续归档(也被很多数据库厂商称为“在线备份”)成功的恢复，需要一个从基础备份时间开始的连续归档WAL文件序列。为了开始，在建立第一个基础备份之前，应该建立并测试用于归档WAL文件的过程。对应地，首先讨论归档WAL文件的机制
 
-   
 
 ### Setting Up WAL Archiving
 
@@ -273,7 +272,15 @@ select pg_start_backup('label',false,false');
 
 ​	默认情况下，pg_stat_backup可能需要较长的时间完成。
 
-​	3、
+​	3、使用任何趁手的文件系统备份工机
+
+​	4、在同一个连接中，发出命令
+
+```
+select * from pg_stop_backup(false)
+```
+
+​	这会终止备份模式并且执行一次自动切换到下一个wal段。
 
 
 

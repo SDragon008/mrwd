@@ -24,6 +24,8 @@ gh_95533's|学习|文章|归类
 
 ### 最新(month)
 
+[oracle rac synchronization time](20181128/oracle_rac_synchronization_time.md):oracle rac,synchronization time
+
 [greenplum_synchronization_time](20181127/greenplum_synchronization_time.md):greenplum,synchronization time
 
 [centos_7_graphical_interface_input_root_correct_password_not_login(not final)](20181126/centos_7_graphical_interface_input_root_correct_password_not_login.md):centos 7,root correct password,not login

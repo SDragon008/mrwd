@@ -18,7 +18,7 @@ redhat 7.4 install gpload 4.3
 
 ## 背景
 
-​	在HT建设过程中发现操作系统都已经升级到了redhat7.4,之前在redhat5.5(centos6.5)安装部署成功了gpload4.3，现在需要在redhat7.4部署一下，查看是否可用
+​	在HT建设过程中发现操作系统都已经升级到了redhat7.4,之前在redhat6.5(centos6.5)安装部署成功了gpload4.3，现在需要在redhat7.4部署一下，查看是否可用
 
 
 

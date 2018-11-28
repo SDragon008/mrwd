@@ -16,6 +16,18 @@ kafka,docker,zookeeper
 
 
 
+## kafka
+
+​	消息系统分类peer to peer,发布和订阅
+
+​	kafka设计目标：高吞吐率，消息持久化，完全分布式，同时满足适应在线流处理和离线流处理
+
+
+
+
+
+
+
 ## install
 
 ### download uri

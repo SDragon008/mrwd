@@ -225,8 +225,3 @@ gp_external_grant_privileges = on  #enable create http/gpfdist for non su's
 ​	主要是因为使用了gpload的python依赖包，导致无法正常使用，因此建议先安装xterm包，可以使用xstart远程连接，或者先将`.bash_profile`的`source /usr/local/greenplum-loaders-4.3.8.1-build-1/ greenplum_loaders_path.sh `注销掉，就可以使用yum源了
 
 
-
-
-
-
-

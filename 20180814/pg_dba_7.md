@@ -94,7 +94,12 @@ total 16384
 
 ##### pg_basebackup
 
-​	
+```
+create user rep replication password 'rep';
+CREATE ROLE
+```
+
+
 
 
 

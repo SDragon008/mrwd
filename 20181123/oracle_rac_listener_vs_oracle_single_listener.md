@@ -20,11 +20,7 @@ oracle rac listener,oracle single listener
 
 ​	
 
-
-
-
-
-### Oracle rac listener
+## Oracle rac listener
 
 
 
