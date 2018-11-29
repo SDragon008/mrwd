@@ -18,7 +18,7 @@ kettle,ftp,download,rar,zip,excel
 
 ## background
 
-​	今天同事问我一个问题，如何设计从ftp上下载rar和zip文件并且将其下载，本地解压后发现是excel文件，这个场景自动入库。
+​	今天同事问我一个问题，如何设计从ftp上下载rar和zip文件，本地解析excel文件的这个场景实现自动入库。
 
 
 
