@@ -24,6 +24,8 @@ gh_95533's|学习|文章|归类
 
 ### 最新(month)
 
+[kettle ftp download rar zip and excel insert on database](20181129/kettle_ftp_rar_zip_excel_database.md):kettle,ftp,rar,zip,excel
+
 [greenplum_table_lots_record](20181128/greenplum_table_lots_record.md):greeplum,table design
 
 [oracle rac synchronization time](20181128/oracle_rac_synchronization_time.md):oracle rac,synchronization time
@@ -34,7 +36,7 @@ gh_95533's|学习|文章|归类
 
 [centos_7_graphical_interface_input_root_correct_password_not_login(not final)](20181126/centos_7_graphical_interface_input_root_correct_password_not_login.md):centos 7,root correct password,not login
 
-[kafka install](20181124/kakfa_install.md):kafka,install
+[kafka install](20181124/kafka_install.md):kafka,install
 
 [oracle rac drop tablespace but not free space(not final)](20181123/oracle_rac_drop_tablespace.md):oracle rac,drop tablespace,not free space
 
