@@ -132,7 +132,7 @@ $ vncpasswd
 
 \# cp /lib/systemd/system/vncserver@.service /lib/systemd/system/vncserver@:1.service
 
-\# vim /lib/systemd/system/vncserver@
+\# vim /lib/systemd/system/vncserver@:1.service
 
  
 
@@ -203,3 +203,5 @@ PIDFile=/home/postgres/.vnc/%H%i.pid
 
 
 http://blog.51cto.com/svenman/1359021
+
+https://www.cnblogs.com/yjscloud/p/6695388.html
