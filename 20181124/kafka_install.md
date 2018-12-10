@@ -16,11 +16,89 @@ kafka,install
 
 
 
-## kafka
+## kafka 
 
-​	消息系统分类peer to peer,发布和订阅
+消息系统分类
 
-​	kafka设计目标：高吞吐率，消息持久化，完全分布式，同时满足适应在线流处理和离线流处理
+![_](../img_src/000/2018-12-06_165236.png)
+
+消息系统适用场景
+
+![_](../img_src/000/2018-12-06_165455.png)
+
+常用系统对比
+
+![_](../img_src/000/2018-12-06_165527.png)
+
+
+
+kafka 设计目标
+
+![_](../img_src/000/2018-12-06_165908.png)
+
+kafka 架构简介
+
+![_](../img_src/000/2018-12-06_165951.png)
+
+
+
+## kafka 2.11-0.8.2.2 install
+
+### download uri
+
+链接：https://pan.baidu.com/s/1KNo6yZcRNCgqtxPvewPVGQ 
+提取码：fwen 
+
+
+
+### environment
+
+|           | version                    | note |
+| --------- | -------------------------- | ---- |
+| operation | CentOS release 6.5 (Final) | ..   |
+| kafka     | 2.11-0.8.2.2               | ..   |
+|           |                            |      |
+
+### order
+
+ 	首先是启动zookeeper,其次启动kafka-server,之后创建topic，后面创建cunsumer和producer
+
+```
+#  ./zookeeper-server-start.sh ../config/zookeeper.properties
+...
+[2018-12-06 13:51:49,829] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
+...
+```
+
+```
+# ./kafka-server-start.sh ../config/server.properties
+...
+[2018-12-06 13:53:44,457] INFO Awaiting socket connections on 0.0.0.0:9092. (kafka.network.Acceptor)
+[2018-12-06 13:53:44,458] INFO [Socket Server on Broker 0], Started (kafka.network.SocketServer)
+...
+```
+
+```
+# ./kafka-topics.sh --zookeeper localhost:2181 --create --topic ysys --partitions 3 --replication-factor 1
+Created topic "ysys".
+```
+
+```
+# ./kafka-topics.sh --zookeeper localhost:2181 --describe --topic ysys
+Topic:ysys	PartitionCount:3	ReplicationFactor:1	Configs:
+	Topic: ysys	Partition: 0	Leader: 0	Replicas: 0	Isr: 0
+	Topic: ysys	Partition: 1	Leader: 0	Replicas: 0	Isr: 0
+	Topic: ysys	Partition: 2	Leader: 0	Replicas: 0	Isr: 0
+```
+
+```
+# ./kafka-console-consumer.sh --zookeeper localhost:2181 --topic ysys
+```
+
+```
+# ./kafka-console-producer.sh --broker-list localhost:9092 --topic ysys
+[2018-12-06 14:35:44,007] WARN Property topic is not valid (kafka.utils.VerifiableProperties)
+```
 
 
 
@@ -28,7 +106,45 @@ kafka,install
 
 
 
-## install
+
+
+
+
+```
+./zkServer.sh 
+JMX enabled by default
+Using config: /software/zookeeper-3.4.6/bin/../conf/zoo.cfg
+grep: /software/zookeeper-3.4.6/bin/../conf/zoo.cfg: No such file or directory
+mkdir: cannot create directory `': No such file or directory
+Usage: ./zkServer.sh {start|start-foreground|stop|restart|status|upgrade|print-cmd}
+```
+
+
+
+```
+# ./zkServer.sh  start ../conf/zoo_sample.cfg 
+JMX enabled by default
+Using config: ../conf/zoo_sample.cfg
+Starting zookeeper ... STARTED
+```
+
+
+
+```
+# lsof -i:2181
+COMMAND  PID USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+java    2827 root   21u  IPv6  18342      0t0  TCP *:eforward (LISTEN)
+```
+
+
+
+
+
+
+
+
+
+## kafka 2.11 install
 
 ### download uri
 
@@ -474,7 +590,20 @@ ysys is cool
 
 ​	
 
-​	
+## learn 
+
+链接：https://pan.baidu.com/s/1_1lh_8hRpwTmVLBSymNjhw 
+提取码：4tfh 
+
+
+
+
+## 链接地址
+
+http://www.dataguru.cn/mycourse.php?lessonid=1731
+
+http://kafka.apache.org/documentation.html#quickstart_download
+
 
 
 
