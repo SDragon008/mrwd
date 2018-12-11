@@ -276,6 +276,17 @@ SELINUX=permissive
 
 
 
+```
+# su - oracle
+$ vim .bash_profile
+export ORACLE_SID=orcl
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_HOME=/u01/app/oracle/product/11.2.0/dbhome_1
+export PATH=$ORACLE_HOME/bin:$PATH
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib
+export CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+```
+
 
 
 ### installation
@@ -403,6 +414,51 @@ $(SYSMANBIN)emdctl:
 
 
 ![_](../img_src/000/2018-12-11_080022.png)
+
+![_](../img_src/000/2018-12-11_091013.png)
+
+![_](../img_src/000/2018-12-11_091458.png)
+
+![_](../img_src/000/2018-12-11_095621.png)
+
+![_](../img_src/000/2018-12-11_095703.png)
+
+执行两个脚本，都要在root用户下执行，记得执行完成后点击OK
+
+![_](../img_src/000/2018-12-11_095910.png)
+
+​	
+
+## test
+
+​	使用pl/sql连接上去，看看是否可以。
+
+![_](../img_src/000/2018-12-11_101112.png)
+
+
+
+## single database starup or shutdown
+
+### shutdown 
+
+```
+# su - oracle
+$ sqlplus / as sysdba
+> shutdown immediate
+> exit
+$ lsnrctl stop
+```
+
+### startup
+
+```
+# su - oracle
+$ lsnrctl start
+$ sqlplus / as sysdba
+> startup
+```
+
+
 
 
 
