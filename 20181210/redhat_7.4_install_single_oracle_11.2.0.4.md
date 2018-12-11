@@ -30,6 +30,17 @@ redhat 7.4,single oracle,install
 
 
 
+## install failed then install again
+
+​	一般情况下只需要删除{ORACLE_HOME}，或者将创建部署oralce的路径删除，重新创建并授权
+
+```
+# rm -rf /u01/app/oracle/product/11.2.0.4/db_1
+# rm -rf /u01
+```
+
+
+
 
 
 ## install
