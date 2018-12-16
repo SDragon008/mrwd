@@ -104,12 +104,6 @@ Topic:ysys	PartitionCount:3	ReplicationFactor:1	Configs:
 
 
 
-
-
-
-
-
-
 ```
 ./zkServer.sh 
 JMX enabled by default
@@ -598,7 +592,7 @@ ysys is cool
 
 
 
-## 链接地址
+## link
 
 http://www.dataguru.cn/mycourse.php?lessonid=1731
 
