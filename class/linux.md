@@ -119,7 +119,7 @@
 
 [linux 常用软件 安装使用](../20180731/linux_software_install.md):当前主要记录的是VNC部署安装，SVN部署安装，FTP部署安装
 
-[linux source rpm yum 区别联系](../20170601/LINUX_源代码_RPM_区别联系.md):当前主要记录了rpm,yum,yum 命令，以及通过网络下载互联网rpm后迁移到内网使用
+[linux source rpm yum 区别联系](../201706/20170601_01.md):当前主要记录了rpm,yum,yum 命令，以及通过网络下载互联网rpm后迁移到内网使用
 
 
 
